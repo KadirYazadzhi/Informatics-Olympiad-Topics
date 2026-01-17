@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>➕ Operations in C++. Conditional Operators. Compound Operator.</title>
+    <style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; margin: 0; display: flex; height: 100vh; color: #333; }
+a { color: #007bff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.sidebar { width: 300px; background: #f5f7f9; border-right: 1px solid #e1e4e8; overflow-y: auto; padding: 20px; flex-shrink: 0; }
+.sidebar h3 { margin-top: 0; color: #555; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li { margin-bottom: 8px; }
+.sidebar li a { color: #364149; display: block; padding: 5px; border-radius: 4px; }
+.sidebar li a:hover, .sidebar li a.active { background: #fff; color: #007bff; }
+.content-wrapper { flex-grow: 1; overflow-y: auto; padding: 40px 60px; max-width: 900px; margin: 0 auto; }
+.content { line-height: 1.6; }
+h1, h2, h3 { color: #242a31; margin-top: 1.5em; }
+h1 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.9em; }
+pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
+pre code { background: none; padding: 0; font-size: 0.9em; color: #333; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+th, td { border: 1px solid #dfe2e5; padding: 8px 12px; }
+th { background: #f6f8fa; }
+blockquote { border-left: 4px solid #dfe2e5; color: #6a737d; padding-left: 16px; margin: 20px 0; }
+.nav-buttons { margin-top: 40px; display: flex; justify-content: space-between; border-top: 1px solid #eaecef; padding-top: 20px; }
+.nav-btn { padding: 10px 20px; border: 1px solid #e1e4e8; border-radius: 4px; color: #333; }
+.nav-btn:hover { border-color: #007bff; color: #007bff; text-decoration: none; }
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>📚 Topics</h3>
+        <ul>
+            <li><a href="index.html">Introduction</a></li><li><a href="01_Cpp_Environment_Data_Types_IO.html">🖥️ C++ Programming Environment. Simple Data Types. Input and Output.</a></li><li><a href="02_Operations_Conditionals.html" class="active">➕ Operations in C++. Conditional Operators. Compound Operator.</a></li><li><a href="03_Loops_Functions_Strings.html">🔄 Loops. Nested Loops. Functions in C++. Strings.</a></li><li><a href="04_Basic_Divisibility_Tasks.html">🔢 Basic Tasks Related to Number Divisibility.</a></li><li><a href="05_Date_and_Time_Tasks.html">📅 Tasks Related to Dates and Time.</a></li><li><a href="06_One_Dimensional_Array.html">📂 One-dimensional Arrays.</a></li><li><a href="07_Arrays_Basic_Tasks.html">📂 One-dimensional Arrays and Basic Tasks.</a></li><li><a href="08_Number_Divisibility_Euclidean_Algorithm.html">➗ Number Divisibility, Euclidean Algorithm and Applications.</a></li><li><a href="09_Numeral_Systems.html">🔢 Numeral Systems.</a></li><li><a href="10_Two_Dimensional_Arrays.html">📊 Two-dimensional Arrays and Tabular Data Processing.</a></li><li><a href="11_Basic_Computational_Geometry.html">🧭 Basic Knowledge of Computational Geometry.</a></li><li><a href="12_Intro_to_STL.html">📚 Introduction to the Standard Template Library (STL) and Sorting/Searching Tools.</a></li><li><a href="13_Data_Structures_Stack_Queue.html">📦 Data Structures: Stack and Queue.</a></li><li><a href="14_Recursion.html">🔁 Concept of Recursion.</a></li><li><a href="15_Intro_to_Combinatorics.html">🔀 Introduction to Combinatorial Configurations.</a></li><li><a href="16_Graph_Concept.html">🌐 Concept of a Graph.</a></li><li><a href="17_STL_Containers_Iterators_Algorithms.html">📚 STL Standard Library: Containers, Iterators, and Basic Algorithms.</a></li><li><a href="18_Algorithm_Analysis_Quick_Search_Sort.html">📊 Algorithm Analysis. Fast Search and Fast Sort.</a></li><li><a href="19_Modular_Arithmetic.html">➕ Modular Arithmetic.</a></li><li><a href="20_Polynomials_BigInt.html">📈 Polynomials. Implementation of Long Number Operations.</a></li><li><a href="21_Game_Theory.html">🎮 Games with Parity and Symmetry Strategies.</a></li><li><a href="22_Bitwise_Operations.html">💻 Bitwise Operations and Applications.</a></li><li><a href="23_Dynamic_Programming.html">🔄 Dynamic Programming: Classic One-dimensional and Two-dimensional Problems.</a></li><li><a href="24_Graph_Algorithms.html">🌐 Graphs: Representation and Traversal.</a></li><li><a href="25_Union_Find.html">🔗 Disjoint Set Union (DSU) / Union-Find Structure.</a></li><li><a href="26_Tree_Structures.html">🌲 Binary Trees and Search Trees.</a></li><li><a href="27_Advanced_Geometry_SweepLine.html">📐 Computational Geometry: Oriented Point Triplets and Applications.</a></li><li><a href="28_Advanced_Combinatorics.html">🔄 Permutations: Basic Properties.</a></li><li><a href="29_Arithmetic_Expressions.html">➗ Arithmetic Expressions: Representation, Calculation, and Transformation.</a></li><li><a href="30_Hashing.html">🔑 Hashing.</a></li><li><a href="31_Special_Number_Sequences.html">➕ Catalan Numbers. Gray Codes. Partitioning of Sets and Numbers.</a></li><li><a href="32_Geometry_Polygons.html">📐 Computational Geometry: Relative Position of Points and Lines.</a></li><li><a href="33_Advanced_Graph_Algorithms.html">🌐 Graphs: Biconnectivity, Strong Connectivity, Matchings.</a></li><li><a href="34_Advanced_Data_Structures.html">📂 Advanced Data Structures:</a></li><li><a href="35_Advanced_DP.html">🔄 Dynamic Programming: Profiles, Recursions, and Relations.</a></li><li><a href="36_String_Algorithms.html">📝 Strings: Efficient Structures and Algorithms.</a></li><li><a href="37_Advanced_Game_Theory.html">🎮 Games: Nim, Alpha-Beta Pruning. Reactive Games.</a></li><li><a href="38_Matrices.html">📊 Matrices: Multiplication and Exponentiation.</a></li><li><a href="39_Voronoi_Diagrams.html">📍 Voronoi Diagrams.</a></li><li><a href="40_Flows_Cuts.html">🌊 Minimum Cut.</a></li><li><a href="41_Advanced_Heaps.html">🌲 Complex Variants of Heaps (Binomial and Fibonacci Heaps).</a></li><li><a href="42_Suffix_Structures.html">🔤 Formal Grammars, Automata.</a></li><li><a href="43_Linear_Systems.html">🧮 Systems of Linear Equations.</a></li><li><a href="44_Complex_Numbers_FFT.html">📐 Complex Numbers.</a></li>
+        </ul>
+    </div>
+    <div class="content-wrapper">
+        <div class="content">
+            <h1>➕ Operations in C++. Conditional Operators. Compound Operator.</h1>
+<h2>Operations in C++</h2>
+<p>C++ provides a wide range of operators that can be used to perform calculations, comparisons, logical operations, and more.</p>
+<table>
+    <thead>
+        <tr>
+            <th>Operator Type</th>
+            <th>Example</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Arithmetic</td>
+            <td><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code></td>
+            <td>Used for basic mathematical operations.</td>
+        </tr>
+        <tr>
+            <td>Logical</td>
+            <td><code>&&</code>, <code>||</code>, <code>!</code></td>
+            <td>Used for logical checks and conditions.</td>
+        </tr>
+        <tr>
+            <td>Comparison Operators</td>
+            <td><code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code></td>
+            <td>Compare two values and return <code>true</code> or <code>false</code>.</td>
+        </tr>
+        <tr>
+            <td>Assignment</td>
+            <td><code>=</code>, <code>+=</code>, <code>-=</code></td>
+            <td>Used to assign values or modify variables.</td>
+        </tr>
+        <tr>
+            <td>Increment/Decrement</td>
+            <td><code>++</code>, <code>--</code></td>
+            <td>Increase or decrease a variable's value by 1.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Conditional Operators</h2>
+<p>Conditional operators control the execution of code based on a given condition.</p>
+<h3>📌 <code>if</code> statement</h3>
+<pre><code class="language-cpp">if (condition) {
+    // Code executes if the condition is true
+}
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-cpp">int number = 5;
+if (number &gt; 0) {
+    cout &lt;&lt; &quot;The number is positive!&quot; &lt;&lt; endl;
+}
+</code></pre>
+<h3>📌 if-else statement</h3>
+<pre><code class="language-cpp">if (condition) {
+    // Code executes if the condition is true
+} else {
+    // Code executes if the condition is false
+}
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-cpp">int number = -3;
+if (number &gt; 0) {
+    cout &lt;&lt; &quot;The number is positive!&quot; &lt;&lt; endl;
+} else {
+    cout &lt;&lt; &quot;The number is negative!&quot; &lt;&lt; endl;
+}
+</code></pre>
+<h3>📌 switch-case</h3>
+<pre><code class="language-cpp">switch (value) {
+    case value1:
+        // Code for value1
+        break;
+    case value2:
+        // Code for value2
+        break;
+    default:
+        // Code for other values
+}
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-cpp">int day = 3;
+switch (day) {
+    case 1: cout &lt;&lt; &quot;Monday&quot;; break;
+    case 2: cout &lt;&lt; &quot;Tuesday&quot;; break;
+    case 3: cout &lt;&lt; &quot;Wednesday&quot;; break;
+    default: cout &lt;&lt; &quot;Invalid day&quot;; break;
+}
+</code></pre>
+<h3>Compound Operator</h3>
+<p>Compound operators are used to conveniently combine operations and assignments.</p>
+<table>
+    <thead>
+        <tr>
+            <th>Operator</th>
+            <th>Example</th>
+            <th>Equivalent to</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>+=</td>
+            <td>a += 5;</td>
+            <td>a = a + 5;</td>
+        </tr>
+        <tr>
+            <td>-=</td>
+            <td>a -= 3;</td>
+            <td>a = a - 3;</td>
+        </tr>
+        <tr>
+            <td>*=</td>
+            <td>a *= 2;</td>
+            <td>a = a * 2;</td>
+        </tr>
+        <tr>
+            <td>/=</td>
+            <td>a /= 4;</td>
+            <td>a = a / 4;</td>
+        </tr>
+        <tr>
+            <td>%=</td>
+            <td>a %= 2;</td>
+            <td>a = a % 2;</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>🏁 Conclusion</h3>
+<p>C++ provides powerful tools for working with data and controlling program execution. Combining operators and conditional structures allows for efficient problem solving. 🚀</p>
+        </div>
+        <div class="nav-buttons">
+            <a href="01_Cpp_Environment_Data_Types_IO.html" class="nav-btn">⬅ Prev</a>
+            <a href="03_Loops_Functions_Strings.html" class="nav-btn">Next ➡</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>➗ Number Divisibility, Euclidean Algorithm and Applications.</title>
+    <style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; margin: 0; display: flex; height: 100vh; color: #333; }
+a { color: #007bff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.sidebar { width: 300px; background: #f5f7f9; border-right: 1px solid #e1e4e8; overflow-y: auto; padding: 20px; flex-shrink: 0; }
+.sidebar h3 { margin-top: 0; color: #555; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li { margin-bottom: 8px; }
+.sidebar li a { color: #364149; display: block; padding: 5px; border-radius: 4px; }
+.sidebar li a:hover, .sidebar li a.active { background: #fff; color: #007bff; }
+.content-wrapper { flex-grow: 1; overflow-y: auto; padding: 40px 60px; max-width: 900px; margin: 0 auto; }
+.content { line-height: 1.6; }
+h1, h2, h3 { color: #242a31; margin-top: 1.5em; }
+h1 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.9em; }
+pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
+pre code { background: none; padding: 0; font-size: 0.9em; color: #333; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+th, td { border: 1px solid #dfe2e5; padding: 8px 12px; }
+th { background: #f6f8fa; }
+blockquote { border-left: 4px solid #dfe2e5; color: #6a737d; padding-left: 16px; margin: 20px 0; }
+.nav-buttons { margin-top: 40px; display: flex; justify-content: space-between; border-top: 1px solid #eaecef; padding-top: 20px; }
+.nav-btn { padding: 10px 20px; border: 1px solid #e1e4e8; border-radius: 4px; color: #333; }
+.nav-btn:hover { border-color: #007bff; color: #007bff; text-decoration: none; }
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>📚 Topics</h3>
+        <ul>
+            <li><a href="index.html">Introduction</a></li><li><a href="01_Cpp_Environment_Data_Types_IO.html">🖥️ C++ Programming Environment. Simple Data Types. Input and Output.</a></li><li><a href="02_Operations_Conditionals.html">➕ Operations in C++. Conditional Operators. Compound Operator.</a></li><li><a href="03_Loops_Functions_Strings.html">🔄 Loops. Nested Loops. Functions in C++. Strings.</a></li><li><a href="04_Basic_Divisibility_Tasks.html">🔢 Basic Tasks Related to Number Divisibility.</a></li><li><a href="05_Date_and_Time_Tasks.html">📅 Tasks Related to Dates and Time.</a></li><li><a href="06_One_Dimensional_Array.html">📂 One-dimensional Arrays.</a></li><li><a href="07_Arrays_Basic_Tasks.html">📂 One-dimensional Arrays and Basic Tasks.</a></li><li><a href="08_Number_Divisibility_Euclidean_Algorithm.html" class="active">➗ Number Divisibility, Euclidean Algorithm and Applications.</a></li><li><a href="09_Numeral_Systems.html">🔢 Numeral Systems.</a></li><li><a href="10_Two_Dimensional_Arrays.html">📊 Two-dimensional Arrays and Tabular Data Processing.</a></li><li><a href="11_Basic_Computational_Geometry.html">🧭 Basic Knowledge of Computational Geometry.</a></li><li><a href="12_Intro_to_STL.html">📚 Introduction to the Standard Template Library (STL) and Sorting/Searching Tools.</a></li><li><a href="13_Data_Structures_Stack_Queue.html">📦 Data Structures: Stack and Queue.</a></li><li><a href="14_Recursion.html">🔁 Concept of Recursion.</a></li><li><a href="15_Intro_to_Combinatorics.html">🔀 Introduction to Combinatorial Configurations.</a></li><li><a href="16_Graph_Concept.html">🌐 Concept of a Graph.</a></li><li><a href="17_STL_Containers_Iterators_Algorithms.html">📚 STL Standard Library: Containers, Iterators, and Basic Algorithms.</a></li><li><a href="18_Algorithm_Analysis_Quick_Search_Sort.html">📊 Algorithm Analysis. Fast Search and Fast Sort.</a></li><li><a href="19_Modular_Arithmetic.html">➕ Modular Arithmetic.</a></li><li><a href="20_Polynomials_BigInt.html">📈 Polynomials. Implementation of Long Number Operations.</a></li><li><a href="21_Game_Theory.html">🎮 Games with Parity and Symmetry Strategies.</a></li><li><a href="22_Bitwise_Operations.html">💻 Bitwise Operations and Applications.</a></li><li><a href="23_Dynamic_Programming.html">🔄 Dynamic Programming: Classic One-dimensional and Two-dimensional Problems.</a></li><li><a href="24_Graph_Algorithms.html">🌐 Graphs: Representation and Traversal.</a></li><li><a href="25_Union_Find.html">🔗 Disjoint Set Union (DSU) / Union-Find Structure.</a></li><li><a href="26_Tree_Structures.html">🌲 Binary Trees and Search Trees.</a></li><li><a href="27_Advanced_Geometry_SweepLine.html">📐 Computational Geometry: Oriented Point Triplets and Applications.</a></li><li><a href="28_Advanced_Combinatorics.html">🔄 Permutations: Basic Properties.</a></li><li><a href="29_Arithmetic_Expressions.html">➗ Arithmetic Expressions: Representation, Calculation, and Transformation.</a></li><li><a href="30_Hashing.html">🔑 Hashing.</a></li><li><a href="31_Special_Number_Sequences.html">➕ Catalan Numbers. Gray Codes. Partitioning of Sets and Numbers.</a></li><li><a href="32_Geometry_Polygons.html">📐 Computational Geometry: Relative Position of Points and Lines.</a></li><li><a href="33_Advanced_Graph_Algorithms.html">🌐 Graphs: Biconnectivity, Strong Connectivity, Matchings.</a></li><li><a href="34_Advanced_Data_Structures.html">📂 Advanced Data Structures:</a></li><li><a href="35_Advanced_DP.html">🔄 Dynamic Programming: Profiles, Recursions, and Relations.</a></li><li><a href="36_String_Algorithms.html">📝 Strings: Efficient Structures and Algorithms.</a></li><li><a href="37_Advanced_Game_Theory.html">🎮 Games: Nim, Alpha-Beta Pruning. Reactive Games.</a></li><li><a href="38_Matrices.html">📊 Matrices: Multiplication and Exponentiation.</a></li><li><a href="39_Voronoi_Diagrams.html">📍 Voronoi Diagrams.</a></li><li><a href="40_Flows_Cuts.html">🌊 Minimum Cut.</a></li><li><a href="41_Advanced_Heaps.html">🌲 Complex Variants of Heaps (Binomial and Fibonacci Heaps).</a></li><li><a href="42_Suffix_Structures.html">🔤 Formal Grammars, Automata.</a></li><li><a href="43_Linear_Systems.html">🧮 Systems of Linear Equations.</a></li><li><a href="44_Complex_Numbers_FFT.html">📐 Complex Numbers.</a></li>
+        </ul>
+    </div>
+    <div class="content-wrapper">
+        <div class="content">
+            <h1>➗ Number Divisibility, Euclidean Algorithm and Applications</h1>
+<h2>📚 Number Divisibility</h2>
+<p>Divisibility is a fundamental concept in number theory. Number <code>a</code> is divisible by number <code>b</code> (where <code>b ≠ 0</code>) if there exists an integer <code>k</code> such that <code>a = b * k</code>. In this case, we say that <code>b</code> is a divisor of <code>a</code>, and <code>a</code> is a multiple of <code>b</code>.</p>
+<p><strong>Example:</strong>
+- The number <code>15</code> is divisible by <code>3</code> because <code>15 = 3 * 5</code>.</p>
+<h3>Divisibility Checks</h3>
+<p>Common divisibility rules include:
+- <strong>Divisibility by 2:</strong> The number ends in an even digit (0, 2, 4, 6, 8).
+- <strong>Divisibility by 3:</strong> The sum of the number's digits is divisible by 3.
+- <strong>Divisibility by 5:</strong> The number ends in 0 or 5.</p>
+<p><strong>Example Code:</strong></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int num;
+    cout &lt;&lt; &quot;Enter a number: &quot;;
+    cin &gt;&gt; num;
+
+    if (num % 2 == 0) {
+        cout &lt;&lt; num &lt;&lt; &quot; is even.&quot; &lt;&lt; endl;
+    }
+    if (num % 3 == 0) {
+        cout &lt;&lt; num &lt;&lt; &quot; is divisible by 3.&quot; &lt;&lt; endl;
+    }
+    if (num % 5 == 0) {
+        cout &lt;&lt; num &lt;&lt; &quot; is divisible by 5.&quot; &lt;&lt; endl;
+    }
+
+    return 0;
+}
+</code></pre>
+<h2>🔢 Euclidean Algorithm and Applications</h2>
+<h3>What is the Euclidean Algorithm?</h3>
+<p>The Euclidean algorithm is an efficient method for finding the greatest common divisor (GCD) of two numbers. It is based on the principle that the GCD of two numbers does not change if the larger number is replaced by the difference between the two numbers.</p>
+<p>Formulation:
+  - If <code>b = 0</code>, then <code>GCD(a, b) = a</code>.
+  - Otherwise, <code>GCD(a, b) = GCD(b, a % b)</code>.</p>
+<p>Example
+To find <code>GCD(48, 18)</code>:
+  1. <code>48 % 18 = 12</code>
+  2. <code>18 % 12 = 6</code>
+  3. <code>12 % 6 = 0</code>, therefore <code>GCD(48, 18) = 6</code>.</p>
+<p>Example Code</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+int main() {
+    int a, b;
+    cout &lt;&lt; &quot;Enter two numbers: &quot;;
+    cin &gt;&gt; a &gt;&gt; b;
+
+    cout &lt;&lt; &quot;GCD(&quot; &lt;&lt; a &lt;&lt; &quot;, &quot; &lt;&lt; b &lt;&lt; &quot;) = &quot; &lt;&lt; gcd(a, b) &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+<h2>🧮 Calculation with Common Fractions</h2>
+<p>Common fractions represent a part of a whole number, expressed by a numerator (top part) and a denominator (bottom part).</p>
+<h3>Basic Operations</h3>
+<ul>
+<li>
+<p><strong>Addition of fractions</strong>
+<code>(a / b) + (c / d) = (a * d + b * c) / (b * d)</code></p>
+</li>
+<li>
+<p><strong>Subtraction of fractions</strong>
+<code>(a / b) - (c / d) = (a * d - b * c) / (b * d)</code></p>
+</li>
+<li>
+<p><strong>Multiplication of fractions</strong>
+<code>(a / b) * (c / d) = (a * c) / (b * d)</code></p>
+</li>
+<li>
+<p><strong>Division of fractions</strong>
+<code>(a / b) ÷ (c / d) = (a * d) / (b * c)</code></p>
+</li>
+</ul>
+<p>Example Code for Addition of Fractions</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a, b, c, d;
+    cout &lt;&lt; &quot;Enter numerator and denominator for the first fraction: &quot;;
+    cin &gt;&gt; a &gt;&gt; b;
+    cout &lt;&lt; &quot;Enter numerator and denominator for the second fraction: &quot;;
+    cin &gt;&gt; c &gt;&gt; d;
+
+    int numerator = a * d + b * c;
+    int denominator = b * d;
+
+    cout &lt;&lt; &quot;Result: &quot; &lt;&lt; numerator &lt;&lt; &quot;/&quot; &lt;&lt; denominator &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+<h2>🧵 Prime Numbers and Sieve of Eratosthenes</h2>
+<h3>What is a Prime Number?</h3>
+<p>A prime number is a natural number greater than 1 that has exactly two divisors: 1 and itself.</p>
+<h3>Sieve of Eratosthenes</h3>
+<p>The Sieve of Eratosthenes is an efficient algorithm for finding all prime numbers up to a given number <code>n</code>.</p>
+<h4>Algorithm:</h4>
+<ol>
+<li>Create a boolean array from 2 to <code>n</code>, where all elements are marked as "true" (initially all numbers are prime).</li>
+<li>Start from <code>p = 2</code> and remove all its multiples.</li>
+<li>Move to the next number that hasn't been removed.</li>
+<li>Repeat the process up to <code>n</code>.</li>
+</ol>
+<p>Example Code:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+void sieveOfEratosthenes(int n) {
+    vector&lt;bool&gt; isPrime(n + 1, true);
+    isPrime[0] = isPrime[1] = false;
+
+    for (int p = 2; p * p &lt;= n; p++) {
+        if (isPrime[p]) {
+            for (int i = p * p; i &lt;= n; i += p) {
+                isPrime[i] = false;
+            }
+        }
+    }
+
+    cout &lt;&lt; &quot;Prime numbers up to &quot; &lt;&lt; n &lt;&lt; &quot; are: &quot;;
+    for (int i = 2; i &lt;= n; i++) {
+        if (isPrime[i]) {
+            cout &lt;&lt; i &lt;&lt; &quot; &quot;;
+        }
+    }
+    cout &lt;&lt; endl;
+}
+
+int main() {
+    int n;
+    cout &lt;&lt; &quot;Enter a number: &quot;;
+    cin &gt;&gt; n;
+
+    sieveOfEratosthenes(n);
+    return 0;
+}
+</code></pre>
+<h2>🎯 Conclusion</h2>
+<p>The topics of divisibility, Euclidean algorithm, common fractions, and prime numbers are foundational for understanding number theory. They find application in numerous fields of mathematics and programming, including cryptography, data analysis, and algorithmic optimization.</p>
+        </div>
+        <div class="nav-buttons">
+            <a href="07_Arrays_Basic_Tasks.html" class="nav-btn">⬅ Prev</a>
+            <a href="09_Numeral_Systems.html" class="nav-btn">Next ➡</a>
+        </div>
+    </div>
+</body>
+</html>

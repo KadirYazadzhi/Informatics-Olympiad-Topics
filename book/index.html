@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatics Olympiad Topics</title>
+    <style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; margin: 0; display: flex; height: 100vh; color: #333; }
+a { color: #007bff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.sidebar { width: 300px; background: #f5f7f9; border-right: 1px solid #e1e4e8; overflow-y: auto; padding: 20px; flex-shrink: 0; }
+.sidebar h3 { margin-top: 0; color: #555; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li { margin-bottom: 8px; }
+.sidebar li a { color: #364149; display: block; padding: 5px; border-radius: 4px; }
+.sidebar li a:hover, .sidebar li a.active { background: #fff; color: #007bff; }
+.content-wrapper { flex-grow: 1; overflow-y: auto; padding: 40px 60px; max-width: 900px; margin: 0 auto; }
+.content { line-height: 1.6; }
+h1, h2, h3 { color: #242a31; margin-top: 1.5em; }
+h1 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.9em; }
+pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
+pre code { background: none; padding: 0; font-size: 0.9em; color: #333; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+th, td { border: 1px solid #dfe2e5; padding: 8px 12px; }
+th { background: #f6f8fa; }
+blockquote { border-left: 4px solid #dfe2e5; color: #6a737d; padding-left: 16px; margin: 20px 0; }
+.nav-buttons { margin-top: 40px; display: flex; justify-content: space-between; border-top: 1px solid #eaecef; padding-top: 20px; }
+.nav-btn { padding: 10px 20px; border: 1px solid #e1e4e8; border-radius: 4px; color: #333; }
+.nav-btn:hover { border-color: #007bff; color: #007bff; text-decoration: none; }
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>📚 Topics</h3>
+        <ul>
+            <li><a href="index.html" class="active">Introduction</a></li><li><a href="01_Cpp_Environment_Data_Types_IO.html">🖥️ C++ Programming Environment. Simple Data Types. Input and Output.</a></li><li><a href="02_Operations_Conditionals.html">➕ Operations in C++. Conditional Operators. Compound Operator.</a></li><li><a href="03_Loops_Functions_Strings.html">🔄 Loops. Nested Loops. Functions in C++. Strings.</a></li><li><a href="04_Basic_Divisibility_Tasks.html">🔢 Basic Tasks Related to Number Divisibility.</a></li><li><a href="05_Date_and_Time_Tasks.html">📅 Tasks Related to Dates and Time.</a></li><li><a href="06_One_Dimensional_Array.html">📂 One-dimensional Arrays.</a></li><li><a href="07_Arrays_Basic_Tasks.html">📂 One-dimensional Arrays and Basic Tasks.</a></li><li><a href="08_Number_Divisibility_Euclidean_Algorithm.html">➗ Number Divisibility, Euclidean Algorithm and Applications.</a></li><li><a href="09_Numeral_Systems.html">🔢 Numeral Systems.</a></li><li><a href="10_Two_Dimensional_Arrays.html">📊 Two-dimensional Arrays and Tabular Data Processing.</a></li><li><a href="11_Basic_Computational_Geometry.html">🧭 Basic Knowledge of Computational Geometry.</a></li><li><a href="12_Intro_to_STL.html">📚 Introduction to the Standard Template Library (STL) and Sorting/Searching Tools.</a></li><li><a href="13_Data_Structures_Stack_Queue.html">📦 Data Structures: Stack and Queue.</a></li><li><a href="14_Recursion.html">🔁 Concept of Recursion.</a></li><li><a href="15_Intro_to_Combinatorics.html">🔀 Introduction to Combinatorial Configurations.</a></li><li><a href="16_Graph_Concept.html">🌐 Concept of a Graph.</a></li><li><a href="17_STL_Containers_Iterators_Algorithms.html">📚 STL Standard Library: Containers, Iterators, and Basic Algorithms.</a></li><li><a href="18_Algorithm_Analysis_Quick_Search_Sort.html">📊 Algorithm Analysis. Fast Search and Fast Sort.</a></li><li><a href="19_Modular_Arithmetic.html">➕ Modular Arithmetic.</a></li><li><a href="20_Polynomials_BigInt.html">📈 Polynomials. Implementation of Long Number Operations.</a></li><li><a href="21_Game_Theory.html">🎮 Games with Parity and Symmetry Strategies.</a></li><li><a href="22_Bitwise_Operations.html">💻 Bitwise Operations and Applications.</a></li><li><a href="23_Dynamic_Programming.html">🔄 Dynamic Programming: Classic One-dimensional and Two-dimensional Problems.</a></li><li><a href="24_Graph_Algorithms.html">🌐 Graphs: Representation and Traversal.</a></li><li><a href="25_Union_Find.html">🔗 Disjoint Set Union (DSU) / Union-Find Structure.</a></li><li><a href="26_Tree_Structures.html">🌲 Binary Trees and Search Trees.</a></li><li><a href="27_Advanced_Geometry_SweepLine.html">📐 Computational Geometry: Oriented Point Triplets and Applications.</a></li><li><a href="28_Advanced_Combinatorics.html">🔄 Permutations: Basic Properties.</a></li><li><a href="29_Arithmetic_Expressions.html">➗ Arithmetic Expressions: Representation, Calculation, and Transformation.</a></li><li><a href="30_Hashing.html">🔑 Hashing.</a></li><li><a href="31_Special_Number_Sequences.html">➕ Catalan Numbers. Gray Codes. Partitioning of Sets and Numbers.</a></li><li><a href="32_Geometry_Polygons.html">📐 Computational Geometry: Relative Position of Points and Lines.</a></li><li><a href="33_Advanced_Graph_Algorithms.html">🌐 Graphs: Biconnectivity, Strong Connectivity, Matchings.</a></li><li><a href="34_Advanced_Data_Structures.html">📂 Advanced Data Structures:</a></li><li><a href="35_Advanced_DP.html">🔄 Dynamic Programming: Profiles, Recursions, and Relations.</a></li><li><a href="36_String_Algorithms.html">📝 Strings: Efficient Structures and Algorithms.</a></li><li><a href="37_Advanced_Game_Theory.html">🎮 Games: Nim, Alpha-Beta Pruning. Reactive Games.</a></li><li><a href="38_Matrices.html">📊 Matrices: Multiplication and Exponentiation.</a></li><li><a href="39_Voronoi_Diagrams.html">📍 Voronoi Diagrams.</a></li><li><a href="40_Flows_Cuts.html">🌊 Minimum Cut.</a></li><li><a href="41_Advanced_Heaps.html">🌲 Complex Variants of Heaps (Binomial and Fibonacci Heaps).</a></li><li><a href="42_Suffix_Structures.html">🔤 Formal Grammars, Automata.</a></li><li><a href="43_Linear_Systems.html">🧮 Systems of Linear Equations.</a></li><li><a href="44_Complex_Numbers_FFT.html">📐 Complex Numbers.</a></li>
+        </ul>
+    </div>
+    <div class="content-wrapper">
+        <div class="content">
+            <h1>🇬🇧 Informatics Olympiad Topics</h1>
+<p>This repository contains a list of topics and key concepts often found in informatics problems. Each topic is structured to assist students in preparing for programming olympiads and competitions.</p>
+<h2>📚 Topics</h2>
+<ol>
+<li><a href="01_Cpp_Environment_Data_Types_IO.html">🖥️ <strong>C++ Programming Environment. Simple Data Types. Input and Output.</strong></a></li>
+<li><a href="02_Operations_Conditionals.html">➕ <strong>Operations in C++. Conditional Operators. Compound Operator.</strong></a></li>
+<li><a href="03_Loops_Functions_Strings.html">🔄 <strong>Loops. Nested Loops. Functions in C++. Strings.</strong></a></li>
+<li><a href="04_Basic_Divisibility_Tasks.html">🔢 <strong>Basic Tasks Related to Number Divisibility.</strong></a></li>
+<li><a href="05_Date_and_Time_Tasks.html">📅 <strong>Tasks Related to Dates and Time.</strong></a></li>
+<li><a href="06_One_Dimensional_Array.html">📂 <strong>One-dimensional Arrays.</strong></a></li>
+<li><a href="07_Arrays_Basic_Tasks.html">📂 <strong>One-dimensional Arrays and Basic Tasks.</strong></a></li>
+<li>🔍 Introduction to sorting algorithms.</li>
+<li>📝 String manipulation tools and searching within strings.</li>
+<li><a href="08_Number_Divisibility_Euclidean_Algorithm.html">➗ <strong>Number Divisibility, Euclidean Algorithm and Applications.</strong></a></li>
+<li>🧮 Calculation with common fractions.</li>
+<li>🧵 Prime numbers and Sieve of Eratosthenes.</li>
+<li><a href="09_Numeral_Systems.html">🔢 <strong>Numeral Systems.</strong></a></li>
+<li>🧮 Simple implementations for working with long numbers (BigInt).</li>
+<li>🎲 Random numbers.</li>
+<li><a href="10_Two_Dimensional_Arrays.html">📊 <strong>Two-dimensional Arrays and Tabular Data Processing.</strong></a><ul>
+<li>🧱 Struct type in C++. Arrays of structures.</li>
+</ul>
+</li>
+<li><a href="11_Basic_Computational_Geometry.html">🧭 <strong>Basic Knowledge of Computational Geometry.</strong></a><ul>
+<li>📐 Rectangles with sides parallel to coordinate axes.</li>
+<li>🌌 Square grids, mazes, and regions.</li>
+</ul>
+</li>
+<li><a href="12_Intro_to_STL.html">📚 <strong>Introduction to the Standard Template Library (STL) and Sorting/Searching Tools.</strong></a></li>
+<li><a href="13_Data_Structures_Stack_Queue.html">📦 <strong>Data Structures: Stack and Queue.</strong></a></li>
+<li><a href="14_Recursion.html">🔁 <strong>Concept of Recursion.</strong></a><ul>
+<li>🔍 Backtracking.</li>
+<li>🧮 Searching in a sorted array.</li>
+<li>🛠️ Binary search.</li>
+</ul>
+</li>
+<li><a href="15_Intro_to_Combinatorics.html">🔀 <strong>Introduction to Combinatorial Configurations.</strong></a></li>
+<li><a href="16_Graph_Concept.html">🌐 <strong>Concept of a Graph.</strong></a></li>
+<li><a href="17_STL_Containers_Iterators_Algorithms.html">📚 <strong>STL Standard Library: Containers, Iterators, and Basic Algorithms.</strong></a><ul>
+<li>🛠️ Data structures in STL.</li>
+</ul>
+</li>
+<li><a href="18_Algorithm_Analysis_Quick_Search_Sort.html">📊 <strong>Algorithm Analysis. Fast Search and Fast Sort.</strong></a></li>
+<li><a href="19_Modular_Arithmetic.html">➕ <strong>Modular Arithmetic.</strong></a><ul>
+<li>🔄 Inverse elements with a prime modulus.</li>
+<li>📜 Fermat's Little Theorem.</li>
+<li>🔁 Extended Euclidean algorithm and applications.</li>
+</ul>
+</li>
+<li><a href="20_Polynomials_BigInt.html">📈 <strong>Polynomials. Implementation of Long Number Operations.</strong></a></li>
+<li><a href="21_Game_Theory.html">🎮 <strong>Games with Parity and Symmetry Strategies.</strong></a><ul>
+<li>🔄 Combinatorial games.</li>
+<li>🎲 Board games.</li>
+<li>🏆 Winning and losing positions, minimax strategies.</li>
+</ul>
+</li>
+<li><a href="22_Bitwise_Operations.html">💻 <strong>Bitwise Operations and Applications.</strong></a></li>
+<li><a href="23_Dynamic_Programming.html">🔄 <strong>Dynamic Programming: Classic One-dimensional and Two-dimensional Problems.</strong></a><ul>
+<li>📏 Longest Common Subsequence (LCS).</li>
+<li>📚 Shortest Superstring.</li>
+<li>🔁 Transforming recursive programs.</li>
+<li>🔢 Dynamic programming with bitmasks, by digits, in trees, and acyclic directed graphs (DAGs).</li>
+</ul>
+</li>
+<li><a href="24_Graph_Algorithms.html">🌐 <strong>Graphs: Representation and Traversal.</strong></a><ul>
+<li>🔄 Directed graphs.</li>
+<li>🛣️ Shortest paths in graphs.</li>
+<li>🌳 Spanning trees.</li>
+<li>♾️ Eulerian and Hamiltonian cycles and paths.</li>
+</ul>
+</li>
+<li><a href="25_Union_Find.html">🔗 <strong>Disjoint Set Union (DSU) / Union-Find Structure.</strong></a></li>
+<li><a href="26_Tree_Structures.html">🌲 <strong>Binary Trees and Search Trees.</strong></a><ul>
+<li>🧱 Heap data structure.</li>
+<li>🌳 Advanced tree structures: Fenwick Tree (BIT), Segment Trees.</li>
+</ul>
+</li>
+<li><a href="27_Advanced_Geometry_SweepLine.html">📐 <strong>Computational Geometry: Oriented Point Triplets and Applications.</strong></a><ul>
+<li>🛠️ Sweep-line technique.</li>
+</ul>
+</li>
+<li><a href="28_Advanced_Combinatorics.html">🔄 <strong>Permutations: Basic Properties.</strong></a><ul>
+<li>🔀 Combinatorial configurations: coding, decoding, and counting.</li>
+<li>📊 Data structures for set representation.</li>
+<li>➕ Principle of Inclusion-Exclusion.</li>
+</ul>
+</li>
+<li><a href="29_Arithmetic_Expressions.html">➗ <strong>Arithmetic Expressions: Representation, Calculation, and Transformation.</strong></a></li>
+<li><a href="30_Hashing.html">🔑 <strong>Hashing.</strong></a></li>
+<li><a href="31_Special_Number_Sequences.html">➕ <strong>Catalan Numbers. Gray Codes. Partitioning of Sets and Numbers.</strong></a></li>
+<li><a href="32_Geometry_Polygons.html">📐 <strong>Computational Geometry: Relative Position of Points and Lines.</strong></a><ul>
+<li>➗ Intersection of two lines.</li>
+<li>📊 Polygons. Convex Hull.</li>
+<li>🧭 Closest and farthest points.</li>
+</ul>
+</li>
+<li><a href="33_Advanced_Graph_Algorithms.html">🌐 <strong>Graphs: Biconnectivity, Strong Connectivity, Matchings.</strong></a><ul>
+<li>🛣️ Critical Path Method.</li>
+<li>🔄 Maximum Flow.</li>
+<li>🌈 Graph Coloring.</li>
+<li>🌍 Planar graphs. Geometric graphs.</li>
+</ul>
+</li>
+<li><a href="34_Advanced_Data_Structures.html">📂 <strong>Advanced Data Structures:</strong></a><ul>
+<li>⚡ Lazy propagation technique.</li>
+<li>🌳 Merge-sort tree.</li>
+<li>📜 Persistent data structures.</li>
+<li>⚖️ Self-balancing binary search trees.</li>
+<li>🌲 Augmented binary search trees. Treap (Cartesian tree).</li>
+<li>🌐 Two-dimensional tree structures for 2D queries.</li>
+<li>🔤 Trie.</li>
+</ul>
+</li>
+<li><a href="35_Advanced_DP.html">🔄 <strong>Dynamic Programming: Profiles, Recursions, and Relations.</strong></a></li>
+<li><a href="36_String_Algorithms.html">📝 <strong>Strings: Efficient Structures and Algorithms.</strong></a><ul>
+<li>🔍 Aho-Corasick algorithm.</li>
+<li>📜 Data compression: Huffman coding.</li>
+</ul>
+</li>
+<li><a href="37_Advanced_Game_Theory.html">🎮 <strong>Games: Nim, Alpha-Beta Pruning. Reactive Games.</strong></a><ul>
+<li>📜 Sprague-Grundy theorem.</li>
+</ul>
+</li>
+<li><a href="38_Matrices.html">📊 <strong>Matrices: Multiplication and Exponentiation.</strong></a></li>
+<li><a href="39_Voronoi_Diagrams.html">📍 <strong>Voronoi Diagrams.</strong></a></li>
+<li><a href="40_Flows_Cuts.html">🌊 <strong>Minimum Cut.</strong></a><ul>
+<li>🔄 Min-cost Max-flow.</li>
+</ul>
+</li>
+<li><a href="41_Advanced_Heaps.html">🌲 <strong>Complex Variants of Heaps (Binomial and Fibonacci Heaps).</strong></a></li>
+<li><a href="42_Suffix_Structures.html">🔤 <strong>Formal Grammars, Automata.</strong></a><ul>
+<li>📜 Advanced string data structures: Suffix Array, Suffix Tree, Suffix Automaton.</li>
+</ul>
+</li>
+<li><a href="43_Linear_Systems.html">🧮 <strong>Systems of Linear Equations.</strong></a><ul>
+<li>➕ Finding the inverse matrix.</li>
+</ul>
+</li>
+<li><a href="44_Complex_Numbers_FFT.html">📐 <strong>Complex Numbers.</strong></a><ul>
+<li>⚡ Fast Fourier Transform (FFT).</li>
+</ul>
+</li>
+</ol>
+<h2>📚 Useful Resources</h2>
+<ul>
+<li><a href="https://www.learncpp.com/">Learn C++ Programming</a></li>
+<li><a href="https://cses.fi/book/book.pdf">Competitive Programming Handbook</a></li>
+<li><a href="https://www.geeksforgeeks.org/">GeeksforGeeks – Data Structures and Algorithms</a></li>
+<li><a href="https://codeforces.com/">Codeforces</a> – Platform for competitions and problems.</li>
+</ul>
+<hr />
+<blockquote>
+<p><strong>Note</strong>: This list may be supplemented and updated in the future to meet student needs.</p>
+</blockquote>
+        </div>
+        <div class="nav-buttons">
+            
+            <a href="01_Cpp_Environment_Data_Types_IO.html" class="nav-btn">Next ➡</a>
+        </div>
+    </div>
+</body>
+</html>

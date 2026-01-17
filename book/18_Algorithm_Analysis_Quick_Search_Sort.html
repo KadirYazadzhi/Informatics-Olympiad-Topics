@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Algorithm Analysis. Fast Search and Fast Sort.</title>
+    <style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; margin: 0; display: flex; height: 100vh; color: #333; }
+a { color: #007bff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.sidebar { width: 300px; background: #f5f7f9; border-right: 1px solid #e1e4e8; overflow-y: auto; padding: 20px; flex-shrink: 0; }
+.sidebar h3 { margin-top: 0; color: #555; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li { margin-bottom: 8px; }
+.sidebar li a { color: #364149; display: block; padding: 5px; border-radius: 4px; }
+.sidebar li a:hover, .sidebar li a.active { background: #fff; color: #007bff; }
+.content-wrapper { flex-grow: 1; overflow-y: auto; padding: 40px 60px; max-width: 900px; margin: 0 auto; }
+.content { line-height: 1.6; }
+h1, h2, h3 { color: #242a31; margin-top: 1.5em; }
+h1 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.9em; }
+pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
+pre code { background: none; padding: 0; font-size: 0.9em; color: #333; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+th, td { border: 1px solid #dfe2e5; padding: 8px 12px; }
+th { background: #f6f8fa; }
+blockquote { border-left: 4px solid #dfe2e5; color: #6a737d; padding-left: 16px; margin: 20px 0; }
+.nav-buttons { margin-top: 40px; display: flex; justify-content: space-between; border-top: 1px solid #eaecef; padding-top: 20px; }
+.nav-btn { padding: 10px 20px; border: 1px solid #e1e4e8; border-radius: 4px; color: #333; }
+.nav-btn:hover { border-color: #007bff; color: #007bff; text-decoration: none; }
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>📚 Topics</h3>
+        <ul>
+            <li><a href="index.html">Introduction</a></li><li><a href="01_Cpp_Environment_Data_Types_IO.html">🖥️ C++ Programming Environment. Simple Data Types. Input and Output.</a></li><li><a href="02_Operations_Conditionals.html">➕ Operations in C++. Conditional Operators. Compound Operator.</a></li><li><a href="03_Loops_Functions_Strings.html">🔄 Loops. Nested Loops. Functions in C++. Strings.</a></li><li><a href="04_Basic_Divisibility_Tasks.html">🔢 Basic Tasks Related to Number Divisibility.</a></li><li><a href="05_Date_and_Time_Tasks.html">📅 Tasks Related to Dates and Time.</a></li><li><a href="06_One_Dimensional_Array.html">📂 One-dimensional Arrays.</a></li><li><a href="07_Arrays_Basic_Tasks.html">📂 One-dimensional Arrays and Basic Tasks.</a></li><li><a href="08_Number_Divisibility_Euclidean_Algorithm.html">➗ Number Divisibility, Euclidean Algorithm and Applications.</a></li><li><a href="09_Numeral_Systems.html">🔢 Numeral Systems.</a></li><li><a href="10_Two_Dimensional_Arrays.html">📊 Two-dimensional Arrays and Tabular Data Processing.</a></li><li><a href="11_Basic_Computational_Geometry.html">🧭 Basic Knowledge of Computational Geometry.</a></li><li><a href="12_Intro_to_STL.html">📚 Introduction to the Standard Template Library (STL) and Sorting/Searching Tools.</a></li><li><a href="13_Data_Structures_Stack_Queue.html">📦 Data Structures: Stack and Queue.</a></li><li><a href="14_Recursion.html">🔁 Concept of Recursion.</a></li><li><a href="15_Intro_to_Combinatorics.html">🔀 Introduction to Combinatorial Configurations.</a></li><li><a href="16_Graph_Concept.html">🌐 Concept of a Graph.</a></li><li><a href="17_STL_Containers_Iterators_Algorithms.html">📚 STL Standard Library: Containers, Iterators, and Basic Algorithms.</a></li><li><a href="18_Algorithm_Analysis_Quick_Search_Sort.html" class="active">📊 Algorithm Analysis. Fast Search and Fast Sort.</a></li><li><a href="19_Modular_Arithmetic.html">➕ Modular Arithmetic.</a></li><li><a href="20_Polynomials_BigInt.html">📈 Polynomials. Implementation of Long Number Operations.</a></li><li><a href="21_Game_Theory.html">🎮 Games with Parity and Symmetry Strategies.</a></li><li><a href="22_Bitwise_Operations.html">💻 Bitwise Operations and Applications.</a></li><li><a href="23_Dynamic_Programming.html">🔄 Dynamic Programming: Classic One-dimensional and Two-dimensional Problems.</a></li><li><a href="24_Graph_Algorithms.html">🌐 Graphs: Representation and Traversal.</a></li><li><a href="25_Union_Find.html">🔗 Disjoint Set Union (DSU) / Union-Find Structure.</a></li><li><a href="26_Tree_Structures.html">🌲 Binary Trees and Search Trees.</a></li><li><a href="27_Advanced_Geometry_SweepLine.html">📐 Computational Geometry: Oriented Point Triplets and Applications.</a></li><li><a href="28_Advanced_Combinatorics.html">🔄 Permutations: Basic Properties.</a></li><li><a href="29_Arithmetic_Expressions.html">➗ Arithmetic Expressions: Representation, Calculation, and Transformation.</a></li><li><a href="30_Hashing.html">🔑 Hashing.</a></li><li><a href="31_Special_Number_Sequences.html">➕ Catalan Numbers. Gray Codes. Partitioning of Sets and Numbers.</a></li><li><a href="32_Geometry_Polygons.html">📐 Computational Geometry: Relative Position of Points and Lines.</a></li><li><a href="33_Advanced_Graph_Algorithms.html">🌐 Graphs: Biconnectivity, Strong Connectivity, Matchings.</a></li><li><a href="34_Advanced_Data_Structures.html">📂 Advanced Data Structures:</a></li><li><a href="35_Advanced_DP.html">🔄 Dynamic Programming: Profiles, Recursions, and Relations.</a></li><li><a href="36_String_Algorithms.html">📝 Strings: Efficient Structures and Algorithms.</a></li><li><a href="37_Advanced_Game_Theory.html">🎮 Games: Nim, Alpha-Beta Pruning. Reactive Games.</a></li><li><a href="38_Matrices.html">📊 Matrices: Multiplication and Exponentiation.</a></li><li><a href="39_Voronoi_Diagrams.html">📍 Voronoi Diagrams.</a></li><li><a href="40_Flows_Cuts.html">🌊 Minimum Cut.</a></li><li><a href="41_Advanced_Heaps.html">🌲 Complex Variants of Heaps (Binomial and Fibonacci Heaps).</a></li><li><a href="42_Suffix_Structures.html">🔤 Formal Grammars, Automata.</a></li><li><a href="43_Linear_Systems.html">🧮 Systems of Linear Equations.</a></li><li><a href="44_Complex_Numbers_FFT.html">📐 Complex Numbers.</a></li>
+        </ul>
+    </div>
+    <div class="content-wrapper">
+        <div class="content">
+            <h1>📊 Algorithm Analysis. Quick Search and Quick Sort</h1>
+<h2>⚖️ Deep Analysis of Algorithms</h2>
+<p>In competitive programming, it is not enough to just write working code. It must work within the time limit (usually 1 second). Modern judges execute about $10^8$ operations per second.</p>
+<h3>🕒 Time Complexity and Constraints</h3>
+<p>Knowing the constraints on input data ($N$) often hints at the required complexity of the solution:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Constraint on $N$</th>
+<th style="text-align: left;">Allowable Complexity</th>
+<th style="text-align: left;">Typical Algorithms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">$N \le 10$</td>
+<td style="text-align: left;">$O(N!)$</td>
+<td style="text-align: left;">Exhaustive Search (Backtracking), Permutations</td>
+</tr>
+<tr>
+<td style="text-align: left;">$N \le 20$</td>
+<td style="text-align: left;">$O(2^N)$</td>
+<td style="text-align: left;">DP with Bitmasks, Recursion</td>
+</tr>
+<tr>
+<td style="text-align: left;">$N \le 500$</td>
+<td style="text-align: left;">$O(N^3)$</td>
+<td style="text-align: left;">Floyd-Warshall, Matrix Multiplication, DP</td>
+</tr>
+<tr>
+<td style="text-align: left;">$N \le 2000$</td>
+<td style="text-align: left;">$O(N^2)$</td>
+<td style="text-align: left;">Bubble/Insertion Sort, DP, BFS/DFS from each node</td>
+</tr>
+<tr>
+<td style="text-align: left;">$N \le 100,000$</td>
+<td style="text-align: left;">$O(N \log N)$</td>
+<td style="text-align: left;">Sorting, Heap, Segment Tree, Binary Search</td>
+</tr>
+<tr>
+<td style="text-align: left;">$N \le 1,000,000$</td>
+<td style="text-align: left;">$O(N)$ or $O(N \log N)$</td>
+<td style="text-align: left;">KMP, Hash, Two Pointers, Union-Find</td>
+</tr>
+<tr>
+<td style="text-align: left;">$N \ge 10^{18}$</td>
+<td style="text-align: left;">$O(\log N)$ or $O(1)$</td>
+<td style="text-align: left;">Matrix Exponentiation, Mathematical Formulas</td>
+</tr>
+</tbody>
+</table>
+<h3>📜 Master Theorem (For Recursive Algorithms)</h3>
+<p>For a recurrence relation of the form $T(n) = a T(n/b) + f(n)$:
+1. If $f(n) = O(n^c)$ and $c &lt; \log_b a$, then $T(n) = \Theta(n^{\log_b a})$.
+2. If $f(n) = \Theta(n^c \log^k n)$ and $c = \log_b a$, then $T(n) = \Theta(n^c \log^{k+1} n)$.
+3. If $f(n) = \Omega(n^c)$ and $c &gt; \log_b a$, then $T(n) = \Theta(f(n))$.</p>
+<hr />
+<h2>🔍 Quick Search (Binary Search) - Advanced</h2>
+<p>Binary search is not just for finding a number in an array. It is a powerful method for finding the answer to a problem if the answer is monotonic.</p>
+<h3>1. Standard Binary Search (<code>std::lower_bound</code>)</h3>
+<p>Finds the first element that is $\ge$ to the target.</p>
+<pre><code class="language-cpp">int lowerBound(const std::vector&lt;int&gt;&amp; arr, int target) {
+    int left = 0, right = arr.size(); // Watch out for bounds [0, N)
+    while (left &lt; right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] &gt;= target) {
+            right = mid;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return left; // Returns index or N if none found
+}
+</code></pre>
+<h3>2. Binary Search on Answer</h3>
+<p>Used when we are looking for a minimal value $X$ for which condition $P(X)$ is met (and for every $Y &gt; X$, $P(Y)$ is also met).</p>
+<p><strong>Example</strong>: "What is the minimum time for $K$ machines to produce $M$ products?"
+- The function <code>check(time)</code> verifies if $\ge M$ products can be produced in <code>time</code> seconds. It is monotonic (more time -&gt; more products).</p>
+<pre><code class="language-cpp">bool check(long long time, int m, const std::vector&lt;int&gt;&amp; machines) {
+    long long products = 0;
+    for (int speed : machines) {
+        products += time / speed;
+        if (products &gt;= m) return true;
+    }
+    return products &gt;= m;
+}
+
+long long solve(int m, std::vector&lt;int&gt;&amp; machines) {
+    long long left = 0, right = 1e18; // Sufficiently large upper bound
+    long long ans = right;
+
+    while (left &lt;= right) {
+        long long mid = left + (right - left) / 2;
+        if (check(mid, m, machines)) {
+            ans = mid;
+            right = mid - 1; // Try less time
+        } else {
+            left = mid + 1; // Need more time
+        }
+    }
+    return ans;
+}
+</code></pre>
+<hr />
+<h2>⚡ Sorting Algorithms in Detail</h2>
+<h3>1. Quick Sort - Optimizations</h3>
+<p>Classical Quick Sort can degenerate to $O(N^2)$ on a sorted array if we always pick the first/last element as Pivot.</p>
+<p><strong>Optimization - Random Pivot</strong>:
+Picking a random index for Pivot makes the probability of a worst-case scenario astronomically low.</p>
+<pre><code class="language-cpp">#include &lt;cstdlib&gt; // for rand()
+
+void quickSort(std::vector&lt;int&gt;&amp; arr, int low, int high) {
+    if (low &gt;= high) return;
+
+    // Pick a random pivot
+    int pivotIndex = low + rand() % (high - low + 1);
+    int pivot = arr[pivotIndex];
+    std::swap(arr[pivotIndex], arr[high]); // Move pivot to end
+
+    int i = low - 1;
+    for (int j = low; j &lt; high; j++) {
+        if (arr[j] &lt; pivot) {
+            i++;
+            std::swap(arr[i], arr[j]);
+        }
+    }
+    std::swap(arr[i + 1], arr[high]);
+
+    quickSort(arr, low, i);
+    quickSort(arr, i + 2, high);
+}
+</code></pre>
+<h3>2. Merge Sort</h3>
+<p>Unlike Quick Sort, Merge Sort <strong>always</strong> works in $O(N \log N)$ and is <strong>stable</strong> (preserves the order of equal elements). It is often used for counting inversions.</p>
+<pre><code class="language-cpp">void merge(std::vector&lt;int&gt;&amp; arr, int left, int mid, int right) {
+    std::vector&lt;int&gt; temp;
+    int i = left, j = mid + 1;
+
+    while (i &lt;= mid &amp;&amp; j &lt;= right) {
+        if (arr[i] &lt;= arr[j]) temp.push_back(arr[i++]);
+        else temp.push_back(arr[j++]);
+    }
+    while (i &lt;= mid) temp.push_back(arr[i++]);
+    while (j &lt;= right) temp.push_back(arr[j++]);
+
+    for (int k = 0; k &lt; temp.size(); k++) arr[left + k] = temp[k];
+}
+
+void mergeSort(std::vector&lt;int&gt;&amp; arr, int left, int right) {
+    if (left &gt;= right) return;
+    int mid = left + (right - left) / 2;
+    mergeSort(arr, left, mid);
+    mergeSort(arr, mid + 1, right);
+    merge(arr, left, mid, right);
+}
+</code></pre>
+<h3>3. C++ <code>std::sort</code></h3>
+<p>The built-in <code>std::sort</code> function (in <code>&lt;algorithm&gt;</code>) uses a hybrid algorithm (<strong>Introsort</strong>):
+1. Starts with Quick Sort.
+2. If recursion depth gets too large, switches to Heap Sort (to guarantee $O(N \log N)$).
+3. For small subarrays, uses Insertion Sort (because it is faster for small $N$).</p>
+<hr />
+<h2>🏁 Conclusion and Tips</h2>
+<ol>
+<li>Always use <code>std::sort</code> unless you have a specific reason not to (e.g., counting inversions with Merge Sort).</li>
+<li>For problems involving searching for "the minimum X for which condition is met...", always think of <strong>Binary Search on Answer</strong>.</li>
+<li>Watch out for data types (<code>long long</code>) in binary search to avoid overflow at <code>left + right</code>.</li>
+</ol>
+        </div>
+        <div class="nav-buttons">
+            <a href="17_STL_Containers_Iterators_Algorithms.html" class="nav-btn">⬅ Prev</a>
+            <a href="19_Modular_Arithmetic.html" class="nav-btn">Next ➡</a>
+        </div>
+    </div>
+</body>
+</html>

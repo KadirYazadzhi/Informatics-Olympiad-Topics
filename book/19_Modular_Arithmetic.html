@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>➕ Modular Arithmetic.</title>
+    <style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; margin: 0; display: flex; height: 100vh; color: #333; }
+a { color: #007bff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.sidebar { width: 300px; background: #f5f7f9; border-right: 1px solid #e1e4e8; overflow-y: auto; padding: 20px; flex-shrink: 0; }
+.sidebar h3 { margin-top: 0; color: #555; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li { margin-bottom: 8px; }
+.sidebar li a { color: #364149; display: block; padding: 5px; border-radius: 4px; }
+.sidebar li a:hover, .sidebar li a.active { background: #fff; color: #007bff; }
+.content-wrapper { flex-grow: 1; overflow-y: auto; padding: 40px 60px; max-width: 900px; margin: 0 auto; }
+.content { line-height: 1.6; }
+h1, h2, h3 { color: #242a31; margin-top: 1.5em; }
+h1 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.9em; }
+pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
+pre code { background: none; padding: 0; font-size: 0.9em; color: #333; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+th, td { border: 1px solid #dfe2e5; padding: 8px 12px; }
+th { background: #f6f8fa; }
+blockquote { border-left: 4px solid #dfe2e5; color: #6a737d; padding-left: 16px; margin: 20px 0; }
+.nav-buttons { margin-top: 40px; display: flex; justify-content: space-between; border-top: 1px solid #eaecef; padding-top: 20px; }
+.nav-btn { padding: 10px 20px; border: 1px solid #e1e4e8; border-radius: 4px; color: #333; }
+.nav-btn:hover { border-color: #007bff; color: #007bff; text-decoration: none; }
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>📚 Topics</h3>
+        <ul>
+            <li><a href="index.html">Introduction</a></li><li><a href="01_Cpp_Environment_Data_Types_IO.html">🖥️ C++ Programming Environment. Simple Data Types. Input and Output.</a></li><li><a href="02_Operations_Conditionals.html">➕ Operations in C++. Conditional Operators. Compound Operator.</a></li><li><a href="03_Loops_Functions_Strings.html">🔄 Loops. Nested Loops. Functions in C++. Strings.</a></li><li><a href="04_Basic_Divisibility_Tasks.html">🔢 Basic Tasks Related to Number Divisibility.</a></li><li><a href="05_Date_and_Time_Tasks.html">📅 Tasks Related to Dates and Time.</a></li><li><a href="06_One_Dimensional_Array.html">📂 One-dimensional Arrays.</a></li><li><a href="07_Arrays_Basic_Tasks.html">📂 One-dimensional Arrays and Basic Tasks.</a></li><li><a href="08_Number_Divisibility_Euclidean_Algorithm.html">➗ Number Divisibility, Euclidean Algorithm and Applications.</a></li><li><a href="09_Numeral_Systems.html">🔢 Numeral Systems.</a></li><li><a href="10_Two_Dimensional_Arrays.html">📊 Two-dimensional Arrays and Tabular Data Processing.</a></li><li><a href="11_Basic_Computational_Geometry.html">🧭 Basic Knowledge of Computational Geometry.</a></li><li><a href="12_Intro_to_STL.html">📚 Introduction to the Standard Template Library (STL) and Sorting/Searching Tools.</a></li><li><a href="13_Data_Structures_Stack_Queue.html">📦 Data Structures: Stack and Queue.</a></li><li><a href="14_Recursion.html">🔁 Concept of Recursion.</a></li><li><a href="15_Intro_to_Combinatorics.html">🔀 Introduction to Combinatorial Configurations.</a></li><li><a href="16_Graph_Concept.html">🌐 Concept of a Graph.</a></li><li><a href="17_STL_Containers_Iterators_Algorithms.html">📚 STL Standard Library: Containers, Iterators, and Basic Algorithms.</a></li><li><a href="18_Algorithm_Analysis_Quick_Search_Sort.html">📊 Algorithm Analysis. Fast Search and Fast Sort.</a></li><li><a href="19_Modular_Arithmetic.html" class="active">➕ Modular Arithmetic.</a></li><li><a href="20_Polynomials_BigInt.html">📈 Polynomials. Implementation of Long Number Operations.</a></li><li><a href="21_Game_Theory.html">🎮 Games with Parity and Symmetry Strategies.</a></li><li><a href="22_Bitwise_Operations.html">💻 Bitwise Operations and Applications.</a></li><li><a href="23_Dynamic_Programming.html">🔄 Dynamic Programming: Classic One-dimensional and Two-dimensional Problems.</a></li><li><a href="24_Graph_Algorithms.html">🌐 Graphs: Representation and Traversal.</a></li><li><a href="25_Union_Find.html">🔗 Disjoint Set Union (DSU) / Union-Find Structure.</a></li><li><a href="26_Tree_Structures.html">🌲 Binary Trees and Search Trees.</a></li><li><a href="27_Advanced_Geometry_SweepLine.html">📐 Computational Geometry: Oriented Point Triplets and Applications.</a></li><li><a href="28_Advanced_Combinatorics.html">🔄 Permutations: Basic Properties.</a></li><li><a href="29_Arithmetic_Expressions.html">➗ Arithmetic Expressions: Representation, Calculation, and Transformation.</a></li><li><a href="30_Hashing.html">🔑 Hashing.</a></li><li><a href="31_Special_Number_Sequences.html">➕ Catalan Numbers. Gray Codes. Partitioning of Sets and Numbers.</a></li><li><a href="32_Geometry_Polygons.html">📐 Computational Geometry: Relative Position of Points and Lines.</a></li><li><a href="33_Advanced_Graph_Algorithms.html">🌐 Graphs: Biconnectivity, Strong Connectivity, Matchings.</a></li><li><a href="34_Advanced_Data_Structures.html">📂 Advanced Data Structures:</a></li><li><a href="35_Advanced_DP.html">🔄 Dynamic Programming: Profiles, Recursions, and Relations.</a></li><li><a href="36_String_Algorithms.html">📝 Strings: Efficient Structures and Algorithms.</a></li><li><a href="37_Advanced_Game_Theory.html">🎮 Games: Nim, Alpha-Beta Pruning. Reactive Games.</a></li><li><a href="38_Matrices.html">📊 Matrices: Multiplication and Exponentiation.</a></li><li><a href="39_Voronoi_Diagrams.html">📍 Voronoi Diagrams.</a></li><li><a href="40_Flows_Cuts.html">🌊 Minimum Cut.</a></li><li><a href="41_Advanced_Heaps.html">🌲 Complex Variants of Heaps (Binomial and Fibonacci Heaps).</a></li><li><a href="42_Suffix_Structures.html">🔤 Formal Grammars, Automata.</a></li><li><a href="43_Linear_Systems.html">🧮 Systems of Linear Equations.</a></li><li><a href="44_Complex_Numbers_FFT.html">📐 Complex Numbers.</a></li>
+        </ul>
+    </div>
+    <div class="content-wrapper">
+        <div class="content">
+            <h1>➕ Modular Arithmetic: Theory and Practice</h1>
+<h2>📜 Deep Theory of Modular Arithmetic</h2>
+<p>Modular arithmetic is arithmetic of remainders. When we say $A \equiv B \pmod M$, we mean that $A$ and $B$ yield the same remainder when divided by $M$, or equivalently: $M$ divides the difference $(A - B)$.</p>
+<h3>Properties of Congruences</h3>
+<ol>
+<li><strong>Reflexivity</strong>: $A \equiv A \pmod M$.</li>
+<li><strong>Symmetry</strong>: If $A \equiv B \pmod M$, then $B \equiv A \pmod M$.</li>
+<li><strong>Transitivity</strong>: If $A \equiv B$ and $B \equiv C$, then $A \equiv C \pmod M$.</li>
+<li><strong>Addition/Multiplication</strong>: We can add and multiply congruences.</li>
+<li>If $A \equiv B$ and $C \equiv D$, then $A+C \equiv B+D$ and $A \cdot C \equiv B \cdot D \pmod M$.</li>
+</ol>
+<hr />
+<h2>🚀 Modular Exponentiation</h2>
+<p>Calculating $A^B \pmod M$ naively takes $O(B)$ time, which is slow for $B \approx 10^{18}$. We use the "binary exponentiation" method, which works in $O(\log B)$.</p>
+<p><strong>Idea</strong>: $A^{2k} = (A^k)^2$ and $A^{2k+1} = A \cdot (A^k)^2$.</p>
+<pre><code class="language-cpp">long long power(long long base, long long exp, long long mod) {
+    long long res = 1;
+    base %= mod;
+    while (exp &gt; 0) {
+        if (exp % 2 == 1) res = (__int128)res * base % mod; // Use __int128 to avoid overflow during multiplication
+        base = (__int128)base * base % mod;
+        exp /= 2;
+    }
+    return res;
+}
+</code></pre>
+<p><em>Note: If <code>mod</code> is up to $10^9$, <code>long long</code> is sufficient. If <code>mod</code> is up to $10^{18}$, intermediate multiplication can overflow <code>long long</code>, so <code>__int128</code> is used.</em></p>
+<hr />
+<h2>🔄 Extended Euclidean Algorithm</h2>
+<p>The algorithm finds integers $x$ and $y$ satisfying Bezout's identity:
+$$A \cdot x + B \cdot y = \gcd(A, B)$$</p>
+<p><strong>How it works (Step-by-step)</strong>:
+We know that $\gcd(A, B) = \gcd(B, A \% B)$.
+Let's assume we found $x_1, y_1$ for the pair $(B, A \% B)$, i.e.:
+$$B \cdot x_1 + (A \% B) \cdot y_1 = \gcd(A, B)$$
+Substitute $A \% B = A - \lfloor A/B \rfloor \cdot B$:
+$$B \cdot x_1 + (A - \lfloor A/B \rfloor \cdot B) \cdot y_1 = \gcd$$
+$$A \cdot y_1 + B \cdot (x_1 - \lfloor A/B \rfloor \cdot y_1) = \gcd$$
+Therefore, the new coefficients are: $x = y_1$ and $y = x_1 - \lfloor A/B \rfloor \cdot y_1$.</p>
+<pre><code class="language-cpp">long long extendedGCD(long long a, long long b, long long &amp;x, long long &amp;y) {
+    if (a == 0) {
+        x = 0; y = 1;
+        return b;
+    }
+    long long x1, y1;
+    long long gcd = extendedGCD(b % a, a, x1, y1);
+    x = y1 - (b / a) * x1;
+    y = x1;
+    return gcd;
+}
+</code></pre>
+<hr />
+<h2>➗ Modular Division and Modular Inverse</h2>
+<p>Division $A / B \pmod M$ is defined as $A \cdot B^{-1} \pmod M$.
+The inverse element $B^{-1}$ exists only if $\gcd(B, M) = 1$.</p>
+<h3>Finding $B^{-1}$:</h3>
+<ol>
+<li><strong>If $M$ is prime</strong>: According to Fermat's Little Theorem, $B^{M-2} \pmod M$.</li>
+<li><strong>If $M$ is not prime</strong>: Use Extended Euclidean Algorithm to solve $B \cdot x + M \cdot y = 1$. Here $x$ is the sought inverse element (can be negative, so take $(x \% M + M) \% M$).</li>
+</ol>
+<hr />
+<h2>🇨🇳 Chinese Remainder Theorem (CRT)</h2>
+<p>Allows recovering a number $x$ if we know its remainders when divided by several <strong>pairwise coprime</strong> numbers.</p>
+<p>System:
+$$x \equiv a_1 \pmod {m_1}$$
+$$x \equiv a_2 \pmod {m_2}$$
+...
+$$x \equiv a_k \pmod {m_k}$$</p>
+<p>Let $M = m_1 \cdot m_2 \cdot \dots \cdot m_k$. The solution is unique modulo $M$ and is given by the formula:
+$$x = \left( \sum_{i=1}^{k} a_i \cdot M_i \cdot y_i \right) \pmod M$$
+Where $M_i = M / m_i$, and $y_i$ is the modular inverse of $M_i$ modulo $m_i$ ($M_i \cdot y_i \equiv 1 \pmod {m_i}$).</p>
+<p><strong>Application</strong>: Used when working with very large numbers, operations are performed in parallel with small moduli and finally the result is reconstructed.</p>
+<hr />
+<h2>🔢 Discrete Logarithm (Baby-step Giant-step)</h2>
+<p>Task: Find $x$ such that $a^x \equiv b \pmod m$.
+This is a hard problem, but the Baby-step Giant-step algorithm solves it in $O(\sqrt{m} \log m)$.</p>
+<p><strong>Idea</strong>: Represent $x = i \cdot k - j$, where $k = \lceil \sqrt{m} \rceil$.
+The equation becomes $a^{ik - j} \equiv b \implies (a^k)^i \equiv b \cdot a^j$.
+1. Compute the right side for all $0 \le j &lt; k$ and store them in a hash table (Baby steps).
+2. Compute the left side for $i = 1, \dots, k$ and check for a match in the table (Giant steps).</p>
+<hr />
+<h2>🏁 Conclusion</h2>
+<p>Modular arithmetic is at the core of encryption algorithms (RSA) and many competitive programming problems. Ensure you always handle negative results correctly (<code>(a % n + n) % n</code>) and use <code>long long</code> for intermediate calculations.</p>
+<p>```</p>
+        </div>
+        <div class="nav-buttons">
+            <a href="18_Algorithm_Analysis_Quick_Search_Sort.html" class="nav-btn">⬅ Prev</a>
+            <a href="20_Polynomials_BigInt.html" class="nav-btn">Next ➡</a>
+        </div>
+    </div>
+</body>
+</html>
