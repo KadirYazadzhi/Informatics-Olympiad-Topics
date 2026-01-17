@@ -22,3 +22,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./book
           publish_branch: gh-pages
+          force_orphan: true # Прави клона чисто нов при всяко качване
