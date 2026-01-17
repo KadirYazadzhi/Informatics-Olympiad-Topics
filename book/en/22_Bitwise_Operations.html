@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>22. Bitwise Operations and Applications.</title>
+    <style>
+:root {
+    --bg-color: #ffffff;
+    --text-color: #24292e;
+    --sidebar-bg: #f6f8fa;
+    --border-color: #e1e4e8;
+    --link-color: #0366d6;
+    --hover-color: #f0f0f0;
+    --code-bg: #f6f8fa;
+    --blockquote-color: #6a737d;
+}
+
+[data-theme="dark"] {
+    --bg-color: #0d1117;
+    --text-color: #c9d1d9;
+    --sidebar-bg: #161b22;
+    --border-color: #30363d;
+    --link-color: #58a6ff;
+    --hover-color: #21262d;
+    --code-bg: #161b22;
+    --blockquote-color: #8b949e;
+}
+
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg-color); color: var(--text-color); transition: background 0.3s, color 0.3s; }
+a { color: var(--link-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Sidebar */
+.sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); overflow-y: auto; display: flex; flex-direction: column; flex-shrink: 0; }
+.sidebar-header { padding: 20px; border-bottom: 1px solid var(--border-color); }
+.sidebar-header h3 { margin: 0; font-size: 1.2em; }
+.sidebar-nav { flex-grow: 1; padding: 10px; }
+
+/* Accordion */
+details { margin-bottom: 5px; }
+summary { cursor: pointer; padding: 10px; font-weight: bold; list-style: none; border-radius: 6px; outline: none; user-select: none; color: var(--text-color); }
+summary:hover { background: var(--hover-color); }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; float: right; font-weight: normal; }
+details[open] summary::after { content: '-'; }
+.group-items { padding-left: 10px; margin-top: 5px; }
+.group-items a { display: block; padding: 6px 10px; border-radius: 6px; color: var(--text-color); font-size: 0.9em; margin-bottom: 2px; }
+.group-items a:hover { background: var(--hover-color); color: var(--link-color); text-decoration: none; }
+.group-items a.active { background: var(--link-color); color: white; }
+
+/* Main Content */
+.main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: hidden; }
+.top-bar { padding: 10px 40px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: flex-end; align-items: center; gap: 15px; background: var(--bg-color); }
+.content-wrapper { padding: 40px 60px; overflow-y: auto; max-width: 900px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+.content { line-height: 1.6; padding-bottom: 50px; }
+
+/* Elements */
+h1, h2, h3 { margin-top: 1.5em; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
+h1 { margin-top: 0; }
+code { background: var(--code-bg); padding: 0.2em 0.4em; border-radius: 3px; font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 85%; }
+pre { background: var(--code-bg); padding: 16px; border-radius: 6px; overflow: auto; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+th, td { border: 1px solid var(--border-color); padding: 8px 12px; }
+th { background: var(--hover-color); }
+blockquote { border-left: 4px solid var(--border-color); padding-left: 16px; color: var(--blockquote-color); margin: 20px 0; }
+img { max-width: 100%; }
+
+/* Buttons */
+.btn { padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; background: var(--bg-color); color: var(--text-color); font-size: 0.9em; }
+.btn:hover { background: var(--hover-color); }
+.nav-buttons { margin-top: 50px; border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Informatics Topics</h3>
+        </div>
+        <div class="sidebar-nav">
+            <a href="index.html" class="">🏠 Index</a>
+            <details ><summary>I. Fundamentals</summary><div class="group-items"><a href="01_Cpp_Environment_Data_Types_IO.html" class="">1. C Programming Environment. Simple Data Types. Input and Output.</a><a href="02_Operations_Conditionals.html" class="">2. Operations in C. Conditional Operators. Compound Operator.</a><a href="03_Loops_Functions_Strings.html" class="">3. Loops. Nested Loops. Functions in C. Strings.</a><a href="04_Basic_Divisibility_Tasks.html" class="">4. Basic Tasks Related to Number Divisibility.</a><a href="05_Date_and_Time_Tasks.html" class="">5. Tasks Related to Dates and Time.</a></div></details><details ><summary>II. Arrays & Basic Math</summary><div class="group-items"><a href="06_One_Dimensional_Array.html" class="">6. One-dimensional Arrays.</a><a href="07_Arrays_Basic_Tasks.html" class="">7. One-dimensional Arrays and Basic Tasks.</a><a href="08_Number_Divisibility_Euclidean_Algorithm.html" class="">8. Number Divisibility, Euclidean Algorithm and Applications.</a><a href="09_Numeral_Systems.html" class="">9. Numeral Systems.</a><a href="10_Two_Dimensional_Arrays.html" class="">10. Two-dimensional Arrays and Tabular Data Processing.</a></div></details><details ><summary>III. Basic Algorithms</summary><div class="group-items"><a href="11_Basic_Computational_Geometry.html" class="">11. Basic Knowledge of Computational Geometry.</a><a href="12_Intro_to_STL.html" class="">12. Introduction to the Standard Template Library (STL) and SortingSearching Tools.</a><a href="13_Data_Structures_Stack_Queue.html" class="">13. Data Structures Stack and Queue.</a><a href="14_Recursion.html" class="">14. Concept of Recursion.</a><a href="15_Intro_to_Combinatorics.html" class="">15. Introduction to Combinatorial Configurations.</a></div></details><details ><summary>IV. Graphs & Advanced Basics</summary><div class="group-items"><a href="16_Graph_Concept.html" class="">16. Concept of a Graph.</a><a href="17_STL_Containers_Iterators_Algorithms.html" class="">17. STL Standard Library Containers, Iterators, and Basic Algorithms.</a><a href="18_Algorithm_Analysis_Quick_Search_Sort.html" class="">18. Algorithm Analysis. Fast Search and Fast Sort.</a><a href="19_Modular_Arithmetic.html" class="">19. Modular Arithmetic.</a><a href="20_Polynomials_BigInt.html" class="">20. Polynomials. Implementation of Long Number Operations.</a></div></details><details open><summary>V. Intermediate Topics</summary><div class="group-items"><a href="21_Game_Theory.html" class="">21. Games with Parity and Symmetry Strategies.</a><a href="22_Bitwise_Operations.html" class="active">22. Bitwise Operations and Applications.</a><a href="23_Dynamic_Programming.html" class="">23. Dynamic Programming Classic One-dimensional and Two-dimensional Problems.</a><a href="24_Graph_Algorithms.html" class="">24. Graphs Representation and Traversal.</a><a href="25_Union_Find.html" class="">25. Disjoint Set Union (DSU)  Union-Find Structure.</a></div></details><details ><summary>VI. Advanced Structures</summary><div class="group-items"><a href="26_Tree_Structures.html" class="">26. Binary Trees and Search Trees.</a><a href="27_Advanced_Geometry_SweepLine.html" class="">27. Computational Geometry Oriented Point Triplets and Applications.</a><a href="28_Advanced_Combinatorics.html" class="">28. Permutations Basic Properties.</a><a href="29_Arithmetic_Expressions.html" class="">29. Arithmetic Expressions Representation, Calculation, and Transformation.</a><a href="30_Hashing.html" class="">30. Hashing.</a></div></details><details ><summary>VII. Expert Topics I</summary><div class="group-items"><a href="31_Special_Number_Sequences.html" class="">31. Catalan Numbers. Gray Codes. Partitioning of Sets and Numbers.</a><a href="32_Geometry_Polygons.html" class="">32. Computational Geometry Relative Position of Points and Lines.</a><a href="33_Advanced_Graph_Algorithms.html" class="">33. Graphs Biconnectivity, Strong Connectivity, Matchings.</a><a href="34_Advanced_Data_Structures.html" class="">34. Advanced Data Structures</a><a href="35_Advanced_DP.html" class="">35. Dynamic Programming Profiles, Recursions, and Relations.</a></div></details><details ><summary>VIII. Expert Topics II</summary><div class="group-items"><a href="36_String_Algorithms.html" class="">36. Strings Efficient Structures and Algorithms.</a><a href="37_Advanced_Game_Theory.html" class="">37. Games Nim, Alpha-Beta Pruning. Reactive Games.</a><a href="38_Matrices.html" class="">38. Matrices Multiplication and Exponentiation.</a><a href="39_Voronoi_Diagrams.html" class="">39. Voronoi Diagrams.</a><a href="40_Flows_Cuts.html" class="">40. Minimum Cut.</a></div></details><details ><summary>IX. Master Class</summary><div class="group-items"><a href="41_Advanced_Heaps.html" class="">41. Complex Variants of Heaps (Binomial and Fibonacci Heaps).</a><a href="42_Suffix_Structures.html" class="">42. Formal Grammars, Automata.</a><a href="43_Linear_Systems.html" class="">43. Systems of Linear Equations.</a><a href="44_Complex_Numbers_FFT.html" class="">44. Complex Numbers.</a></div></details>
+        </div>
+    </div>
+    <div class="main">
+        <div class="top-bar">
+            <a href="../bg/Побитови операции.html" class="btn">🇧🇬 BG</a>
+            <button id="theme-toggle" class="btn">🌙 Dark</button>
+        </div>
+        <div class="content-wrapper">
+            <div class="content">
+                <h1>💻 Bitwise Operations: Optimizations and Algorithms</h1>
+<h2>🛠️ Built-in Functions in GCC</h2>
+<p>The GCC compiler provides functions that use processor instructions for bitwise operations (extremely fast, $O(1)$).</p>
+<ul>
+<li><code>__builtin_popcount(n)</code>: Number of set bits (1s) in <code>n</code>.</li>
+<li><code>__builtin_clz(n)</code>: Count Leading Zeros. Useful for finding the most significant bit ($\lfloor \log_2 n \rfloor = 31 - \text{clz}(n)$).</li>
+<li><code>__builtin_ctz(n)</code>: Count Trailing Zeros. Equivalent to finding the least significant bit.</li>
+<li>For <code>long long</code>, use suffix <code>ll</code> (e.g., <code>__builtin_popcountll</code>).</li>
+</ul>
+<hr />
+<h2>🔢 Linear Basis (XOR Basis)</h2>
+<p>A linear basis is a minimal set of numbers whose XOR combinations can generate any number that can be generated from the original set $S$.
+- The size of the basis is at most $\log(\max(S)) \approx 60$.
+- Allows fast checking if a number $X$ can be formed by XORing a subset of $S$.
+- Allows finding the <strong>maximum XOR</strong> of a subset.</p>
+<p><strong>Implementation:</strong></p>
+<pre><code class="language-cpp">struct LinearBasis {
+    std::vector&lt;int&gt; basis;
+
+    void insert(int mask) {
+        for (int b : basis) {
+            mask = std::min(mask, mask ^ b);
+        }
+        if (mask &gt; 0) {
+            basis.push_back(mask);
+            std::sort(basis.rbegin(), basis.rend()); // For convenience
+        }
+    }
+
+    bool canForm(int mask) {
+        for (int b : basis) {
+            mask = std::min(mask, mask ^ b);
+        }
+        return mask == 0;
+    }
+
+    int maxXor() {
+        int res = 0;
+        for (int b : basis) {
+            res = std::max(res, res ^ b);
+        }
+        return res;
+    }
+};
+</code></pre>
+<hr />
+<h2>⚡ SOS DP (Sum Over Subsets)</h2>
+<p>Given an array $A$ with $2^N$ elements. We want to compute for each mask $mask$:
+$$F[mask] = \sum_{sub \subseteq mask} A[sub]$$</p>
+<p>Naive approach is $O(4^N)$. SOS DP does it in $O(N \cdot 2^N)$.</p>
+<p><strong>Idea</strong>: Process bits one by one. $dp[mask][i]$ is the sum of subsets of $mask$ that differ from $mask$ only in the first $i$ bits.</p>
+<p><strong>Optimized Implementation (in-place):</strong></p>
+<pre><code class="language-cpp">for (int i = 0; i &lt; N; ++i) { // For each bit
+    for (int mask = 0; mask &lt; (1 &lt;&lt; N); ++mask) {
+        if (mask &amp; (1 &lt;&lt; i)) { // If i-th bit is set
+            F[mask] += F[mask ^ (1 &lt;&lt; i)];
+        }
+    }
+}
+</code></pre>
+<hr />
+<h2>🎭 Bitmasks for Optimization (Bitset)</h2>
+<p><code>std::bitset&lt;N&gt;</code> is a C++ template allowing operations on bit arrays, using 1 bit of memory per element. Operations <code>&amp;</code>, <code>|</code>, <code>^</code> on entire bitsets are $N/64$ times faster than a loop.</p>
+<p><strong>Application - Knapsack:</strong>
+Check which sums are reachable.</p>
+<pre><code class="language-cpp">std::bitset&lt;100001&gt; reach;
+reach[0] = 1;
+for (int x : items) {
+    reach |= (reach &lt;&lt; x); // All current sums are shifted by x
+}
+</code></pre>
+<p>Complexity: $O(N \cdot W / 64)$.</p>
+<hr />
+<h2>🏁 Conclusion</h2>
+<p>Bitwise operations are the essence of machine optimization. Linear Basis is mandatory for XOR maximization tasks, and SOS DP is a standard technique for subset problems (common in Codeforces Div1/Div2 C-D).</p>
+<p>```</p>
+            </div>
+            <div class="nav-buttons">
+                <a href="21_Game_Theory.html" class="btn">⬅ Prev</a>
+                <a href="23_Dynamic_Programming.html" class="btn">Next ➡</a>
+            </div>
+        </div>
+    </div>
+    <script>
+// Theme Toggle
+const themeBtn = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', currentTheme);
+updateThemeIcon(currentTheme);
+
+themeBtn.addEventListener('click', () => {
+    let theme = document.documentElement.getAttribute('data-theme');
+    theme = theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateThemeIcon(theme);
+});
+
+function updateThemeIcon(theme) {
+    themeBtn.innerText = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+}
+
+// Persist Accordion State
+document.querySelectorAll('details').forEach((el, index) => {
+    const id = `group-${index}`;
+    // Load state
+    const isOpen = localStorage.getItem(id);
+    if (isOpen === 'true') el.setAttribute('open', '');
+    else if (isOpen === 'false') el.removeAttribute('open');
+    
+    // Auto-open if active link inside
+    if (el.querySelector('a.active')) el.setAttribute('open', '');
+
+    // Save state
+    el.addEventListener('toggle', () => {
+        localStorage.setItem(id, el.open);
+    });
+});
+</script>
+</body>
+</html>

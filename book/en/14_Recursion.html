@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14. Concept of Recursion.</title>
+    <style>
+:root {
+    --bg-color: #ffffff;
+    --text-color: #24292e;
+    --sidebar-bg: #f6f8fa;
+    --border-color: #e1e4e8;
+    --link-color: #0366d6;
+    --hover-color: #f0f0f0;
+    --code-bg: #f6f8fa;
+    --blockquote-color: #6a737d;
+}
+
+[data-theme="dark"] {
+    --bg-color: #0d1117;
+    --text-color: #c9d1d9;
+    --sidebar-bg: #161b22;
+    --border-color: #30363d;
+    --link-color: #58a6ff;
+    --hover-color: #21262d;
+    --code-bg: #161b22;
+    --blockquote-color: #8b949e;
+}
+
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg-color); color: var(--text-color); transition: background 0.3s, color 0.3s; }
+a { color: var(--link-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Sidebar */
+.sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); overflow-y: auto; display: flex; flex-direction: column; flex-shrink: 0; }
+.sidebar-header { padding: 20px; border-bottom: 1px solid var(--border-color); }
+.sidebar-header h3 { margin: 0; font-size: 1.2em; }
+.sidebar-nav { flex-grow: 1; padding: 10px; }
+
+/* Accordion */
+details { margin-bottom: 5px; }
+summary { cursor: pointer; padding: 10px; font-weight: bold; list-style: none; border-radius: 6px; outline: none; user-select: none; color: var(--text-color); }
+summary:hover { background: var(--hover-color); }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; float: right; font-weight: normal; }
+details[open] summary::after { content: '-'; }
+.group-items { padding-left: 10px; margin-top: 5px; }
+.group-items a { display: block; padding: 6px 10px; border-radius: 6px; color: var(--text-color); font-size: 0.9em; margin-bottom: 2px; }
+.group-items a:hover { background: var(--hover-color); color: var(--link-color); text-decoration: none; }
+.group-items a.active { background: var(--link-color); color: white; }
+
+/* Main Content */
+.main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: hidden; }
+.top-bar { padding: 10px 40px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: flex-end; align-items: center; gap: 15px; background: var(--bg-color); }
+.content-wrapper { padding: 40px 60px; overflow-y: auto; max-width: 900px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+.content { line-height: 1.6; padding-bottom: 50px; }
+
+/* Elements */
+h1, h2, h3 { margin-top: 1.5em; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
+h1 { margin-top: 0; }
+code { background: var(--code-bg); padding: 0.2em 0.4em; border-radius: 3px; font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 85%; }
+pre { background: var(--code-bg); padding: 16px; border-radius: 6px; overflow: auto; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+th, td { border: 1px solid var(--border-color); padding: 8px 12px; }
+th { background: var(--hover-color); }
+blockquote { border-left: 4px solid var(--border-color); padding-left: 16px; color: var(--blockquote-color); margin: 20px 0; }
+img { max-width: 100%; }
+
+/* Buttons */
+.btn { padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; background: var(--bg-color); color: var(--text-color); font-size: 0.9em; }
+.btn:hover { background: var(--hover-color); }
+.nav-buttons { margin-top: 50px; border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Informatics Topics</h3>
+        </div>
+        <div class="sidebar-nav">
+            <a href="index.html" class="">🏠 Index</a>
+            <details ><summary>I. Fundamentals</summary><div class="group-items"><a href="01_Cpp_Environment_Data_Types_IO.html" class="">1. C Programming Environment. Simple Data Types. Input and Output.</a><a href="02_Operations_Conditionals.html" class="">2. Operations in C. Conditional Operators. Compound Operator.</a><a href="03_Loops_Functions_Strings.html" class="">3. Loops. Nested Loops. Functions in C. Strings.</a><a href="04_Basic_Divisibility_Tasks.html" class="">4. Basic Tasks Related to Number Divisibility.</a><a href="05_Date_and_Time_Tasks.html" class="">5. Tasks Related to Dates and Time.</a></div></details><details ><summary>II. Arrays & Basic Math</summary><div class="group-items"><a href="06_One_Dimensional_Array.html" class="">6. One-dimensional Arrays.</a><a href="07_Arrays_Basic_Tasks.html" class="">7. One-dimensional Arrays and Basic Tasks.</a><a href="08_Number_Divisibility_Euclidean_Algorithm.html" class="">8. Number Divisibility, Euclidean Algorithm and Applications.</a><a href="09_Numeral_Systems.html" class="">9. Numeral Systems.</a><a href="10_Two_Dimensional_Arrays.html" class="">10. Two-dimensional Arrays and Tabular Data Processing.</a></div></details><details open><summary>III. Basic Algorithms</summary><div class="group-items"><a href="11_Basic_Computational_Geometry.html" class="">11. Basic Knowledge of Computational Geometry.</a><a href="12_Intro_to_STL.html" class="">12. Introduction to the Standard Template Library (STL) and SortingSearching Tools.</a><a href="13_Data_Structures_Stack_Queue.html" class="">13. Data Structures Stack and Queue.</a><a href="14_Recursion.html" class="active">14. Concept of Recursion.</a><a href="15_Intro_to_Combinatorics.html" class="">15. Introduction to Combinatorial Configurations.</a></div></details><details ><summary>IV. Graphs & Advanced Basics</summary><div class="group-items"><a href="16_Graph_Concept.html" class="">16. Concept of a Graph.</a><a href="17_STL_Containers_Iterators_Algorithms.html" class="">17. STL Standard Library Containers, Iterators, and Basic Algorithms.</a><a href="18_Algorithm_Analysis_Quick_Search_Sort.html" class="">18. Algorithm Analysis. Fast Search and Fast Sort.</a><a href="19_Modular_Arithmetic.html" class="">19. Modular Arithmetic.</a><a href="20_Polynomials_BigInt.html" class="">20. Polynomials. Implementation of Long Number Operations.</a></div></details><details ><summary>V. Intermediate Topics</summary><div class="group-items"><a href="21_Game_Theory.html" class="">21. Games with Parity and Symmetry Strategies.</a><a href="22_Bitwise_Operations.html" class="">22. Bitwise Operations and Applications.</a><a href="23_Dynamic_Programming.html" class="">23. Dynamic Programming Classic One-dimensional and Two-dimensional Problems.</a><a href="24_Graph_Algorithms.html" class="">24. Graphs Representation and Traversal.</a><a href="25_Union_Find.html" class="">25. Disjoint Set Union (DSU)  Union-Find Structure.</a></div></details><details ><summary>VI. Advanced Structures</summary><div class="group-items"><a href="26_Tree_Structures.html" class="">26. Binary Trees and Search Trees.</a><a href="27_Advanced_Geometry_SweepLine.html" class="">27. Computational Geometry Oriented Point Triplets and Applications.</a><a href="28_Advanced_Combinatorics.html" class="">28. Permutations Basic Properties.</a><a href="29_Arithmetic_Expressions.html" class="">29. Arithmetic Expressions Representation, Calculation, and Transformation.</a><a href="30_Hashing.html" class="">30. Hashing.</a></div></details><details ><summary>VII. Expert Topics I</summary><div class="group-items"><a href="31_Special_Number_Sequences.html" class="">31. Catalan Numbers. Gray Codes. Partitioning of Sets and Numbers.</a><a href="32_Geometry_Polygons.html" class="">32. Computational Geometry Relative Position of Points and Lines.</a><a href="33_Advanced_Graph_Algorithms.html" class="">33. Graphs Biconnectivity, Strong Connectivity, Matchings.</a><a href="34_Advanced_Data_Structures.html" class="">34. Advanced Data Structures</a><a href="35_Advanced_DP.html" class="">35. Dynamic Programming Profiles, Recursions, and Relations.</a></div></details><details ><summary>VIII. Expert Topics II</summary><div class="group-items"><a href="36_String_Algorithms.html" class="">36. Strings Efficient Structures and Algorithms.</a><a href="37_Advanced_Game_Theory.html" class="">37. Games Nim, Alpha-Beta Pruning. Reactive Games.</a><a href="38_Matrices.html" class="">38. Matrices Multiplication and Exponentiation.</a><a href="39_Voronoi_Diagrams.html" class="">39. Voronoi Diagrams.</a><a href="40_Flows_Cuts.html" class="">40. Minimum Cut.</a></div></details><details ><summary>IX. Master Class</summary><div class="group-items"><a href="41_Advanced_Heaps.html" class="">41. Complex Variants of Heaps (Binomial and Fibonacci Heaps).</a><a href="42_Suffix_Structures.html" class="">42. Formal Grammars, Automata.</a><a href="43_Linear_Systems.html" class="">43. Systems of Linear Equations.</a><a href="44_Complex_Numbers_FFT.html" class="">44. Complex Numbers.</a></div></details>
+        </div>
+    </div>
+    <div class="main">
+        <div class="top-bar">
+            <a href="../bg/Рекурсия.html" class="btn">🇧🇬 BG</a>
+            <button id="theme-toggle" class="btn">🌙 Dark</button>
+        </div>
+        <div class="content-wrapper">
+            <div class="content">
+                <h1>🔁 Concept of Recursion</h1>
+<p>Recursion is a fundamental concept in programming where a function calls itself until a specific end condition ("base case") is met. It is a powerful tool for solving complex problems by dividing the problem into smaller similar subproblems.</p>
+<h2>📋 Content</h2>
+<ol>
+<li><strong>What is Recursion?</strong><ul>
+<li>Basic elements of recursion</li>
+<li>Examples of recursion</li>
+</ul>
+</li>
+<li><strong>🔍 Backtracking</strong><ul>
+<li>What is backtracking?</li>
+<li>Example of solving problems via backtracking</li>
+</ul>
+</li>
+<li><strong>🧮 Searching in a Sorted Array</strong><ul>
+<li>Linear search in a sorted array</li>
+<li>Binary search</li>
+</ul>
+</li>
+<li><strong>🛠️ Binary Search</strong><ul>
+<li>Iterative implementation</li>
+<li>Recursive implementation</li>
+</ul>
+</li>
+</ol>
+<h2>🔁 What is Recursion?</h2>
+<p>Recursion is based on three key components:
+1. <strong>Base Case</strong>: A condition that stops the recursive calls.
+2. <strong>Recursive Case</strong>: The part of the code that calls the same function with a modified argument.
+3. <strong>Decomposition</strong>: Dividing the task into smaller subtasks.</p>
+<h3>Example: Factorial of a Number</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int factorial(int n) {
+    if (n == 0) return 1; // Base case
+    return n * factorial(n - 1); // Recursive case
+}
+
+int main() {
+    int num = 5;
+    std::cout &lt;&lt; &quot;Factorial of &quot; &lt;&lt; num &lt;&lt; &quot; is: &quot; &lt;&lt; factorial(num) &lt;&lt; std::endl;
+    return 0;
+}
+</code></pre>
+<h3>Example: Fibonacci Numbers</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int fibonacci(int n) {
+    if (n &lt;= 1) return n; // Base case
+    return fibonacci(n - 1) + fibonacci(n - 2); // Recursive case
+}
+
+int main() {
+    int n = 7;
+    std::cout &lt;&lt; &quot;Fibonacci of &quot; &lt;&lt; n &lt;&lt; &quot; is: &quot; &lt;&lt; fibonacci(n) &lt;&lt; std::endl;
+    return 0;
+}
+</code></pre>
+<h2>🔍 Backtracking</h2>
+<p>Backtracking is an algorithmic method that tries all possibilities to solve a given problem. If the current solution is not successful, the algorithm goes back and tries another path.</p>
+<h3>Basic Elements of Backtracking:</h3>
+<ol>
+<li>Generating all possible options.</li>
+<li>Checking if the current solution is valid.</li>
+<li>Recursively continuing to the next step.</li>
+<li>Backtracking if a dead end is reached.</li>
+</ol>
+<h3>Example: Solving the N-Queens Problem</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+bool isSafe(const std::vector&lt;std::vector&lt;int&gt;&gt;&amp; board, int row, int col) {
+    for (int i = 0; i &lt; col; i++)
+        if (board[row][i]) return false;
+
+    for (int i = row, j = col; i &gt;= 0 &amp;&amp; j &gt;= 0; i--, j--)
+        if (board[i][j]) return false;
+
+    for (int i = row, j = col; i &lt; board.size() &amp;&amp; j &gt;= 0; i++, j--)
+        if (board[i][j]) return false;
+
+    return true;
+}
+
+bool solveNQueens(std::vector&lt;std::vector&lt;int&gt;&gt;&amp; board, int col) {
+    if (col &gt;= board.size()) return true;
+
+    for (int i = 0; i &lt; board.size(); i++) {
+        if (isSafe(board, i, col)) {
+            board[i][col] = 1;
+
+            if (solveNQueens(board, col + 1)) return true;
+
+            board[i][col] = 0; // Backtrack
+        }
+    }
+
+    return false;
+}
+
+int main() {
+    int n = 8;
+    std::vector&lt;std::vector&lt;int&gt;&gt; board(n, std::vector&lt;int&gt;(n, 0));
+
+    if (solveNQueens(board, 0)) {
+        for (const auto&amp; row : board) {
+            for (int cell : row) std::cout &lt;&lt; cell &lt;&lt; &quot; &quot;;
+            std::cout &lt;&lt; std::endl;
+        }
+    } else {
+        std::cout &lt;&lt; &quot;No solution&quot; &lt;&lt; std::endl;
+    }
+
+    return 0;
+}
+</code></pre>
+<h2>🧮 Searching in a Sorted Array</h2>
+<h3>Linear Search in a Sorted Array</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+int linearSearch(const std::vector&lt;int&gt;&amp; arr, int target) {
+    for (int i = 0; i &lt; arr.size(); i++) {
+        if (arr[i] == target) return i;
+    }
+    return -1;
+}
+
+int main() {
+    std::vector&lt;int&gt; arr = {1, 3, 5, 7, 9};
+    int target = 5;
+    int index = linearSearch(arr, target);
+    std::cout &lt;&lt; &quot;Index of &quot; &lt;&lt; target &lt;&lt; &quot; is: &quot; &lt;&lt; index &lt;&lt; std::endl;
+    return 0;
+}
+</code></pre>
+<h2>🛠️ Binary Search</h2>
+<p>Binary search works only with sorted arrays. It divides the array into two parts and searches in the appropriate half until it finds the element or no elements remain to check.</p>
+<h3>Iterative Implementation</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+int binarySearch(const std::vector&lt;int&gt;&amp; arr, int target) {
+    int left = 0, right = arr.size() - 1;
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target) return mid;
+        if (arr[mid] &lt; target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+
+int main() {
+    std::vector&lt;int&gt; arr = {1, 3, 5, 7, 9};
+    int target = 7;
+    int index = binarySearch(arr, target);
+    std::cout &lt;&lt; &quot;Index of &quot; &lt;&lt; target &lt;&lt; &quot; is: &quot; &lt;&lt; index &lt;&lt; std::endl;
+    return 0;
+}
+</code></pre>
+<h3>Recursive Implementation</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+int binarySearchRecursive(const std::vector&lt;int&gt;&amp; arr, int left, int right, int target) {
+    if (left &gt; right) return -1;
+
+    int mid = left + (right - left) / 2;
+
+    if (arr[mid] == target) return mid;
+    if (arr[mid] &lt; target) return binarySearchRecursive(arr, mid + 1, right, target);
+
+    return binarySearchRecursive(arr, left, mid - 1, target);
+}
+
+int main() {
+    std::vector&lt;int&gt; arr = {1, 3, 5, 7, 9};
+    int target = 9;
+    int index = binarySearchRecursive(arr, 0, arr.size() - 1, target);
+    std::cout &lt;&lt; &quot;Index of &quot; &lt;&lt; target &lt;&lt; &quot; is: &quot; &lt;&lt; index &lt;&lt; std::endl;
+    return 0;
+}
+</code></pre>
+<h2>🎯 Conclusion</h2>
+<p>These algorithms and approaches offer powerful tools for solving various problems in programming. Understanding their logic and effective implementation is key to writing optimized code.</p>
+            </div>
+            <div class="nav-buttons">
+                <a href="13_Data_Structures_Stack_Queue.html" class="btn">⬅ Prev</a>
+                <a href="15_Intro_to_Combinatorics.html" class="btn">Next ➡</a>
+            </div>
+        </div>
+    </div>
+    <script>
+// Theme Toggle
+const themeBtn = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', currentTheme);
+updateThemeIcon(currentTheme);
+
+themeBtn.addEventListener('click', () => {
+    let theme = document.documentElement.getAttribute('data-theme');
+    theme = theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateThemeIcon(theme);
+});
+
+function updateThemeIcon(theme) {
+    themeBtn.innerText = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+}
+
+// Persist Accordion State
+document.querySelectorAll('details').forEach((el, index) => {
+    const id = `group-${index}`;
+    // Load state
+    const isOpen = localStorage.getItem(id);
+    if (isOpen === 'true') el.setAttribute('open', '');
+    else if (isOpen === 'false') el.removeAttribute('open');
+    
+    // Auto-open if active link inside
+    if (el.querySelector('a.active')) el.setAttribute('open', '');
+
+    // Save state
+    el.addEventListener('toggle', () => {
+        localStorage.setItem(id, el.open);
+    });
+});
+</script>
+</body>
+</html>

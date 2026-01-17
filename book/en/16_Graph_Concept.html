@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16. Concept of a Graph.</title>
+    <style>
+:root {
+    --bg-color: #ffffff;
+    --text-color: #24292e;
+    --sidebar-bg: #f6f8fa;
+    --border-color: #e1e4e8;
+    --link-color: #0366d6;
+    --hover-color: #f0f0f0;
+    --code-bg: #f6f8fa;
+    --blockquote-color: #6a737d;
+}
+
+[data-theme="dark"] {
+    --bg-color: #0d1117;
+    --text-color: #c9d1d9;
+    --sidebar-bg: #161b22;
+    --border-color: #30363d;
+    --link-color: #58a6ff;
+    --hover-color: #21262d;
+    --code-bg: #161b22;
+    --blockquote-color: #8b949e;
+}
+
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg-color); color: var(--text-color); transition: background 0.3s, color 0.3s; }
+a { color: var(--link-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Sidebar */
+.sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); overflow-y: auto; display: flex; flex-direction: column; flex-shrink: 0; }
+.sidebar-header { padding: 20px; border-bottom: 1px solid var(--border-color); }
+.sidebar-header h3 { margin: 0; font-size: 1.2em; }
+.sidebar-nav { flex-grow: 1; padding: 10px; }
+
+/* Accordion */
+details { margin-bottom: 5px; }
+summary { cursor: pointer; padding: 10px; font-weight: bold; list-style: none; border-radius: 6px; outline: none; user-select: none; color: var(--text-color); }
+summary:hover { background: var(--hover-color); }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; float: right; font-weight: normal; }
+details[open] summary::after { content: '-'; }
+.group-items { padding-left: 10px; margin-top: 5px; }
+.group-items a { display: block; padding: 6px 10px; border-radius: 6px; color: var(--text-color); font-size: 0.9em; margin-bottom: 2px; }
+.group-items a:hover { background: var(--hover-color); color: var(--link-color); text-decoration: none; }
+.group-items a.active { background: var(--link-color); color: white; }
+
+/* Main Content */
+.main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: hidden; }
+.top-bar { padding: 10px 40px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: flex-end; align-items: center; gap: 15px; background: var(--bg-color); }
+.content-wrapper { padding: 40px 60px; overflow-y: auto; max-width: 900px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+.content { line-height: 1.6; padding-bottom: 50px; }
+
+/* Elements */
+h1, h2, h3 { margin-top: 1.5em; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
+h1 { margin-top: 0; }
+code { background: var(--code-bg); padding: 0.2em 0.4em; border-radius: 3px; font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 85%; }
+pre { background: var(--code-bg); padding: 16px; border-radius: 6px; overflow: auto; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+th, td { border: 1px solid var(--border-color); padding: 8px 12px; }
+th { background: var(--hover-color); }
+blockquote { border-left: 4px solid var(--border-color); padding-left: 16px; color: var(--blockquote-color); margin: 20px 0; }
+img { max-width: 100%; }
+
+/* Buttons */
+.btn { padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; background: var(--bg-color); color: var(--text-color); font-size: 0.9em; }
+.btn:hover { background: var(--hover-color); }
+.nav-buttons { margin-top: 50px; border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Informatics Topics</h3>
+        </div>
+        <div class="sidebar-nav">
+            <a href="index.html" class="">🏠 Index</a>
+            <details ><summary>I. Fundamentals</summary><div class="group-items"><a href="01_Cpp_Environment_Data_Types_IO.html" class="">1. C Programming Environment. Simple Data Types. Input and Output.</a><a href="02_Operations_Conditionals.html" class="">2. Operations in C. Conditional Operators. Compound Operator.</a><a href="03_Loops_Functions_Strings.html" class="">3. Loops. Nested Loops. Functions in C. Strings.</a><a href="04_Basic_Divisibility_Tasks.html" class="">4. Basic Tasks Related to Number Divisibility.</a><a href="05_Date_and_Time_Tasks.html" class="">5. Tasks Related to Dates and Time.</a></div></details><details ><summary>II. Arrays & Basic Math</summary><div class="group-items"><a href="06_One_Dimensional_Array.html" class="">6. One-dimensional Arrays.</a><a href="07_Arrays_Basic_Tasks.html" class="">7. One-dimensional Arrays and Basic Tasks.</a><a href="08_Number_Divisibility_Euclidean_Algorithm.html" class="">8. Number Divisibility, Euclidean Algorithm and Applications.</a><a href="09_Numeral_Systems.html" class="">9. Numeral Systems.</a><a href="10_Two_Dimensional_Arrays.html" class="">10. Two-dimensional Arrays and Tabular Data Processing.</a></div></details><details ><summary>III. Basic Algorithms</summary><div class="group-items"><a href="11_Basic_Computational_Geometry.html" class="">11. Basic Knowledge of Computational Geometry.</a><a href="12_Intro_to_STL.html" class="">12. Introduction to the Standard Template Library (STL) and SortingSearching Tools.</a><a href="13_Data_Structures_Stack_Queue.html" class="">13. Data Structures Stack and Queue.</a><a href="14_Recursion.html" class="">14. Concept of Recursion.</a><a href="15_Intro_to_Combinatorics.html" class="">15. Introduction to Combinatorial Configurations.</a></div></details><details open><summary>IV. Graphs & Advanced Basics</summary><div class="group-items"><a href="16_Graph_Concept.html" class="active">16. Concept of a Graph.</a><a href="17_STL_Containers_Iterators_Algorithms.html" class="">17. STL Standard Library Containers, Iterators, and Basic Algorithms.</a><a href="18_Algorithm_Analysis_Quick_Search_Sort.html" class="">18. Algorithm Analysis. Fast Search and Fast Sort.</a><a href="19_Modular_Arithmetic.html" class="">19. Modular Arithmetic.</a><a href="20_Polynomials_BigInt.html" class="">20. Polynomials. Implementation of Long Number Operations.</a></div></details><details ><summary>V. Intermediate Topics</summary><div class="group-items"><a href="21_Game_Theory.html" class="">21. Games with Parity and Symmetry Strategies.</a><a href="22_Bitwise_Operations.html" class="">22. Bitwise Operations and Applications.</a><a href="23_Dynamic_Programming.html" class="">23. Dynamic Programming Classic One-dimensional and Two-dimensional Problems.</a><a href="24_Graph_Algorithms.html" class="">24. Graphs Representation and Traversal.</a><a href="25_Union_Find.html" class="">25. Disjoint Set Union (DSU)  Union-Find Structure.</a></div></details><details ><summary>VI. Advanced Structures</summary><div class="group-items"><a href="26_Tree_Structures.html" class="">26. Binary Trees and Search Trees.</a><a href="27_Advanced_Geometry_SweepLine.html" class="">27. Computational Geometry Oriented Point Triplets and Applications.</a><a href="28_Advanced_Combinatorics.html" class="">28. Permutations Basic Properties.</a><a href="29_Arithmetic_Expressions.html" class="">29. Arithmetic Expressions Representation, Calculation, and Transformation.</a><a href="30_Hashing.html" class="">30. Hashing.</a></div></details><details ><summary>VII. Expert Topics I</summary><div class="group-items"><a href="31_Special_Number_Sequences.html" class="">31. Catalan Numbers. Gray Codes. Partitioning of Sets and Numbers.</a><a href="32_Geometry_Polygons.html" class="">32. Computational Geometry Relative Position of Points and Lines.</a><a href="33_Advanced_Graph_Algorithms.html" class="">33. Graphs Biconnectivity, Strong Connectivity, Matchings.</a><a href="34_Advanced_Data_Structures.html" class="">34. Advanced Data Structures</a><a href="35_Advanced_DP.html" class="">35. Dynamic Programming Profiles, Recursions, and Relations.</a></div></details><details ><summary>VIII. Expert Topics II</summary><div class="group-items"><a href="36_String_Algorithms.html" class="">36. Strings Efficient Structures and Algorithms.</a><a href="37_Advanced_Game_Theory.html" class="">37. Games Nim, Alpha-Beta Pruning. Reactive Games.</a><a href="38_Matrices.html" class="">38. Matrices Multiplication and Exponentiation.</a><a href="39_Voronoi_Diagrams.html" class="">39. Voronoi Diagrams.</a><a href="40_Flows_Cuts.html" class="">40. Minimum Cut.</a></div></details><details ><summary>IX. Master Class</summary><div class="group-items"><a href="41_Advanced_Heaps.html" class="">41. Complex Variants of Heaps (Binomial and Fibonacci Heaps).</a><a href="42_Suffix_Structures.html" class="">42. Formal Grammars, Automata.</a><a href="43_Linear_Systems.html" class="">43. Systems of Linear Equations.</a><a href="44_Complex_Numbers_FFT.html" class="">44. Complex Numbers.</a></div></details>
+        </div>
+    </div>
+    <div class="main">
+        <div class="top-bar">
+            <a href="../bg/Граф.html" class="btn">🇧🇬 BG</a>
+            <button id="theme-toggle" class="btn">🌙 Dark</button>
+        </div>
+        <div class="content-wrapper">
+            <div class="content">
+                <h1>🌐 Graph Concept</h1>
+<p>Graphs are fundamental data structures used to model relationships between objects. They find application in various fields such as computer science, logistics, network analysis, social networks, and many others. Studying graphs provides a foundation for understanding complex algorithms and applications widely used in practice.</p>
+<h2>📋 Content</h2>
+<ol>
+<li><strong>Definition and Types of Graphs</strong>  </li>
+<li><strong>Basic Components of Graphs</strong>  </li>
+<li><strong>Types of Graph Representation</strong>  <ul>
+<li>Adjacency Matrix  </li>
+<li>Adjacency List  </li>
+<li>Edge List  </li>
+</ul>
+</li>
+<li><strong>Operations on Graphs</strong>  </li>
+<li><strong>Graph Traversal</strong>  <ul>
+<li>BFS (Breadth-First Search)  </li>
+<li>DFS (Depth-First Search)  </li>
+</ul>
+</li>
+<li><strong>Special Types of Graphs</strong>  <ul>
+<li>Cycles  </li>
+<li>Trees  </li>
+<li>Bipartite Graphs  </li>
+</ul>
+</li>
+<li><strong>Graph Applications</strong>  </li>
+<li><strong>Examples and Code</strong>  </li>
+<li><strong>Conclusion</strong></li>
+</ol>
+<h2>🖋️ Definition and Types of Graphs</h2>
+<p>A <strong>Graph</strong> ( G = (V, E) ) consists of:
+-  V : A set of vertices (or nodes).
+-  E : A set of edges connecting pairs of vertices.</p>
+<h3>Types of Graphs</h3>
+<ol>
+<li><strong>Directed Graphs</strong>:</li>
+<li>Edges have a direction ((u, v) ≠ (v, u)).</li>
+<li>
+<p>Example: Graph of web pages where each page has links to others.</p>
+</li>
+<li>
+<p><strong>Undirected Graphs</strong>:</p>
+</li>
+<li>Edges do not have a direction ((u, v) = (v, u)).</li>
+<li>
+<p>Example: Modeling friendships in a social network.</p>
+</li>
+<li>
+<p><strong>Weighted Graphs</strong>:</p>
+</li>
+<li>
+<p>Each edge has an associated weight or cost (e.g., distance, time, expenses).</p>
+</li>
+<li>
+<p><strong>Connected Graphs</strong>:</p>
+</li>
+<li>
+<p>There is a path between every pair of vertices.</p>
+</li>
+<li>
+<p><strong>Trees</strong>:</p>
+</li>
+<li>A connected graph without cycles. </li>
+<li>
+<p>A special case of a graph used in many algorithms.</p>
+</li>
+<li>
+<p><strong>Bipartite Graphs</strong>:</p>
+</li>
+<li>Vertices can be divided into two disjoint sets such that every edge connects a vertex in one set to a vertex in the other.</li>
+</ol>
+<h2>⚙️ Basic Components of Graphs</h2>
+<ol>
+<li><strong>Vertices</strong>: The objects that are connected.</li>
+<li><strong>Edges</strong>: The connections between vertices.</li>
+<li><strong>Degree of a Vertex</strong>:</li>
+<li><strong>Undirected Graph</strong>: Number of incident edges.</li>
+<li><strong>Directed Graph</strong>: <ul>
+<li><strong>In-degree</strong>: Number of incoming edges.</li>
+<li><strong>Out-degree</strong>: Number of outgoing edges.</li>
+</ul>
+</li>
+<li><strong>Paths</strong>: A sequence of vertices connected by edges.</li>
+<li><strong>Cycles</strong>: A closed path where the first and last vertex coincide.</li>
+</ol>
+<h2>📊 Types of Graph Representation</h2>
+<h3>1. Adjacency Matrix</h3>
+<p>A 2D array n × n , where A[i][j] is:
+- 1 (or the weight) if there is an edge between i and j.
+- 0 if there is no edge.</p>
+<h4>Example:</h4>
+<p>Undirected graph with vertices {A, B, C}:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong></td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>B</strong></td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h3>2. Adjacency List</h3>
+<p>A list where each vertex is connected to a set of adjacent vertices.</p>
+<h4>Example:</h4>
+<pre><code>A: B, C
+B: A, C
+C: A, B
+</code></pre>
+<h3>3. Edge List</h3>
+<p>A list of pairs (u, v) representing the edges of the graph.</p>
+<h4>Example:</h4>
+<pre><code>(A, B)
+(A, C)
+(B, C)
+</code></pre>
+<h2>🔄 Operations on Graphs</h2>
+<ol>
+<li><strong>Adding Vertices</strong>: Adds a new vertex to the graph.</li>
+<li><strong>Removing Vertices</strong>: Removes an existing vertex and its connected edges.</li>
+<li><strong>Adding Edges</strong>: Creates a connection between two vertices.</li>
+<li><strong>Removing Edges</strong>: Removes an existing connection between two vertices.</li>
+</ol>
+<h2>🔍 Graph Traversal</h2>
+<h3>BFS (Breadth-First Search)</h3>
+<p>Traverses the graph level by level.</p>
+<h4>Algorithm:</h4>
+<ol>
+<li>Add the starting vertex to a queue.</li>
+<li>Mark it as visited.</li>
+<li>While the queue is not empty:</li>
+<li>Dequeue a vertex and process it.</li>
+<li>Add its unvisited neighbors to the queue.</li>
+</ol>
+<h4>Example Code (C++):</h4>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+void bfs(int start, vector&lt;vector&lt;int&gt;&gt;&amp; graph) {
+    vector&lt;bool&gt; visited(graph.size(), false);
+    queue&lt;int&gt; q;
+
+    q.push(start);
+    visited[start] = true;
+
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        cout &lt;&lt; node &lt;&lt; &quot; &quot;;
+
+        for (int neighbor : graph[node]) {
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                q.push(neighbor);
+            }
+        }
+    }
+}
+
+int main() {
+    vector&lt;vector&lt;int&gt;&gt; graph = {
+        {1, 2},
+        {0, 3, 4},
+        {0, 4},
+        {1, 5},
+        {1, 2, 5},
+        {3, 4}
+    };
+
+    bfs(0, graph);
+    return 0;
+}
+</code></pre>
+<h3>DFS (Depth-First Search)</h3>
+<p>Traverses the graph by exploring as far as possible along each branch before backtracking.</p>
+<h4>Example Code (C++):</h4>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+void dfs(int node, vector&lt;vector&lt;int&gt;&gt;&amp; graph, vector&lt;bool&gt;&amp; visited) {
+    visited[node] = true;
+    cout &lt;&lt; node &lt;&lt; &quot; &quot;;
+
+    for (int neighbor : graph[node]) {
+        if (!visited[neighbor]) {
+            dfs(neighbor, graph, visited);
+        }
+    }
+}
+
+int main() {
+    vector&lt;vector&lt;int&gt;&gt; graph = {
+        {1, 2},
+        {0, 3, 4},
+        {0, 4},
+        {1, 5},
+        {1, 2, 5},
+        {3, 4}
+    };
+
+    vector&lt;bool&gt; visited(graph.size(), false);
+    dfs(0, graph, visited);
+    return 0;
+}
+</code></pre>
+<h2>🌟 Special Types of Graphs</h2>
+<ol>
+<li><strong>Cyclic Graphs</strong>: Graphs containing at least one cycle.</li>
+<li><strong>Acyclic Graphs</strong>: Graphs with no cycles.</li>
+<li><strong>Planar Graphs</strong>: Graphs that can be drawn on a plane without edges crossing.</li>
+<li><strong>Dense and Sparse Graphs</strong>:</li>
+<li><strong>Dense</strong>: The number of edges is close to the maximum possible.</li>
+<li><strong>Sparse</strong>: The number of edges is small relative to the number of vertices.</li>
+</ol>
+<h2>🌟 Graph Applications</h2>
+<ol>
+<li><strong>Social Networks</strong>: Modeling connections between users.</li>
+<li><strong>Communication Networks</strong>: Route optimization and traffic management.</li>
+<li><strong>Search Algorithms</strong>: Binary trees, mazes, and routes.</li>
+<li><strong>Artificial Intelligence</strong>: State graphs used in machine learning and planning.</li>
+<li><strong>Logistics</strong>: Optimization of deliveries and routes.</li>
+</ol>
+<h2>📚 Conclusion</h2>
+<p>Graphs are a powerful tool for solving complex problems, providing an intuitive way to represent relationships between objects. Through various techniques for representation, traversal, and analysis, they find application in a wide range of industries. Understanding graphs and related algorithms is key to understanding and developing modern technologies. In-depth study of basic concepts and regular practice with real examples is recommended to master their application.</p>
+            </div>
+            <div class="nav-buttons">
+                <a href="15_Intro_to_Combinatorics.html" class="btn">⬅ Prev</a>
+                <a href="17_STL_Containers_Iterators_Algorithms.html" class="btn">Next ➡</a>
+            </div>
+        </div>
+    </div>
+    <script>
+// Theme Toggle
+const themeBtn = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', currentTheme);
+updateThemeIcon(currentTheme);
+
+themeBtn.addEventListener('click', () => {
+    let theme = document.documentElement.getAttribute('data-theme');
+    theme = theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateThemeIcon(theme);
+});
+
+function updateThemeIcon(theme) {
+    themeBtn.innerText = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+}
+
+// Persist Accordion State
+document.querySelectorAll('details').forEach((el, index) => {
+    const id = `group-${index}`;
+    // Load state
+    const isOpen = localStorage.getItem(id);
+    if (isOpen === 'true') el.setAttribute('open', '');
+    else if (isOpen === 'false') el.removeAttribute('open');
+    
+    // Auto-open if active link inside
+    if (el.querySelector('a.active')) el.setAttribute('open', '');
+
+    // Save state
+    el.addEventListener('toggle', () => {
+        localStorage.setItem(id, el.open);
+    });
+});
+</script>
+</body>
+</html>
