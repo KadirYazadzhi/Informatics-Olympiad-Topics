@@ -12,11 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js (optional, in case site tooling expects it)
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
