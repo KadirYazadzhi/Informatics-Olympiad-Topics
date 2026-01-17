@@ -8,6 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required for peaceiris/actions-gh-pages to push to gh-pages branch
     steps:
       - name: Checkout
         uses: actions/checkout@v4
