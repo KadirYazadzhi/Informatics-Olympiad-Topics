@@ -1,67 +1,81 @@
-# 🔗 Union-Find (DSU): Advanced Techniques
+# 🔗 Disjoint Set Union (DSU) / Union-Find
 
-## 🔙 DSU with Rollback
+DSU is a data structure that tracks a set of elements partitioned into a number of disjoint (non-overlapping) subsets. It provides near-constant time operations to add new sets, merge existing sets, and determine whether elements are in the same set.
 
-Sometimes we need to add edges, answer queries, and then **remove** the last added edges (e.g., in Divide and Conquer on time).
-- Standard Path Compression does not allow easy rollback.
-- Therefore, we use **only Union by Rank/Size** (no Path Compression). Tree depth remains $O(\log N)$.
-- Keep a stack of changes: "Vertex $u$ changed its parent from $u$ to $v$".
-- `rollback()`: Reverts the last change from the stack.
+---
+
+## 1. Core Operations
+
+*   **Find**: Determine which subset a particular element is in. This is used for checking if two elements belong to the same subset.
+*   **Union**: Join two subsets into a single subset.
+
+---
+
+## 2. Optimizations
+
+Without optimization, DSU can degrade to $O(N)$ for both operations. We use two techniques to achieve $O(\alpha(N))$ (Ackermann Inverse):
+
+### 2.1. Path Compression
+During a `find` operation, make every visited node point directly to the root. This flattens the tree.
+
+### 2.2. Union by Rank/Size
+Always attach the smaller tree under the root of the larger tree. This keeps the tree height logarithmic.
 
 ```cpp
-struct DSU_Rollback {
-    vector<int> parent, sz;
-    vector<pair<int, int>> history; // {child, original_parent}
+struct DSU {
+    vector<int> parent;
+    vector<int> sz; // Size of each component
 
-    // ... init ...
-
-    int find(int i) { // No path compression!
-        if (parent[i] == i) return i;
-        return find(parent[i]); 
+    DSU(int n) {
+        parent.resize(n + 1);
+        sz.assign(n + 1, 1);
+        for (int i = 0; i <= n; i++) parent[i] = i;
     }
 
-    void unite(int i, int j) {
-        int root_i = find(i), root_j = find(j);
+    int find(int i) {
+        if (parent[i] == i) return i;
+        return parent[i] = find(parent[i]); // Path compression
+    }
+
+    bool unite(int i, int j) {
+        int root_i = find(i);
+        int root_j = find(j);
         if (root_i != root_j) {
+            // Union by size
             if (sz[root_i] < sz[root_j]) swap(root_i, root_j);
             parent[root_j] = root_i;
             sz[root_i] += sz[root_j];
-            history.push_back({root_j, root_j}); // Record change
-        } else {
-            history.push_back({-1, -1}); // Nothing changed
+            return true; // Successfully merged
         }
-    }
-
-    void rollback() {
-        auto last = history.back(); history.pop_back();
-        if (last.first != -1) {
-            parent[last.first] = last.second;
-            sz[last.second] -= sz[last.first];
-        }
+        return false; // Already in same set
     }
 };
 ```
 
 ---
 
-## 🌲 DSU on Tree (Small-to-Large Merging)
+## 3. Applications
 
-Technique for solving problems like "For every subtree, count distinct colors".
-- Idea: Maintain a `set` of colors for each node.
-- When merging child's `set` with parent's, always move elements from **smaller** to **larger** set.
-- Complexity: Each element is moved at most $O(\log N)$ times. Total $O(N \log^2 N)$.
+### 3.1. Kruskal's Algorithm
+Used to find the Minimum Spanning Tree (MST) by efficiently checking if an edge connects two previously disconnected components.
 
----
+### 3.2. Cycle Detection
+In an undirected graph, if `find(u) == find(v)` before adding edge $(u, v)$, then adding the edge will create a cycle.
 
-## ⚖️ Weighted DSU
-
-Besides parent-child link, keep extra info about the edge.
-- Example: Potential difference $val[u] - val[parent[u]]$.
-- During `find` with Path Compression, update this value too.
-- Application: Checking consistency of a system of equations/inequalities ($A - B = 5$, $B - C = 3 \implies A - C = 8$).
+### 3.3. Dynamic Connectivity
+DSU allows adding edges and checking connectivity online. (Note: standard DSU does not support edge deletion efficiently).
 
 ---
 
-## 🏁 Conclusion
+## 4. Advanced: DSU with Rollback
+If you need to undo operations (e.g., in a Divide and Conquer on queries), you **cannot** use Path Compression. Use only Union by Rank/Size and maintain a stack of changes to revert.
 
-DSU is much more than just finding connected components. The Rollback version is key to solving dynamic problems, and Small-to-Large merging is a standard technique for tree problems. 🚀
+---
+
+## 5. Practice Problems
+1.  **CSES Road Construction**: Standard DSU.
+2.  **UVa 10608**: Friends (Max component size).
+3.  **Codeforces 1213G**: Path Queries (Sorting edges + DSU).
+
+## 6. Conclusion
+DSU is a powerful tool for connectivity problems. Its implementation is short, but its efficiency makes it suitable for huge datasets ($N = 10^6$).
