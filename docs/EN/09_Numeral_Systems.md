@@ -1,39 +1,55 @@
-# 🔢 Numeral Systems: Theory and Conversions
+# 🔢 Numeral Systems
 
-A numeral system is a way of representing numbers using a finite set of symbols (digits).
+How we represent numbers matters. Computers use binary, but we often use hex for compactness.
 
-## 🏛️ Types of Numeral Systems
-1. **Positional**: The value of a digit depends on its position (e.g., decimal, binary).
-2. **Non-positional**: The value of a digit is fixed (e.g., Roman numerals).
+## 1. Common Systems
+*   **Decimal (Base 10)**: 0-9.
+*   **Binary (Base 2)**: 0-1.
+*   **Hexadecimal (Base 16)**: 0-9, A-F.
 
-## 🔄 Converting Between Systems
+## 2. Conversion Algorithms
 
-### 1. From Base $P$ to Decimal
-Use the polynomial representation:
-$$N = d_k P^k + d_{k-1} P^{k-1} + \dots + d_0 P^0$$
-**Example (1011 in binary)**: $1\cdot 2^3 + 0\cdot 2^2 + 1\cdot 2^1 + 1\cdot 2^0 = 8 + 0 + 2 + 1 = 11$.
+### 2.1. Decimal to Base $K$
+Repeatedly take modulo $K$ and divide by $K$.
+The remainders (in reverse order) form the number.
 
-### 2. From Decimal to Base $P$
-Use repeated division by $P$ and record remainders in reverse order.
-
-### 3. Horner's Method
-An efficient way to convert strings to numbers:
 ```cpp
-long long toDecimal(string s, int base) {
-    long long res = 0;
-    for (char c : s) {
-        int val = (isdigit(c) ? c - '0' : c - 'A' + 10);
-        res = res * base + val;
+string toBase(long long n, int base) {
+    if (n == 0) return "0";
+    string digits = "0123456789ABCDEF";
+    string res = "";
+    while (n > 0) {
+        res += digits[n % base];
+        n /= base;
     }
+    reverse(res.begin(), res.end());
     return res;
 }
 ```
 
-## 🛠️ Binary System in Computers
-- **Bits and Bytes**: 8 bits = 1 byte.
-- **Two's Complement**: Method for representing negative numbers in binary.
+### 2.2. Base $K$ to Decimal
+Sum the weighted digits: $\sum d_i \cdot K^i$.
 
----
+```cpp
+long long toDec(string s, int base) {
+    return stoll(s, nullptr, base); // Built-in C++ function
+}
+```
 
-## 🏁 Conclusion
-Knowledge of numeral systems is critical for bitwise operations and solving problems requiring non-standard counting.
+## 3. Tricks
+*   **Binary to Hex**: Group bits by 4. `1010` -> `A`.
+*   **Bitwise operations**: Work directly on the binary representation.
+
+## 4. Built-in Manipulators
+```cpp
+cout << hex << 255; // ff
+cout << uppercase << hex << 255; // FF
+cout << dec; // Switch back
+```
+
+## 5. Practice
+1.  **UVa 382**: Perfection.
+2.  **Codeforces 1144C**: Two Shuffled Sequences.
+
+## 6. Conclusion
+For huge numbers (e.g. 100 digits in base 10), standard types overflow. Use BigInt or string manipulation.
