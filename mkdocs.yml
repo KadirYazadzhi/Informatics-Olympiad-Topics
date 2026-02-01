@@ -1,0 +1,154 @@
+site_name: Informatics Olympiad Topics
+site_url: https://anonymous.github.io/Informatics-Olympiad-Topics/
+repo_url: https://github.com/anonymous/Informatics-Olympiad-Topics
+edit_uri: edit/main/
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+# Use the root directory as the source docs directory
+docs_dir: .
+
+# Navigation structure mapping to your existing folders
+nav:
+  - Home: README.md
+  - Topics (English):
+    - Fundamentals:
+      - '01. Environment & IO': EN/01_Cpp_Environment_Data_Types_IO.md
+      - '02. Operations': EN/02_Operations_Conditionals.md
+      - '03. Loops & Functions': EN/03_Loops_Functions_Strings.md
+      - '04. Divisibility': EN/04_Basic_Divisibility_Tasks.md
+      - '05. Date & Time': EN/05_Date_and_Time_Tasks.md
+    - Arrays & Math:
+      - '06. 1D Arrays': EN/06_One_Dimensional_Array.md
+      - '07. Array Tasks': EN/07_Arrays_Basic_Tasks.md
+      - '07a. Sorting & Strings': EN/07a_Sorting_and_Strings.md
+      - '08. Euclidean Algo': EN/08_Number_Divisibility_Euclidean_Algorithm.md
+      - '09. Numeral Systems': EN/09_Numeral_Systems.md
+      - '09a. BigInt & Random': EN/09a_BigInt_and_Random.md
+      - '10. 2D Arrays': EN/10_Two_Dimensional_Arrays.md
+    - Algorithms:
+      - '11. Computational Geometry': EN/11_Basic_Computational_Geometry.md
+      - '12. Intro to STL': EN/12_Intro_to_STL.md
+      - '13. Stack & Queue': EN/13_Data_Structures_Stack_Queue.md
+      - '14. Recursion': EN/14_Recursion.md
+      - '15. Combinatorics': EN/15_Intro_to_Combinatorics.md
+    - Advanced Basics:
+      - '16. Graphs': EN/16_Graph_Concept.md
+      - '17. STL Containers': EN/17_STL_Containers_Iterators_Algorithms.md
+      - '18. Analysis & Sort': EN/18_Algorithm_Analysis_Quick_Search_Sort.md
+      - '19. Modular Arithmetic': EN/19_Modular_Arithmetic.md
+      - '20. Polynomials': EN/20_Polynomials_BigInt.md
+    - Intermediate:
+      - '21. Game Theory': EN/21_Game_Theory.md
+      - '22. Bitwise Ops': EN/22_Bitwise_Operations.md
+      - '23. Dyn. Programming': EN/23_Dynamic_Programming.md
+      - '24. Graph Algos': EN/24_Graph_Algorithms.md
+      - '25. Union-Find': EN/25_Union_Find.md
+    - Structures:
+      - '26. Trees': EN/26_Tree_Structures.md
+      - '27. Adv. Geometry': EN/27_Advanced_Geometry_SweepLine.md
+      - '28. Adv. Combinatorics': EN/28_Advanced_Combinatorics.md
+      - '29. Expressions': EN/29_Arithmetic_Expressions.md
+      - '30. Hashing': EN/30_Hashing.md
+    - Expert I:
+      - '31. Sequences': EN/31_Special_Number_Sequences.md
+      - '32. Polygons': EN/32_Geometry_Polygons.md
+      - '33. Adv. Graphs': EN/33_Advanced_Graph_Algorithms.md
+      - '34. Adv. Structures': EN/34_Advanced_Data_Structures.md
+      - '35. Adv. DP': EN/35_Advanced_DP.md
+    - Expert II:
+      - '36. String Algos': EN/36_String_Algorithms.md
+      - '37. Adv. Game Theory': EN/37_Advanced_Game_Theory.md
+      - '38. Matrices': EN/38_Matrices.md
+      - '39. Voronoi': EN/39_Voronoi_Diagrams.md
+      - '40. Flows & Cuts': EN/40_Flows_Cuts.md
+    - Master:
+      - '41. Heaps': EN/41_Advanced_Heaps.md
+      - '42. Suffix Structures': EN/42_Suffix_Structures.md
+      - '43. Linear Algebra': EN/43_Linear_Systems.md
+      - '44. FFT': EN/44_Complex_Numbers_FFT.md
+
+  - Теми (Български):
+    - '01. Среда и Вход/Изход': BG/01.md
+    - '02. Операции и Условия': BG/02.md
+    - '03. Цикли и Функции': BG/03.md
+    - '04. Делимост': BG/04.md
+    - '05. Дата и Време': BG/05.md
+    - '06. Едномерен Масив': BG/06.md
+    - '07. Масиви Задачи': BG/07.md
+    - '07a. Сортиране и Низове': BG/07a.md
+    - '08. Евклид и Дроби': BG/08.md
+    - '09. Бройни Системи': BG/09.md
+    - '09a. BigInt и Random': BG/09a.md
+    - '10. Двумерни Масиви': BG/10.md
+    - '11. Компютърна Геометрия': BG/11.md
+    - '12. Увод в STL': BG/12.md
+    - '13. Стек и Опашка': BG/13.md
+    - '14. Рекурсия': BG/14.md
+    - '15. Комбинаторика': BG/15.md
+    - '16. Графи': BG/16.md
+    - '17. STL Контейнери': BG/17.md
+    - '18. Анализ на Алгоритми': BG/18.md
+    - '19. Модулна Аритметика': BG/19.md
+    - '20. Полиноми': BG/20.md
+    - '21. Теория на Игрите': BG/21.md
+    - '22. Побитови Операции': BG/22.md
+    - '23. Динамично Прогр.': BG/23.md
+    - '24. Графови Алгоритми': BG/24.md
+    - '25. Union-Find': BG/25.md
+    - '26. Дървета': BG/26.md
+    - '27. Алг. Геометрия': BG/27.md
+    - '28. Разш. Комбинаторика': BG/28.md
+    - '29. Аритметични Изрази': BG/29.md
+    - '30. Хеширане': BG/30.md
+    - '31. Числови Редици': BG/31.md
+    - '32. Геометрия II': BG/32.md
+    - '33. Напреднали Графи': BG/33.md
+    - '34. Структ. Данни II': BG/34.md
+    - '35. Напреднало ДП': BG/35.md
+    - '36. Низови Алгоритми': BG/36.md
+    - '37. Експертни Игри': BG/37.md
+    - '38. Матрици': BG/38.md
+    - '39. Вороной': BG/39.md
+    - '40. Потоци': BG/40.md
+    - '41. Пирамиди': BG/41.md
+    - '42. Суфиксни Стр.': BG/42.md
+    - '43. Линейни Системи': BG/43.md
+    - '44. FFT': BG/44.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+  - tables
+  - admonition
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
