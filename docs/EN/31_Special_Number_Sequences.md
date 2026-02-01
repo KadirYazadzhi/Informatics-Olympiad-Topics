@@ -1,42 +1,44 @@
-# 🔢 Special Number Sequences: Deep Theory
+# 🔢 Special Number Sequences
 
-## 🔢 Catalan Numbers
+Combinatorics often involves famous sequences.
 
-### Recurrence Relations
-$$C_0 = 1, \quad C_{n+1} = \sum_{i=0}^{n} C_i C_{n-i}$$
-$$C_n = \frac{4n-2}{n+1} C_{n-1}$$
+## 1. Catalan Numbers
 
-### Proof for Parentheses (Reflection Principle)
-The number of paths from $(0,0)$ to $(n,n)$ that do not go above the diagonal $y=x$ is the total number of paths $\binom{2n}{n}$ minus the "bad" paths. Any bad path touches the line $y=x+1$. If we reflect the part of the path up to the first touch across this line, we get a path to $(n-1, n+1)$. Their number is $\binom{2n}{n-1}$.
-$$C_n = \binom{2n}{n} - \binom{2n}{n-1}$$
+Sequence: $1, 1, 2, 5, 14, 42, 132, \dots$
+Formula: $C_n = \frac{1}{n+1} \binom{2n}{n}$
 
----
+### Applications
+$C_n$ counts:
+1.  **Valid Parentheses** of length $2n$.
+2.  **Binary Trees** with $n$ nodes.
+3.  **Triangulations** of $(n+2)$-gon.
+4.  **Dyck Paths** (Grid paths not crossing diagonal).
 
-## 🏗️ Prüfer Sequences
+## 2. Fibonacci Numbers
 
-Encode a tree with $n$ labeled vertices as a sequence of $n-2$ numbers.
-- **Cayley's Formula**: The number of labeled trees on $n$ vertices is $n^{n-2}$.
-- **Encoding**: Repeat $n-2$ times: find the leaf with the smallest label, record its neighbor, and remove the leaf.
+$F_0=0, F_1=1, F_n = F_{n-1} + F_{n-2}$.
 
----
+### Matrix Exponentiation
+Compute $F_n$ for large $n$ ($10^{18}$) in $O(\log n)$.
+$$ \begin{pmatrix} F_{n+1} \\ F_n \end{pmatrix} = \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}^n \begin{pmatrix} F_1 \\ F_0 \end{pmatrix} $$
 
-## 🏁 Gray Codes: Hamiltonian Path in Hypercube
+## 3. Stirling Numbers
 
-A Gray code for $N$ bits describes a Hamiltonian cycle in an $N$-dimensional hypercube (a graph where vertices are $N$-bit numbers and edges connect numbers differing by 1 bit).
+### Second Kind $S(n, k)$
+Ways to partition $n$ items into $k$ non-empty subsets.
+Recurrence: $S(n, k) = k S(n-1, k) + S(n-1, k-1)$.
 
-**Application**: Tower of Hanoi problem. The movement of disks exactly follows bit changes in Gray code.
+### First Kind
+Ways to arrange $n$ items into $k$ cycles.
 
----
+## 4. Bell Numbers
+Total ways to partition $n$ items.
+$B_n = \sum_{k=0}^n S(n, k)$.
 
-## 📂 Integer Partition
+## 5. Derangements
+Permutations of $n$ elements where no element appears in its original position.
+$D_n = (n-1)(D_{n-1} + D_{n-2})$.
 
-**Euler's Pentagonal Number Theorem**:
-$$P(n) = \sum_{k \neq 0, (-1)^k \cdot \text{pent}(k) \le n} (-1)^{k-1} P(n - \text{pent}(k))$$
-where $\text{pent}(k) = \frac{k(3k-1)}{2}$ are generalized pentagonal numbers ($1, 2, 5, 7, 12, 15, \dots$).
-This allows calculating $P(n)$ in $O(n \sqrt{n})$, which is much faster than $O(n^2)$.
-
----
-
-## 🏁 Conclusion
-
-These sequences are the "alphabet" of combinatorial counting. If you see 14 for $N=4$ or 42 for $N=5$ in a problem, it is almost certainly Catalan.
+## 6. Practice
+1.  **SPOJ CATALAN**: Compute $C_n$.
+2.  **UVa 10450**: World Cup Noise (Fibonacci).
