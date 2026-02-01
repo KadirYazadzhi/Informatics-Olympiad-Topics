@@ -1,69 +1,88 @@
-# 🌲 Tree Data Structures: Expert Level
+# 🌳 Tree Structures: Hierarchy and Algorithms
 
-## 🌳 Segment Tree (Advanced)
-
-### 1. Dynamic Segment Tree
-In a standard segment tree, we allocate an array of $4N$. If the range is $[0, 10^9]$, memory will not suffice.
-- **Solution**: Create nodes only when needed (lazy creation). Each node keeps pointers/indices to left and right children.
-- **Complexity**: $O(Q \log (\text{Range}))$ memory and time.
-
-```cpp
-struct Node {
-    long long sum = 0;
-    Node *left = nullptr, *right = nullptr;
-    
-    void update(int l, int r, int pos, int val) {
-        if (l == r) { sum += val; return; } 
-        int mid = l + (r - l) / 2;
-        if (pos <= mid) {
-            if (!left) left = new Node();
-            left->update(l, mid, pos, val);
-        } else {
-            if (!right) right = new Node();
-            right->update(mid + 1, r, pos, val);
-        }
-        sum = (left ? left->sum : 0) + (right ? right->sum : 0);
-    }
-};
-```
-
-### 2. Segment Tree Beats (Ji Driver Segment Tree)
-Allows operations like $A_i = \min(A_i, X)$ for a range.
-- Maintain `max`, `second_max`, and `count_max` in each node.
-- If $X \ge max$, do nothing.
-- If $second\_max < X < max$, update only the maximum.
-- Otherwise, recurse down.
-- Amortized Complexity: $O((N+Q) \log N)$.
+A tree is an undirected graph that is connected and has no cycles. It is a fundamental data structure for representing hierarchies.
 
 ---
 
-## 🌳 Fenwick Tree (BIT) - Extensions
+## 1. Core Properties
 
-### 1. Range Update, Range Query
-Standard BIT supports Point Update, Range Query.
-To support Range Update $[L, R]$ with $+Val$:
-- Use two BITs: $B_1$ and $B_2$.
-- $\text{Sum}(x) = \sum_{i=1}^x A_i$. After adding $v$ in $[L, R]$, the sum for $x \ge R$ increases by $v \cdot (R - L + 1)$.
-- Formula: $\text{Query}(x) = \text{sum}(B_1, x) \cdot x - \text{sum}(B_2, x)$.
-- Update:
-  - `update(B1, L, v)`, `update(B1, R+1, -v)`
-  - `update(B2, L, v * (L-1))`, `update(B2, R+1, -v * R)`
+*   **Nodes and Edges**: A tree with $N$ vertices always has exactly $N-1$ edges.
+*   **Rooted Tree**: A tree with one designated node as the root.
+*   **Leaves**: Nodes with no children.
+*   **Ancestor/Descendant**: Node $u$ is an ancestor of $v$ if $u$ is on the unique path from the root to $v$.
 
-### 2. 2D Fenwick Tree
-For matrix operations.
+---
+
+## 2. Traversals
+
+1.  **Pre-order**: Root, Left, Right.
+2.  **In-order**: Left, Root, Right. (For BST, this yields sorted values).
+3.  **Post-order**: Left, Right, Root. (Useful for subtree DP).
+
+---
+
+## 3. Lowest Common Ancestor (LCA)
+
+The LCA of two nodes $u$ and $v$ is the node deepest in the tree that is an ancestor of both.
+
+### 3.1. Binary Lifting Method ($O(\log N)$)
+Precompute the $2^i$-th ancestor for every node.
+*   `up[u][i]` stores the $2^i$-th ancestor of $u$.
+*   `up[u][i] = up[up[u][i-1]][i-1]`.
+
 ```cpp
-void update(int x, int y, int delta) {
-    for (int i = x; i <= N; i += i & -i)
-        for (int j = y; j <= M; j += j & -j)
-            bit[i][j] += delta;
+int up[MAXN][LOGN];
+int tin[MAXN], tout[MAXN], timer;
+
+void dfs(int u, int p) {
+    tin[u] = ++timer;
+    up[u][0] = p;
+    for (int i = 1; i < LOGN; i++)
+        up[u][i] = up[up[u][i-1]][i-1];
+    for (int v : adj[u])
+        if (v != p) dfs(v, u);
+    tout[u] = ++timer;
+}
+
+bool is_ancestor(int u, int v) {
+    return tin[u] <= tin[v] && tout[u] >= tout[v];
+}
+
+int get_lca(int u, int v) {
+    if (is_ancestor(u, v)) return u;
+    if (is_ancestor(v, u)) return v;
+    for (int i = LOGN - 1; i >= 0; i--) {
+        if (!is_ancestor(up[u][i], v))
+            u = up[u][i];
+    }
+    return up[u][0];
 }
 ```
-Complexity: $O(\log N \log M)$.
 
 ---
 
-## 🏁 Conclusion
+## 4. Tree Diameter
 
-Dynamic trees are key for "huge" coordinates. Segment Tree Beats is a relatively new and powerful technique allowing solutions to problems previously thought unsolvable without sqrt-decomposition.
+The diameter is the longest path between any two nodes in the tree.
+**Two-DFS Algorithm**:
+1.  Run DFS from an arbitrary node $A$ to find the farthest node $B$.
+2.  Run DFS from $B$ to find the farthest node $C$.
+3.  The distance between $B$ and $C$ is the diameter.
 
-```
+---
+
+## 5. Tree DP (Dynamic Programming)
+Solving problems where the state at node $u$ depends on its children.
+Example: Counting the number of nodes in every subtree.
+$size[u] = 1 + \sum_{v \in children(u)} size[v]$.
+
+---
+
+## 6. Practice Problems
+1.  **CSES Tree Diameter**: Basic diameter.
+2.  **CSES Company Queries II**: LCA.
+3.  **Codeforces 191C**: Path counting using LCA and Difference Arrays.
+4.  **UVa 112**: Path Sum.
+
+## 7. Conclusion
+Trees are often simpler to process than general graphs because the path between any two nodes is unique. Mastering LCA and tree DP is essential for competitive programming.
