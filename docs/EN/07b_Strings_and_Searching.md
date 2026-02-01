@@ -1,36 +1,69 @@
-# 📝 Strings and Text Searching
+# 📝 Strings and Searching
 
-Strings are sequences of characters. In competitive programming, they are a source of some of the most difficult and interesting problems.
+Text processing is fundamental. In C++, use `std::string`.
 
-## 🏗️ std::string in C++
-The `std::string` class automatically manages memory and provides powerful methods:
-- `s.size()` / `s.length()`: Length.
-- `s += t`: Concatenation.
-- `s.find(sub)`: Substring search ($O(N \cdot M)$).
-- `s.substr(pos, len)`: Substring extraction.
+## 1. `std::string` Basics
 
-## 🔍 Substring Search Algorithms
+Dynamic, safe, and powerful.
 
-### 1. Naive Search ($O(N \cdot M)$)
-Check every possible starting position. Sufficient for small strings.
-
-### 2. KMP (Knuth-Morris-Pratt) - Intro
-Uses a prefix function to avoid redundant checks of already matched characters. Allows search in **linear time $O(N)$**. (Detailed in Topic 36).
-
-## 🛠️ Useful Techniques
-- **Comparison**: Strings are compared lexicographically. ` "apple" < "banana" `.
-- **Stringstream**: Used for easy parsing of words from a sentence.
+### 1.1. I/O
 ```cpp
-stringstream ss(sentence);
-string word;
-while (ss >> word) { /* processing */ }
+string s;
+cin >> s; // Reads until whitespace
+getline(cin, s); // Reads full line
 ```
 
-## ⚠️ Common Errors
-- **`s.find()` returns `string::npos`**: Always check against this constant before using the result as an index.
-- **Out of bounds**: Accessing `s[s.length()]` is invalid.
+### 1.2. Operations
+*   `s.length()` or `s.size()`
+*   `s += "text"`: Concatenation.
+*   `s.substr(pos, len)`: Extract substring.
+*   `s.push_back(c)` / `s.pop_back()`
 
----
+## 2. Searching
 
-## 🏁 Conclusion
-Strings require attention to characters and boundaries. For advanced problems, look into polynomial hashing and suffix structures.
+### 2.1. `find()`
+Returns index of first occurrence or `string::npos`.
+Complexity: $O(NM)$ worst case.
+
+```cpp
+size_t pos = s.find("pattern");
+if (pos != string::npos) { /* found */ }
+```
+
+### 2.2. Conversions
+*   `to_string(123)` -> `"123"`
+*   `stoi("123")` -> `123` (String to Int)
+*   `stoll("123")` -> `123LL` (String to Long Long)
+
+## 3. Classic Tasks
+
+### 3.1. Palindrome
+Check if $S$ reads same forwards and backwards.
+```cpp
+bool isPalindrome(const string& s) {
+    int n = s.size();
+    for (int i = 0; i < n/2; i++)
+        if (s[i] != s[n-1-i]) return false;
+    return true;
+}
+```
+
+### 3.2. Anagrams
+Sort both strings and compare.
+`sort(s.begin(), s.end());`
+
+### 3.3. StringStream
+Useful for parsing space-separated values.
+```cpp
+stringstream ss("Ivan 25");
+string name; int age;
+ss >> name >> age;
+```
+
+## 4. ASCII and Chars
+*   `'a'` to `'z'` are contiguous.
+*   `int digit = c - '0';`
+*   `char lower = toupper('a');`
+
+## 5. Conclusion
+For advanced searching (KMP, Z-algo), see Topic 36. For basic tasks, `std::string` methods are sufficient.
