@@ -1,29 +1,57 @@
-# 🧮 One-dimensional Arrays: Memory and Management
+# 🔢 One-Dimensional Arrays
 
-A one-dimensional array is a continuous region in memory storing elements of the same type. In C++, arrays are extremely fast due to direct memory access.
+Arrays are the simplest data structure, storing elements of the same type contiguously in memory.
 
-## 🧠 Internal Representation and Memory
-When you define `int arr[10]`, the compiler allocates `10 * sizeof(int)` bytes (usually 40 bytes).
-- **Address Arithmetic**: The address of element `arr[i]` is calculated as `BaseAddress + i * sizeof(type)`. This happens in $O(1)$ time.
-- **Cache Locality**: Since elements are adjacent, the CPU loads them into the cache simultaneously, making arrays faster than linked lists.
+## 1. Declaration
 
-## 🚀 Optimization of Array Work
-1. **Passing to Functions**: Arrays are always passed by pointer. Changes inside the function affect the original array.
-2. **Static vs Dynamic**:
-   - Static: `int a[100];` (on stack, fixed size).
-   - Dynamic: `std::vector<int> v;` (on heap, variable size).
-
-## 🛠️ Common Techniques (Two Pointers)
-The "two pointers" technique allows solving problems in $O(N)$ instead of $O(N^2)$.
-- **Example**: Finding two elements with sum $S$ in a sorted array.
+### 1.1. Static Arrays
+Size must be known at compile time.
 ```cpp
-int i = 0, j = n - 1;
-while (i < j) {
-    if (a[i] + a[j] == S) return {i, j};
-    if (a[i] + a[j] < S) i++;
-    else j--;
-}
+int arr[100]; // Indices 0 to 99
 ```
 
-## 🏁 Conclusion
-Arrays are the foundation of almost all complex data structures. Understanding their memory management is the first step toward writing high-performance code.
+### 1.2. Global vs Local
+*   **Local**: Stored on **Stack**. Limit ~2-8MB.
+*   **Global**: Stored in **Data Segment**. Limit ~256MB+. Always zero-initialized.
+
+**Tip**: Always declare large arrays globally or use `vector`.
+
+## 2. Common Errors
+*   **Out of Bounds**: Accessing `arr[N]` is undefined behavior (often segfault).
+*   **Off-by-one**: Loop condition `i <= n` instead of `i < n`.
+
+## 3. Basic Algorithms
+
+### 3.1. Min/Max
+```cpp
+int minVal = arr[0];
+for (int i = 1; i < n; i++) minVal = min(minVal, arr[i]);
+```
+
+### 3.2. Sum and Average
+Use `long long` for sum to avoid overflow.
+
+### 3.3. Reverse
+`std::reverse(arr, arr + n);` or manual swap.
+
+### 3.4. Check Sorted
+Loop `i` from `0` to `n-2`. If `arr[i] > arr[i+1]`, then not sorted.
+
+## 4. `std::vector` - The Modern Array
+Preferred in C++.
+*   Dynamic size.
+*   Stored on **Heap**.
+*   `v.push_back(x)`, `v.size()`.
+
+```cpp
+vector<int> v(n); // Vector of size n (zeros)
+```
+
+## 5. Practice
+1.  Reverse an array.
+2.  Find second largest element.
+3.  Remove duplicates from sorted array.
+4.  Rotate array.
+
+## 6. Conclusion
+Master array indexing. It's the foundation of everything else.
