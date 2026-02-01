@@ -1,39 +1,69 @@
-# 📐 Geometry: Polygons and Lattices
+# 🔷 Polygon Geometry
 
-## 🕸️ Pick's Theorem
+Polygons are sequences of points.
+Vertices are usually given in CCW or CW order.
 
-Allows finding the area of a polygon whose vertices lie on an integer lattice.
-$$S = I + \frac{B}{2} - 1$$
-- $S$: Area of the polygon.
-- $I$: Number of interior integer points.
-- $B$: Number of integer points on the boundary.
+## 1. Area (Shoelace Formula)
+Area of a simple polygon with vertices $(x_1, y_1), \dots, (x_n, y_n)$:
 
-$B$ is easily found: for a segment between $(x_1, y_1)$ and $(x_2, y_2)$, the number of points is $\gcd(|x_1-x_2|, |y_1-y_2|)$.
-$S$ is found via Shoelace formula.
-From this, we can find $I = S - B/2 + 1$.
+$2 \cdot S = \left| \sum_{i=1}^{n} (x_i y_{i+1} - x_{i+1} y_i) \right|$
+where $(x_{n+1}, y_{n+1}) = (x_1, y_1)$.
 
----
+Equivalent to the sum of cross products of vectors from origin.
 
-## ✂️ Half-plane Intersection
+```cpp
+long long polygonArea2(const vector<Point>& p) {
+    long long area = 0;
+    int n = p.size();
+    for (int i = 0; i < n; i++) {
+        area += cross(p[i], p[(i + 1) % n]);
+    }
+    return abs(area); // Returns 2 * Area
+}
+```
 
-Every line $Ax + By + C \le 0$ defines a half-plane. The intersection of $N$ half-planes is always a **convex region** (can be unbounded or empty).
-- Used for finding the kernel of a polygon or problems like "Where can a camera be placed to see everything?".
-- **Algorithm**: Sort lines by angle and use a `deque`. Complexity $O(N \log N)$.
+## 2. Pick's Theorem
+For a lattice polygon (vertices on integer coordinates):
+$S = I + \frac{B}{2} - 1$
+*   $S$: Area.
+*   $I$: Interior integer points.
+*   $B$: Boundary integer points.
 
----
+Boundary points $B$ can be found via GCD of coordinate differences:
+$B = \sum \gcd(|x_i - x_{i+1}|, |y_i - y_{i+1}|)$
 
-## 🐢 Rotating Calipers
+## 3. Point in Polygon
 
-A method for solving problems on convex polygons in $O(N)$.
-Idea: "Rotate" two parallel supporting lines around the polygon.
+### 3.1. Convex Polygon
+$O(\log N)$ using binary search on angles (if vertices are sorted).
 
-**Applications**:
-1. **Diameter (Farthest Pair)**: Maximum distance between two points.
-2. **Width of Polygon**: Minimum distance between two parallel supporting lines.
-3. **Minimum Bounding Rectangle**: Rectangle with minimum area containing the polygon.
+### 3.2. General Polygon (Ray Casting)
+Cast a ray from $P$ to $+\infty$. Count intersections with edges.
+*   Odd intersections $\implies$ Inside.
+*   Even intersections $\implies$ Outside.
+*   Corner cases: Point on edge, Ray passes through vertex.
 
----
+```cpp
+bool isInside(const vector<Point>& p, Point pt) {
+    int n = p.size();
+    bool inside = false;
+    for (int i = 0, j = n - 1; i < n; j = i++) {
+        if (((p[i].y > pt.y) != (p[j].y > pt.y)) &&
+            (pt.x < (p[j].x - p[i].x) * (pt.y - p[i].y) / (double)(p[j].y - p[i].y) + p[i].x)) {
+            inside = !inside;
+        }
+    }
+    return inside;
+}
+```
 
-## 🏁 Conclusion
+## 4. Convex Hull
+The smallest convex polygon containing all points. (See Sweep-Line topic).
 
-Pick's Theorem is mandatory for lattice problems. Rotating Calipers is an elegant method transforming $O(N^2)$ search into $O(N)$, but requires careful implementation of angles.
+## 5. Practice
+1.  **Codeforces 166B**: Polygon.
+2.  **POJ 1265**: Area (Pick's theorem).
+3.  **SPOJ GSSQ**: General queries.
+
+## 6. Conclusion
+Always work with $2 \cdot S$ (doubled area) to keep calculations in integers (`long long`).
