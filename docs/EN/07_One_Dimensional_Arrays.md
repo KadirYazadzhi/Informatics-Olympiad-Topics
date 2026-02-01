@@ -1,57 +1,81 @@
-# 🔢 One-Dimensional Arrays
+# 🔢 One-Dimensional Arrays: Foundations and Techniques
 
-Arrays are the simplest data structure, storing elements of the same type contiguously in memory.
+The one-dimensional array is the most basic yet versatile data structure in computer science. It stores elements of the same type in contiguous memory locations, allowing for $O(1)$ random access.
 
-## 1. Declaration
+---
 
-### 1.1. Static Arrays
-Size must be known at compile time.
-```cpp
-int arr[100]; // Indices 0 to 99
-```
+## 1. Memory and Performance
 
-### 1.2. Global vs Local
-*   **Local**: Stored on **Stack**. Limit ~2-8MB.
-*   **Global**: Stored in **Data Segment**. Limit ~256MB+. Always zero-initialized.
+### 1.1. Contiguity
+Because elements are side-by-side, arrays have excellent **CPU cache locality**. Iterating through an array is one of the fastest operations a processor can perform.
 
-**Tip**: Always declare large arrays globally or use `vector`.
+### 1.2. Static vs. Dynamic Allocation
+*   **Static (`int a[100]`)**: Size is fixed at compile-time. Usually stored on the **Stack**.
+*   **Dynamic (`vector<int> a(n)`)**: Size determined at runtime. Stored on the **Heap**.
 
-## 2. Common Errors
-*   **Out of Bounds**: Accessing `arr[N]` is undefined behavior (often segfault).
-*   **Off-by-one**: Loop condition `i <= n` instead of `i < n`.
+**Important**: Local static arrays in C++ are limited by the stack size (typically 1MB - 8MB). For arrays larger than $10^5$ elements, always declare them **globally** or use `std::vector`.
 
-## 3. Basic Algorithms
+---
 
-### 3.1. Min/Max
-```cpp
-int minVal = arr[0];
-for (int i = 1; i < n; i++) minVal = min(minVal, arr[i]);
-```
+## 2. Essential Techniques
 
-### 3.2. Sum and Average
-Use `long long` for sum to avoid overflow.
-
-### 3.3. Reverse
-`std::reverse(arr, arr + n);` or manual swap.
-
-### 3.4. Check Sorted
-Loop `i` from `0` to `n-2`. If `arr[i] > arr[i+1]`, then not sorted.
-
-## 4. `std::vector` - The Modern Array
-Preferred in C++.
-*   Dynamic size.
-*   Stored on **Heap**.
-*   `v.push_back(x)`, `v.size()`.
+### 2.1. Prefix Sums
+To answer "sum of range $[L, R]$" queries in $O(1)$.
+1.  Compute $P[i] = A[0] + \dots + A[i]$.
+2.  $	ext{Sum}(L, R) = P[R] - P[L-1]$.
 
 ```cpp
-vector<int> v(n); // Vector of size n (zeros)
+vector<long long> pref(n + 1, 0);
+for (int i = 0; i < n; i++) pref[i+1] = pref[i] + A[i];
 ```
 
-## 5. Practice
-1.  Reverse an array.
-2.  Find second largest element.
-3.  Remove duplicates from sorted array.
-4.  Rotate array.
+### 2.2. Difference Arrays
+To perform "add $X$ to range $[L, R]$" updates in $O(1)$.
+1.  Let $D[i] = A[i] - A[i-1]$.
+2.  Range update $[L, R] + X \implies D[L] += X, D[R+1] -= X$.
+3.  Reconstruct $A$ using prefix sums of $D$.
+
+### 2.3. Sliding Window
+Used to find optimal subarrays (e.g., "max sum subarray of fixed length $K$").
+Instead of recomputing the sum, subtract the element leaving the window and add the one entering.
+
+---
+
+## 3. Common Array Tasks
+
+### 3.1. Frequency Array
+If values are small integers, use their values as indices to count occurrences.
+```cpp
+int freq[1001] = {0};
+for (int x : A) freq[x]++;
+```
+
+### 3.2. Two Pointers
+Used on **sorted** arrays to find pairs satisfying a condition ($O(N)$ instead of $O(N^2)$).
+```cpp
+int i = 0, j = n - 1;
+while (i < j) {
+    if (A[i] + A[j] == target) return true;
+    if (A[i] + A[j] < target) i++;
+    else j--;
+}
+```
+
+---
+
+## 4. Safety and Best Practices
+
+1.  **Bounds Checking**: Accessing `A[n]` is **Undefined Behavior**. It might crash (Segfault) or silently corrupt other data.
+2.  **Initialization**: Global arrays are initialized to 0. Local static arrays contain "garbage" (random values). Always initialize: `int a[100] = {0};`.
+3.  **Use `long long`**: When summing large array elements, `int` will overflow ($2^{31}-1 \approx 2 \cdot 10^9$).
+
+---
+
+## 5. Practice Problems
+1.  **CSES Static Range Sum Queries**: Prefix Sums.
+2.  **CSES Maximum Subarray Sum**: Kadane's Algorithm.
+3.  **Codeforces 279B**: Books (Sliding Window).
+4.  **UVa 10038**: Jolly Jumpers.
 
 ## 6. Conclusion
-Master array indexing. It's the foundation of everything else.
+The array is the starting point for almost all competitive programming algorithms. Mastering prefix sums, two pointers, and sliding windows will solve a surprisingly large percentage of introductory problems.
