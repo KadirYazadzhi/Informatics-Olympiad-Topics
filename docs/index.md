@@ -1,6 +1,6 @@
 # 🇬🇧 Informatics Olympiad Topics
 
-Available in: [🇧🇬 Български](README_BG.md) | [🇬🇧 English](README.md)
+Available in: [🇧🇬 Български](index.bg.md) | [🇬🇧 English](index.md)
 
 This repository contains a list of topics and key concepts often found in informatics problems. Each topic is structured to assist students in preparing for programming olympiads and competitions.
 
