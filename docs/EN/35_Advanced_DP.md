@@ -1,34 +1,65 @@
-# 🔄 Dynamic Programming: Expert Optimizations
+# 🧠 Advanced Dynamic Programming
 
-## 🌳 Li Chao Tree
+Techniques to optimize DP transitions and handle complex state spaces.
 
-Structure for maintaining a set of functions (usually lines $y = mx + c$) and finding max/min at a given point $x$.
-- Similar to segment tree over coordinates $X$.
-- In each node, keep the line that is "best" for the midpoint of the interval.
-- When adding a new line, if it is better than current at mid, swap them and push the worse one recursively down.
-- Complexity: $O(\log (\text{Coordinate Range}))$.
-- More flexible than Convex Hull Trick as it doesn't require sorted queries or slopes.
+## 1. Tree DP
 
----
+Solving problems on trees using DFS.
 
-## 👽 Alien's Trick (WQS Binary Search)
+### 1.1. Rerooting Technique
+Compute DP for **every node as the root** in $O(N)$.
+1.  **Bottom-up**: Compute answers for a fixed root (e.g., node 1).
+2.  **Top-down**: Move the root to adjacent nodes, updating values in $O(1)$ (removing old subtree, adding new parent).
 
-Optimization technique for problems like: "Find optimal value using exactly $K$ items/operations".
-- If the answer function wrt $K$ is convex/concave, we can remove the $K$ constraint by adding a **cost (penalty) $\lambda$** for each operation use.
-- Binary search for $\lambda$ such that optimal operations count at this cost is exactly $K$.
-- Reduces $O(N \cdot K)$ DP to $O(N \log (\text{Precision}))$.
+## 2. Broken Profile DP (DP on Subsets/Profile)
 
----
+Used for tiling problems on grids ($N \times M$ where $N$ is small).
+The state is a bitmask representing the boundary between processed and unprocessed cells.
+Complexity: $O(M \cdot 2^N)$.
 
-## 🕸️ Connectivity DP (Plug DP)
+## 3. Transition Optimizations
 
-Problems counting Hamiltonian paths, domino tilings, or closed loops in a grid.
-- Profile state must keep info on which cells are connected to each other.
-- Uses **Parenthesis representation** for connectivity.
-- Since valid states are few, use a HashMap to store DP states.
+Given $dp[i] = \min_{j < i} \{ dp[j] + cost(j, i) \}$.
 
----
+### 3.1. Convex Hull Trick (CHT)
+If $cost(j, i) = b_j \cdot a_i + c_j$, each $j$ is a line $y = mx + c$.
+We query the minimum value at $x = a_i$.
+*   Use a Deque if lines are added in sorted order of slope.
+*   Use Li Chao Tree or `std::set` (dynamic hull) otherwise.
+Reduces $O(N^2)$ to $O(N)$ or $O(N \log N)$.
 
-## 🏁 Conclusion
+### 3.2. Divide and Conquer Optimization
+Applicable if $opt[i] \le opt[i+1]$.
+Compute $dp[mid]$ by checking all valid $j$. Let optimal $j$ be $k$.
+Then for $i < mid$, search $j \in [L, k]$. For $i > mid$, search $j \in [k, R]$.
+Reduces $O(N^2)$ to $O(N \log N)$.
 
-Li Chao Tree is the standard for linear function optimization today. Alien's Trick is magic that turns hard constraints into simple cost modifiers.
+## 4. SOS DP (Sum Over Subsets)
+
+Computes sum of values for all submasks of a mask.
+$F[mask] = \sum_{i \subseteq mask} A[i]$.
+
+Naive iteration is $O(3^N)$. SOS DP does it in $O(N \cdot 2^N)$ by iterating bit by bit.
+
+```cpp
+for (int i = 0; i < N; ++i) {
+    for (int mask = 0; mask < (1<<N); ++mask) {
+        if (mask & (1<<i))
+            dp[mask] += dp[mask ^ (1<<i)];
+    }
+}
+```
+
+## 5. Matrix Exponentiation
+For linear recurrences (like Fibonacci) with huge $N$ ($10^{18}$).
+Construct a transition matrix $M$.
+State vector $V_n = M \times V_{n-1} \implies V_n = M^n \times V_0$.
+Compute $M^n$ in $O(K^3 \log N)$.
+
+## 6. Practice
+1.  **Codeforces 1083A**: Maximum Path Sum (Tree DP + CHT).
+2.  **SPOJ NKLEAVES**: Leaves (Convex Hull Trick).
+3.  **HackerRank**: Kingdom Division (Tree DP).
+
+## 7. Conclusion
+Before implementing $O(N^2)$ DP, always check if the cost function satisfies properties like the Quadrangle Inequality or linearity, which allow optimizations.
