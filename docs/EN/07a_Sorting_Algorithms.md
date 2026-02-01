@@ -1,45 +1,57 @@
-# 🔍 Sorting Algorithms: From Basics to Optimization
+# 🔍 Sorting Algorithms
 
-Sorting is one of the most studied topics in computer science. Different algorithms have different applications depending on data size and memory requirements.
+Sorting is a fundamental operation. While `std::sort` is usually enough, understanding the mechanics is key for modification (e.g., counting inversions).
 
-## 🐢 Simple Algorithms ($O(N^2)$)
+## 1. O(N^2) Algorithms
+Good for $N \le 2000$.
 
-### 1. Bubble Sort
-The simplest but slowest. Used only for very small arrays ($N < 1000$).
-- **Optimization**: If no swaps occurred during a pass, the array is sorted and we can stop.
+### 1.1. Bubble Sort
+Repeatedly swaps adjacent elements if they are in wrong order.
+Optimization: Stop if no swaps occurred in a pass.
 
-### 2. Insertion Sort
-Very efficient for "nearly sorted" arrays.
-- **Principle**: Take an element and "insert" it into its correct position among the already sorted elements before it.
+### 1.2. Insertion Sort
+Builds the sorted array one item at a time. Very fast for small or nearly sorted data.
 
----
+## 2. O(N log N) Algorithms
+Required for $N \le 10^5$.
 
-## ⚡ Fast Algorithms ($O(N \log N)$)
+### 2.1. Merge Sort
+Divide and Conquer.
+1.  Divide array into halves.
+2.  Sort halves recursively.
+3.  **Merge** the sorted halves.
+**Key Property**: Stable. Used for counting **Inversions** ($i < j$ but $A[i] > A[j]$).
 
-### 1. Quick Sort
-Uses "Divide and Conquer" strategy. A **Pivot** is chosen.
-- **Important**: Poor pivot choice can lead to $O(N^2)$. C++ `std::sort` uses a hybrid method to avoid this.
+### 2.2. Quick Sort
+Partition based on a pivot.
+*   Elements < pivot go left.
+*   Elements > pivot go right.
+Average $O(N \log N)$, worst case $O(N^2)$.
+C++ `std::sort` uses a hybrid (Introsort) to guarantee $O(N \log N)$.
 
-### 2. Merge Sort
-Always guarantees $O(N \log N)$.
-- **Stability**: Preserves the relative order of equal elements.
-- **Memory**: Requires $O(N)$ additional memory for the auxiliary array.
+## 3. O(N) Algorithms (Non-comparison)
 
----
+### 3.1. Counting Sort
+If values are in range $[0, K]$.
+Count frequencies of each value, then reconstruct.
 
-## 🔢 Non-comparison Sorts ($O(N + K)$)
+### 3.2. Radix Sort
+Sorts digit by digit (from least significant). Uses Counting Sort as a subroutine.
 
-### 1. Counting Sort
-If values are in a small range $[0, K]$.
-- Simply count occurrences of each number and print them out.
+## 4. Custom Sorting
+Use a comparator function or lambda.
 
-### 2. Radix Sort
-Sorts numbers digit by digit (from least significant to most significant).
+```cpp
+struct Point { int x, y; };
 
----
+// Sort by x, then by y
+sort(pts.begin(), pts.end(), [](const Point& a, const Point& b) {
+    if (a.x != b.x) return a.x < b.x;
+    return a.y < b.y;
+});
+```
 
-## 🏁 Which algorithm to use?
-- **Standard**: Always `std::sort()`.
-- **Need Stability**: `std::stable_sort()`.
-- **Small range of numbers**: Counting Sort.
-- **Limited memory**: Heapsort or In-place Quick Sort.
+## 5. Practice
+1.  **Codeforces 61E**: Enemy is weak (Inversion counting).
+2.  **SPOJ INVCNT**: Inversion Count.
+3.  **CSES Towers**: Sorting + Multiset/Greedy.
