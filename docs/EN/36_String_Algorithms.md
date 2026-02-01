@@ -1,33 +1,65 @@
-# 📝 String Algorithms: Expert Level
+# 🧵 String Algorithms
 
-## 🔄 Manacher's Algorithm
+Efficient string processing is crucial. Standard search is $O(NM)$, but we aim for $O(N+M)$.
 
-Finds the longest palindrome centered at each position of the string in $O(N)$. 
-- Transform string to handle even and odd palindromes uniformly: `abc` $\to$ `#a#b#c#`.
-- Maintain `L` and `R` (boundaries of rightmost found palindrome).
-- For current $i$, use mirror value across center of `L-R` to init length, then expand naively.
+## 1. Rolling Hash (Polynomial Hash)
 
----
+Converts strings to integers to allow $O(1)$ comparison.
+$H(S) = \sum_{i=0}^{n-1} S[i] \cdot P^i \pmod M$
+*   $P$: Base (e.g., 31, 53).
+*   $M$: Modulo ($10^9+7$, $10^9+9$).
 
-## 🌲 Palindromic Tree (Eertree)
+To avoid collisions, use **Double Hash** (two pairs of $P, M$).
 
-Structure containing **all unique palindromes** in a string as nodes.
-- Has two roots: one for length -1 palindromes (odd extensions) and one for length 0 (even).
-- Each node has a "suffix link" to the longest proper palindromic suffix.
-- Allows adding characters one by one (online) and maintaining palindrome count.
-- Complexity: $O(N)$ time and memory.
+### Substring Hash
+$H(S[i \dots j]) = (H[j] - H[i-1]) \cdot P^{-i} \pmod M$.
 
----
+## 2. KMP Algorithm (Knuth-Morris-Pratt)
 
-## 🔠 Lyndon Factorization
+Uses the **Prefix Function** $\pi$.
+$\pi[i]$ is the length of the longest proper prefix of $S[0 \dots i]$ that is also a suffix of this substring.
 
-A string $S$ is a Lyndon word if it is strictly smaller (lexicographically) than all its proper suffixes.
-- **Theorem**: Every string has a unique factorization $S = w_1 w_2 \dots w_k$, where $w_i$ are Lyndon words and $w_1 \ge w_2 \ge \dots \ge w_k$.
-- **Duval's Algorithm**: Finds factorization in $O(N)$ and $O(1)$ memory.
-- **Application**: Finding minimal cyclic shift (it is simply $w_k$ from factorization of $S+S$).
+### Applications
+1.  **Pattern Matching**: Construct string $P + \# + T$. If $\pi[i] == |P|$, match found.
+2.  **Periodicity**: Minimum period length is $N - \pi[N-1]$ (if valid).
 
----
+```cpp
+vector<int> prefix_function(string s) {
+    int n = s.length();
+    vector<int> pi(n);
+    for (int i = 1; i < n; i++) {
+        int j = pi[i-1];
+        while (j > 0 && s[i] != s[j])
+            j = pi[j-1];
+        if (s[i] == s[j])
+            j++;
+        pi[i] = j;
+    }
+    return pi;
+}
+```
 
-## 🏁 Conclusion
+## 3. Z-Algorithm
 
-Manacher is a classic. Eertree is a relatively new structure (2014) but became standard for palindrome problems because it's much more intuitive than suffix tree manipulations.
+Computes the **Z-function**.
+$Z[i]$ is the length of the longest common prefix between $S$ and the suffix starting at $i$.
+Often simpler to understand and implement than KMP for pattern matching.
+
+## 4. Manacher's Algorithm
+
+Finds the longest palindrome centered at each position in $O(N)$.
+Handles odd and even length palindromes.
+
+## 5. Comparison
+
+| Algorithm | Complexity | Use Case |
+| :--- | :--- | :--- |
+| **Hash** | $O(N)$ | General purpose, Palindromes, Comparing substrings |
+| **KMP** | $O(N)$ | Single pattern search, Periodicity |
+| **Z-Algo** | $O(N)$ | Similar to KMP |
+| **Aho-Corasick** | $O(N)$ | Multiple pattern search (Dictionary) |
+
+## 6. Practice
+1.  **Codeforces 126B**: Password (KMP properties).
+2.  **SPOJ EPALIN**: Extend to Palindrome.
+3.  **CSES Word Combinations**: Aho-Corasick / Trie DP.
