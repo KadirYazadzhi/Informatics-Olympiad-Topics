@@ -1,42 +1,59 @@
-# 📂 Advanced Data Structures: Expert Level
+# 🌳 Advanced Data Structures
 
-## 🌳 Implicit Treap (Rope)
+Efficiently handling range queries on arrays.
 
-Instead of using element value as key for BST, use its **index** in the array.
-Since indices change on insertion, we don't store them explicitly. Instead, store `size` (subtree size).
-- Root index is `size(left)`.
-- Index of element in right subtree is `size(left) + 1 + index_in_right`.
+## 1. Fenwick Tree (Binary Indexed Tree - BIT)
 
-**Applications**:
-- Insert/delete element at arbitrary position in array in $O(\log N)$.
-- Reverse range in $O(\log N)$ with lazy propagation.
-- Cyclic shift (Cut & Paste) of subarray.
-- This is the structure behind `std::rope` (but better to write your own).
+Best for Prefix Sums with Point Updates.
+*   **Time**: $O(\log N)$ update/query.
+*   **Space**: $O(N)$.
+*   **Code**: Extremely short (~10 lines).
 
----
+## 2. Segment Tree
 
-## 📜 Persistent Segment Tree
+The Swiss Army Knife of range queries.
+*   Can handle Sum, Min, Max, GCD, Matrix Product, etc.
+*   **Range Updates**: Possible via **Lazy Propagation**.
+*   **Time**: $O(\log N)$.
+*   **Space**: $4N$.
 
-Allows access to previous versions of the structure.
-- When updating a node, instead of changing its value, create a **copy** of the node and modify the copy. Parent must also be copied to point to the new copy.
-- This creates $O(\log N)$ new nodes per operation.
+### Implementation Tips
+*   Use an array `tree[4*N]`.
+*   Left child: `2*v`, Right child: `2*v+1`.
+*   Mid: `(tl + tr) / 2`.
 
-**Application: $K$-th number in range $[L, R]$**
-1. Build persistent tree where version $i$ contains numbers from $A[1 \dots i]$.
-2. Count of numbers with value in range $[val\_min, val\_max]$ in interval $[L, R]$ equals `count(root[R]) - count(root[L-1])`.
-3. Descend the tree (like binary search) to find the $K$-th. Complexity $O(\log N)$.
+## 3. Sparse Table
 
----
+Static Range Minimum Query (RMQ) in $O(1)$.
+*   **Precomputation**: $O(N \log N)$ using DP. `st[i][j]` stores min of range starting at $i$ with length $2^j$.
+*   **Query**: Combine two overlapping ranges. $\min(\text{st}[L][k], \text{st}[R - 2^k + 1][k])$.
 
-## 🌲 Link-Cut Tree
+## 4. Sqrt Decomposition
 
-Dynamic structure for maintaining a forest of trees.
-- Operations: `link(u, v)` (connect two trees), `cut(u, v)` (split), `path_query(u, v)`.
-- Uses **Splay Trees** to represent paths (Heavy-Light Decomposition concept, but dynamic).
-- Complexity: $O(\log N)$ amortized.
+Divide array into $\sqrt{N}$ blocks.
+*   **Point Update**: $O(1)$.
+*   **Range Query**: $O(\sqrt{N})$ (sum partial blocks + full blocks).
 
----
+### Mo's Algorithm
+For offline queries. Sort queries to minimize movement of left and right pointers.
+Solves hard problems like "count distinct elements in range" in $O(N \sqrt{N})$.
 
-## 🏁 Conclusion
+## 5. Policy Based Data Structures (PBDS)
 
-Implicit Treap is the most powerful structure for arrays. It can replace segment tree and do things it can't (insert, reverse). Persistence is key for problems with "history" or 2D problems reduced to 1D + time.
+C++ extension (GCC) providing `ordered_set`.
+Supports:
+*   `find_by_order(k)`: k-th smallest element.
+*   `order_of_key(x)`: Number of elements strictly smaller than x.
+
+```cpp
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+```
+
+## 6. Practice
+1.  **CSES Static Range Minimum Queries**: Sparse Table.
+2.  **CSES Dynamic Range Sum Queries**: BIT / SegTree.
+3.  **SPOJ DQUERY**: Distinct Query (Mo's Algo).
+
+```
