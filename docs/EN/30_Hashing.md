@@ -1,44 +1,53 @@
-# 🔑 Hashing: Expert Techniques
+# #️⃣ Hashing and Hash Tables
 
-## 🔄 Minimal Cyclic Shift
+Hashing maps data to integers for $O(1)$ lookups.
 
-Given a string $S$. Find the lexicographically smallest string that can be obtained by cyclic shifts of $S$.
-- **Approach with Hashing**:
-  1. Consider string $S+S$.
-  2. Every cyclic shift of $S$ with length $N$ is a substring of $S+S$ with length $N$.
-  3. We look for index $i \in [0, N-1]$ for which substring $S[i \dots i+N-1]$ is minimal.
-  4. Comparison of two substrings is done via binary search on the length of their Longest Common Prefix (LCP) + hashing. LCP is found in $O(\log N)$, and the next character determines order.
-  5. Total complexity: $O(N \log^2 N)$ or $O(N \log N)$ (because we do $N$ comparisons to find minimum).
+## 1. Hash Tables
 
----
+### 1.1. `std::unordered_map`
+Standard implementation using chaining.
+Weakness: Deterministic hashing for integers makes it vulnerable to anti-hash tests ($O(N^2)$).
 
-## 🌳 Canonical Tree Representation (Tree Hashing)
+### 1.2. Custom Hash (SplitMix64)
+Essential for Codeforces.
 
-How to check if two unrooted trees are isomorphic?
-1. **Find Center**: A tree has 1 or 2 centers. This gives us root(s) for canonicalization.
-2. **Subtree Hashing**:
-   - For each leaf, hash is `()` (or fixed number).
-   - For internal node: Sort hashes of its children, concatenate them, and wrap in parens.
-   - $H(u) = "(" + \text{sort}(H(v_1), H(v_2), \dots) + ")"$.
-   - Instead of strings, use polynomial hashes on sorted children values.
-   
-   $$H(u) = \left( \sum_{v \in children(u)} P(H(v)) \right) \pmod M$$
-   *Warning*: Simple sum is commutative but can lead to collisions for different structures. Better use a complex mixing function.
+```cpp
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
 
----
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<int, int, custom_hash> m;
+```
 
-## 🎲 Randomized Hashing
+### 1.3. `gp_hash_table` (PBDS)
+Faster than `unordered_map` (uses open addressing with quadratic probing).
+Requires `#include <ext/pb_ds/assoc_container.hpp>`.
 
-To avoid "killer tests" in Codeforces (generated specifically to break standard moduli like $10^9+7$):
-1. Use **two moduli**.
-2. Generate base $P$ randomly at program start.
-   ```cpp
-   mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-   int P = uniform_int_distribution<int>(300, 10000)(rng);
-   ```
+## 2. String Hashing (Rolling Hash)
+Covered in Topic 36.
+Allows checking string equality in $O(1)$.
 
----
+## 3. XOR Hashing (Zobrist Hashing)
+Used for checking set equality or subsets.
+Assign a random 64-bit number to each element type.
+Hash of a set = XOR sum of elements.
+*   Add element: `H ^= val`
+*   Remove element: `H ^= val` (same!)
+*   Two sets are equal iff their XOR sums are equal (with high probability).
 
-## 🏁 Conclusion
+## 4. Geometric Hashing
+Mapping 2D points to 1D keys (e.g., for finding collinear points).
+Often involves careful handling of slopes/fractions.
 
-Tree hashing is a standard trick for checking isomorphism. For strings, hashing is often an easier (though probabilistic) alternative to KMP or Suffix Array. Always remember double hashing!
+## 5. Practice
+1.  **Codeforces 1418C**: Mortal Kombat Tower.
+2.  **CSES Array Description**: Count arrays.
