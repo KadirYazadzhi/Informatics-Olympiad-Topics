@@ -27,12 +27,11 @@ theme:
         icon: material/weather-sunny
         name: Switch to light mode
 
-# Use the root directory as the source docs directory
-docs_dir: .
+# Use the root directory as the source docs directory is REMOVED to use default 'docs'
 
 # Navigation structure mapping to your existing folders
 nav:
-  - Home: README.md
+  - Home: index.md
   - Topics (English):
     - Fundamentals:
       - '01. Environment & IO': EN/01_Cpp_Environment_Data_Types_IO.md
@@ -91,6 +90,7 @@ nav:
       - '44. FFT': EN/44_Complex_Numbers_FFT.md
 
   - Теми (Български):
+    - 'Начало (BG)': index.bg.md
     - '01. Среда и Вход/Изход': BG/01.md
     - '02. Операции и Условия': BG/02.md
     - '03. Цикли и Функции': BG/03.md
