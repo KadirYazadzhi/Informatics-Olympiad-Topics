@@ -1,65 +1,89 @@
-# 🧠 Advanced Dynamic Programming
+# 🧠 Advanced Dynamic Programming: Optimizations and Structures
 
-Techniques to optimize DP transitions and handle complex state spaces.
+Dynamic Programming (DP) is often the key to solving complex optimization problems. Once you master the basics (Knapsack, LCS), the next level involves optimizing transitions and handling larger state spaces.
+
+---
 
 ## 1. Tree DP
 
-Solving problems on trees using DFS.
+Trees are recursive by nature, making them perfect for DP.
 
-### 1.1. Rerooting Technique
-Compute DP for **every node as the root** in $O(N)$.
-1.  **Bottom-up**: Compute answers for a fixed root (e.g., node 1).
-2.  **Top-down**: Move the root to adjacent nodes, updating values in $O(1)$ (removing old subtree, adding new parent).
+### 1.1. Core Concept
+Compute $DP[u]$ using values from $DP[v_1], DP[v_2], \dots$ where $v_i$ are the children of $u$ in a rooted tree.
 
-## 2. Broken Profile DP (DP on Subsets/Profile)
+### 1.2. Rerooting Technique
+If you need the DP answer for every node as if it were the root:
+1.  **First DFS**: Compute results for an arbitrary root (e.g., node 1).
+2.  **Second DFS**: Transition from $DP(parent)$ to $DP(child)$ by "removing" the child's subtree from the parent and "adding" the rest of the tree as a new child of the current child.
 
-Used for tiling problems on grids ($N \times M$ where $N$ is small).
-The state is a bitmask representing the boundary between processed and unprocessed cells.
-Complexity: $O(M \cdot 2^N)$.
+---
 
-## 3. Transition Optimizations
+## 2. Bitmask DP
 
-Given $dp[i] = \min_{j < i} \{ dp[j] + cost(j, i) \}$.
+Used when the state involves subsets of a small set ($N \le 20$).
+*   **State**: $DP[mask]$ where `mask` is an integer bitmask.
+*   **TSP (Traveling Salesperson)**: $DP[mask][u]$ is the min cost to visit nodes in `mask` ending at $u$. Complexity: $O(2^N \cdot N^2)$.
+
+---
+
+### 3. Transition Optimizations
+
+Many DP relations look like: $DP[i] = \min_{j < i} \{ DP[j] + Cost(j, i) \}$.
 
 ### 3.1. Convex Hull Trick (CHT)
-If $cost(j, i) = b_j \cdot a_i + c_j$, each $j$ is a line $y = mx + c$.
-We query the minimum value at $x = a_i$.
-*   Use a Deque if lines are added in sorted order of slope.
-*   Use Li Chao Tree or `std::set` (dynamic hull) otherwise.
-Reduces $O(N^2)$ to $O(N)$ or $O(N \log N)$.
+If $Cost(j, i) = m_j \cdot x_i + c_j$, each $j$ defines a line $y = mx + c$.
+We need to find the minimum $y$ for a given $x_i$.
+*   **Static**: If slopes are monotonic, use a Deque ($O(N)$).
+*   **Dynamic**: Use Li Chao Tree or `std::set` with line intersections ($O(N \log N)$).
 
 ### 3.2. Divide and Conquer Optimization
-Applicable if $opt[i] \le opt[i+1]$.
-Compute $dp[mid]$ by checking all valid $j$. Let optimal $j$ be $k$.
-Then for $i < mid$, search $j \in [L, k]$. For $i > mid$, search $j \in [k, R]$.
-Reduces $O(N^2)$ to $O(N \log N)$.
+Applicable if $opt[i] \le opt[i+1]$, where $opt[i]$ is the index $j$ that minimizes $DP[i]$.
+Complexity reduces from $O(N^2)$ to $O(N \log N)$.
+
+### 3.3. Knuth Optimization
+Applicable for interval DP ($DP[i][j]$) if the optimal splitting point $opt[i][j]$ satisfies:
+$$opt[i][j-1] \le opt[i][j] \le opt[i+1][j]$$
+Complexity: $O(N^2)$ instead of $O(N^3)$.
+
+---
 
 ## 4. SOS DP (Sum Over Subsets)
 
-Computes sum of values for all submasks of a mask.
-$F[mask] = \sum_{i \subseteq mask} A[i]$.
-
-Naive iteration is $O(3^N)$. SOS DP does it in $O(N \cdot 2^N)$ by iterating bit by bit.
+Efficiently calculates $F[mask] = \sum_{sub \subseteq mask} A[sub]$ for all masks.
+Instead of $O(3^N)$, SOS DP takes $O(N \cdot 2^N)$.
 
 ```cpp
-for (int i = 0; i < N; ++i) {
-    for (int mask = 0; mask < (1<<N); ++mask) {
-        if (mask & (1<<i))
-            dp[mask] += dp[mask ^ (1<<i)];
+for(int i = 0; i < N; ++i) {
+    for(int mask = 0; mask < (1<<N); ++mask) {
+        if(mask & (1<<i))
+            dp[mask] += dp[mask^(1<<i)];
     }
 }
 ```
 
+---
+
 ## 5. Matrix Exponentiation
-For linear recurrences (like Fibonacci) with huge $N$ ($10^{18}$).
-Construct a transition matrix $M$.
-State vector $V_n = M \times V_{n-1} \implies V_n = M^n \times V_0$.
-Compute $M^n$ in $O(K^3 \log N)$.
 
-## 6. Practice
-1.  **Codeforces 1083A**: Maximum Path Sum (Tree DP + CHT).
-2.  **SPOJ NKLEAVES**: Leaves (Convex Hull Trick).
-3.  **HackerRank**: Kingdom Division (Tree DP).
+For linear recurrences where $N$ is massive ($10^{18}$).
+If $DP_n = a \cdot DP_{n-1} + b \cdot DP_{n-2}$, we use:
+$$\begin{pmatrix} DP_n \\ DP_{n-1} \end{pmatrix} = \begin{pmatrix} a & b \\ 1 & 0 \end{pmatrix} \begin{pmatrix} DP_{n-1} \\ DP_{n-2} \end{pmatrix}$$
+Raise the transition matrix to the power $n$.
 
-## 7. Conclusion
-Before implementing $O(N^2)$ DP, always check if the cost function satisfies properties like the Quadrangle Inequality or linearity, which allow optimizations.
+---
+
+## 6. Digit DP
+
+Used for counting numbers in range $[L, R]$ with specific digit properties (e.g., "sum of digits is prime").
+*   State: `(index, isLess, isStarted, current_property)`.
+
+---
+
+## 7. Practice Problems
+1.  **CSES Tree Distances I & II**: Rerooting.
+2.  **CSES Tree Matching**: Tree DP.
+3.  **Codeforces 319C**: Kalila and Dimna (CHT).
+4.  **CSES Counting Tilings**: Broken Profile DP.
+
+## 8. Conclusion
+Advanced DP is about recognizing patterns. Whether it's a tree structure, a subset problem, or a linear recurrence, there's likely an optimization to bring the complexity down to acceptable limits.
