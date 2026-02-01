@@ -1,39 +1,57 @@
-# ➗ Number Divisibility and Euclidean Algorithm
+# ➗ Divisibility and Euclidean Algorithm
 
-Number theory is the foundation of modern cryptography and algorithmic optimization.
+Number theory is core to CP.
 
-## 📖 Basic Concepts
-- **Divisibility**: Number $a$ is divisible by $b$ ($b|a$) if the remainder $a 
-mod b = 0$.
-- **Prime Numbers**: Numbers with exactly two divisors (1 and itself).
-- **Coprime**: Numbers whose greatest common divisor is 1.
+## 1. Divisibility Rules
+*   **2**: Last digit even.
+*   **3**: Sum of digits divisible by 3.
+*   **4**: Last 2 digits divisible by 4.
+*   **5**: Ends in 0 or 5.
+*   **6**: Divisible by 2 and 3.
+*   **8**: Last 3 digits divisible by 8.
+*   **9**: Sum of digits divisible by 9.
+*   **11**: Alternating sum of digits is 0 or divisible by 11.
 
-## 🔢 Euclidean Algorithm (GCD)
-An efficient way to find the greatest common divisor of two numbers.
+## 2. GCD and LCM
 
-### Iterative Implementation:
+### 2.1. Euclid's Algorithm (GCD)
+$\gcd(a, b) = \gcd(b, a \pmod b)$.
+
 ```cpp
-int gcd(int a, int b) {
-    while (b != 0) {
+long long gcd(long long a, long long b) {
+    while (b) {
         a %= b;
         swap(a, b);
     }
     return a;
 }
 ```
-**Complexity**: $O(\log(\min(a, b)))$. Extremely fast even for 100-digit numbers.
 
-## 📏 Least Common Multiple (LCM)
-Calculated using the formula:
-$$\text{lcm}(a, b) = \frac{|a \cdot b|}{\text{gcd}(a, b)}$$
-*Warning: Divide first, then multiply to avoid overflow.*
+### 2.2. LCM
+$\text{lcm}(a, b) = \frac{|a \cdot b|}{\gcd(a, b)}$.
+Divide first to avoid overflow!
 
-## 🛡️ Remainder Properties
-- $(a + b) \pmod m = (a \pmod m + b \pmod m) \pmod m$
-- $(a \cdot b) \pmod m = (a \pmod m \cdot b \pmod m) \pmod m$
-This allows working with huge results by constantly taking the modulus.
+## 3. Extended Euclidean Algorithm
+Finds $x, y$ such that $ax + by = \gcd(a, b)$.
+Key for finding **Modular Inverse**.
 
----
+```cpp
+long long extended_gcd(long long a, long long b, long long &x, long long &y) {
+    if (b == 0) {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    long long x1, y1;
+    long long d = extended_gcd(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - y1 * (a / b);
+    return d;
+}
+```
 
-## 🏁 Conclusion
-Understanding GCD and divisibility properties is critical for tasks involving cycles, periodicity, and fractional calculations.
+## 4. Practice
+1.  **Codeforces 1152C**: Neko does Maths (LCM properties).
+2.  **UVa 10104**: Euclid Problem.
+
+```
