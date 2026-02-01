@@ -1,63 +1,42 @@
-# 🔀 Advanced Combinatorics: Generation and Coding
+# 🎲 Advanced Combinatorics
 
-## 🔢 Generating Permutations
+Beyond basic counting ($N \choose K$), we explore deeper principles.
 
-### 1. Built-in Next Permutation (How it works?)
-Narayana's algorithm to find the lexicographically next permutation:
-1. Find the largest index $k$ such that $A[k] < A[k+1]$. (If none, this is the last permutation).
-2. Find the largest index $l > k$ such that $A[k] < A[l]$.
-3. Swap $A[k]$ and $A[l]$.
-4. Reverse the elements from $A[k+1]$ to the end.
+## 1. Principle of Inclusion-Exclusion (PIE)
 
-**Complexity**: $O(N)$ worst case, but amortized $O(1)$.
+To find the size of the union of multiple sets:
+$|A \cup B| = |A| + |B| - |A \cap B|$
+General: $| \cup A_i | = \sum |A_i| - \sum |A_i \cap A_j| + \sum |A_i \cap A_j \cap A_k| \dots$
+The sign is $(-1)^{k-1}$ for an intersection of $k$ sets.
 
-### 2. $K$-th Permutation (Decanting Algorithm)
-How to find the $K$-th permutation of $N$ elements directly without generating previous ones?
-- Use the factorial number system.
-- The first element is at index $idx = K / (N-1)!$.
-- Remove this element from the list of available numbers.
-- Update $K \leftarrow K \% (N-1)!$ and repeat for $N-2$.
+### Application: Derangements
+Counting permutations where no element $i$ is at position $i$.
+$D_n = n! \sum_{k=0}^n \frac{(-1)^k}{k!}$.
 
-```cpp
-string getPermutation(int n, int k) {
-    vector<int> numbers;
-    long long fact = 1;
-    for (int i = 1; i <= n; i++) {
-        numbers.push_back(i);
-        if (i < n) fact *= i;
-    }
-    k--; // 0-based index
-    string ans = "";
-    for (int i = n - 1; i >= 0; i--) {
-        int idx = k / fact;
-        ans += to_string(numbers[idx]);
-        numbers.erase(numbers.begin() + idx);
-        if (i > 0) {
-            k %= fact;
-            fact /= i;
-        }
-    }
-    return ans;
-}
-```
+## 2. Stars and Bars
 
----
+Number of ways to distribute $N$ identical items into $K$ distinct boxes.
+*   **Formula**: $\binom{N+K-1}{K-1}$.
+*   If each box must have at least one: $\binom{N-1}{K-1}$.
 
-## 📊 The Twelvefold Way of Combinatorics
+## 3. Burnside's Lemma
 
-Classification of problems placing $N$ balls into $K$ boxes, depending on:
-1. Are balls distinguishable?
-2. Are boxes distinguishable?
-3. Can boxes be empty?
+Counts **distinct** objects under symmetry (rotation, reflection).
+Example: Colorings of a necklace.
 
-Examples:
-- **Distinguishable balls, Distinguishable boxes**: $K^N$.
-- **Indistinguishable balls, Distinguishable boxes**: Stars and Bars $\binom{N+K-1}{K-1}$.
-- **Distinguishable balls, Indistinguishable boxes**: Stirling numbers of the second kind $S(N, K)$.
-- **Indistinguishable balls, Indistinguishable boxes**: Integer Partition $P(N, K)$.
+**Formula**: $N = \frac{1}{|G|} \sum_{g \in G} |X^g|$
+Where $|X^g|$ is the number of configurations fixed by symmetry $g$.
 
----
+## 4. Cayley's Formula
+The number of labeled trees with $N$ vertices is $N^{N-2}$.
+Computed using **Prüfer Sequences**.
 
-## 🏁 Conclusion
+## 5. Lucas Theorem
+To compute $\binom{n}{k} \pmod p$ when $p$ is small prime but $n, k$ are huge.
+Write $n, k$ in base $p$: $n = n_k p^k + \dots + n_0$, $k = k_k p^k + \dots + k_0$.
+$\binom{n}{k} \equiv \prod \binom{n_i}{k_i} \pmod p$.
 
-The ability to convert permutations to numbers (rank) and vice versa is key for problems requiring state indexing. The Stars and Bars formula ($\binom{n+k-1}{k-1}$) is one of the most frequently used in competitions.
+## 6. Practice
+1.  **CSES Binomial Coefficients**: Basics.
+2.  **CSES Creating Strings II**: Multinomial coefficients.
+3.  **Codeforces 451E**: PIE.
