@@ -4,31 +4,31 @@ This topic covers working with complex numbers in competitive programming and on
 
 ## 1. Complex Numbers
 
-Complex numbers are an extension of real numbers. They are of the form $z = a + bi$, where:
+Complex numbers are an extension of the real numbers. They have the form $z = a + bi$, where:
 *   $a$ is the **real part** ($\text{Re}(z)$).
 *   $b$ is the **imaginary part** ($\text{Im}(z)$).
-*   $i$ is the imaginary unit, such that $i^2 = -1$.
+*   $i$ is the imaginary unit, for which $i^2 = -1$.
 
 ### 1.1. Arithmetic Operations
-Given two numbers $z_1 = a_1 + b_1 i$ and $z_2 = a_2 + b_2 i$:
-*   **Addition**: $(a_1 + a_2) + (b_1 + b_2)i$
-*   **Subtraction**: $(a_1 - a_2) + (b_1 - b_2)i$
-*   **Multiplication**: $(a_1 a_2 - b_1 b_2) + (a_1 b_2 + a_2 b_1)i$ (since $i^2 = -1$)
+If we have two numbers $z_1 = a_1 + b_1 i$ and $z_2 = a_2 + b_2 i$:
+*   **Addition**: $(a_1 + a_2) + (b_1 + b_2)i$.
+*   **Subtraction**: $(a_1 - a_2) + (b_1 - b_2)i$.
+*   **Multiplication**: $(a_1 a_2 - b_1 b_2) + (a_1 b_2 + a_2 b_1)i$ (because $i^2 = -1$).
 
 ### 1.2. Geometric Interpretation
 In the complex plane (Argand diagram), the number $z = x + iy$ is represented as a point $(x, y)$.
-*   **Modulus** (magnitude): $|z| = \sqrt{x^2 + y^2}$.
+*   **Modulus** (length): $|z| = \sqrt{x^2 + y^2}$.
 *   **Argument** (angle): $\arg(z) = \theta$ is the angle with the positive x-axis.
 *   **Polar form**: $z = r(\cos \theta + i \sin \theta)$, where $r = |z|$.
-*   **Euler's Formula**: $e^{i\theta} = \cos \theta + i \sin \theta$. Thus $z = r e^{i\theta}$.
+*   **Euler's formula**: $e^{i\theta} = \cos \theta + i \sin \theta$. Therefore $z = r e^{i\theta}$.
 
-Multiplication in polar form is intuitive:
-$z_1 \cdot z_2 = (r_1 r_2) e^{i(\theta_1 + \theta_2)}$.
+Multiplication of complex numbers in polar form is very intuitive:
+$z_1 \cdot z_2 = (r_1 e^{i\theta_1}) (r_2 e^{i\theta_2}) = (r_1 r_2) e^{i(\theta_1 + \theta_2)}$.
 *   Moduli are multiplied.
 *   Angles are added.
 
 ### 1.3. C++ `std::complex`
-C++ provides a built-in class `<complex>`.
+C++ provides a built-in `<complex>` class.
 
 ```cpp
 #include <iostream>
@@ -51,7 +51,7 @@ int main() {
     cout << "Abs of a: " << abs(a) << "\n"; // 5
     cout << "Arg of a: " << arg(a) << "\n"; // in radians
     
-    // Create using polar coordinates
+    // Creation via polar coordinates
     cd c = polar(1.0, PI / 2); // 1 * e^(i*pi/2) = i
     cout << "Polar (0, 1): " << c << "\n";
     
@@ -67,38 +67,54 @@ A polynomial of degree $n-1$ is defined as:
 $A(x) = a_0 + a_1 x + a_2 x^2 + \dots + a_{n-1} x^{n-1}$
 
 There are two main ways to represent a polynomial:
-1.  **Coefficient Representation**: A list of coefficients $[a_0, a_1, \dots, a_{n-1}]$.
+1.  **Coefficient form**: A list of coefficients $[a_0, a_1, \dots, a_{n-1}]$.
     *   Addition: $O(n)$.
-    *   Multiplication: $O(n^2)$.
-    *   Evaluation (Horner): $O(n)$.
-2.  **Point-Value Representation**: A set of $n$ pairs ${\{(x_0, y_0), \dots, (x_{n-1}, y_{n-1})\}}$, where $y_k = A(x_k)$. A polynomial of degree $n-1$ is uniquely determined by $n$ points.
-    *   Addition: $O(n)$.
-    *   Multiplication: $O(n)$ (multiply values $C(x_k) = A(x_k) \cdot B(x_k)$)!
+    *   Multiplication: $O(n^2)$ (each with each).
+    *   Value calculation (Horner's method): $O(n)$.
+2.  **Point-Value form**: A set of $n$ pairs ${\{(x_0, y_0), \dots, (x_{n-1}, y_{n-1})\}}$, where $y_k = A(x_k)$. Every polynomial of degree $n-1$ is uniquely determined by $n$ points.
+    *   Addition: $O(n)$ (values for the same $x$ are added).
+    *   Multiplication: $O(n)$ (values are multiplied: $C(x_k) = A(x_k) \cdot B(x_k)$)!
 
-**FFT Idea**: We want to multiply two polynomials quickly.
-1.  Convert them from Coefficient to Point-Value form (**DFT**).
-2.  Multiply them in $O(n)$ in Point-Value form.
-3.  Convert back to Coefficient form (**Inverse DFT**).
+**The idea of FFT**: We want to multiply two polynomials quickly.
+1.  Transform them from coefficient to point-value form (**DFT**).
+2.  Multiply them in $O(n)$ in point-value form.
+3.  Transform the result back to coefficient form (**Inverse DFT**).
 
-If we choose arbitrary $x$, transformation is slow ($O(n^2)$). But if we choose special points – **Complex Roots of Unity**, we can do it in $O(n \log n)$.
+If we choose arbitrary $x$, the transformation is slow ($O(n^2)$). But if we choose special points – **the complex roots of unity**, we can do it in $O(n \log n)$.
 
 ---
 
 ## 3. Fast Fourier Transform (FFT)
 
 ### 3.1. Roots of Unity
-The complex $n$-th roots of unity are solutions to $x^n = 1$. There are exactly $n$ such numbers, evenly spaced on the unit circle.
-$\omega_n^k = e^{i \frac{2\pi k}{n}} = \cos\left(\frac{2\pi k}{n}\right) + i \sin\left(\frac{2\pi k}{n}\right)$
+The complex $n$-th roots of unity are solutions to the equation $x^n = 1$. There are exactly $n$ such numbers, evenly spaced on the unit circle.
+$\\omega_n^k = e^{i \frac{2\pi k}{n}} = \cos\left(\frac{2\pi k}{n}\right) + i \sin\left(\frac{2\pi k}{n}\right)$
+
+The principal (primitive) root is $\\omega_n = e^{i \frac{2\pi}{n}}$. The others are its powers: $\\omega_n^0, \\omega_n^1, \dots, \\omega_n^{n-1}$.
+
+Important properties:
+1.  $\\omega_n^n = 1$.
+2.  $\\omega_n^{n/2} = -1$.
+3.  $\\omega_{2n}^{2k} = \\omega_n^k$.
 
 ### 3.2. Cooley-Tukey Algorithm
-Let $n$ be a power of 2. We divide $A(x)$ into even and odd indices:
+Let $n$ be an even number. We split the polynomial $A(x)$ into two parts – even and odd indices:
 $A(x) = (a_0 + a_2 x^2 + \dots) + x(a_1 + a_3 x^2 + \dots)$
 $A(x) = A_{even}(x^2) + x A_{odd}(x^2)$
 
-Using properties of roots of unity, the problem for size $n$ reduces to two subproblems of size $n/2$.
+To calculate $A(x)$ at points $x = \\omega_n^k$, we notice symmetry:
+For $0 \le k < n/2$:
+$x = \\omega_n^k \implies x^2 = \\omega_n^{2k} = \\omega_{n/2}^k$
+$A(\omega_n^k) = A_{even}(\\omega_{n/2}^k) + \\omega_n^k A_{odd}(\\omega_{n/2}^k)$
+
+For the "second half" $k' = k + n/2$:
+$\\omega_n^{k + n/2} = -\\omega_n^k$
+$A(\omega_n^{k+n/2}) = A_{even}(\\omega_{n/2}^k) - \\omega_n^k A_{odd}(\\omega_{n/2}^k)$
+
+Thus the problem for size $n$ reduces to two subproblems for size $n/2$.
 Complexity: $T(n) = 2T(n/2) + O(n) \implies O(n \log n)$.
 
-### 3.3. Iterative Implementation
+### 3.3. Recursive Implementation
 
 ```cpp
 #include <vector>
@@ -111,6 +127,38 @@ typedef complex<double> cd;
 const double PI = acos(-1);
 
 void fft(vector<cd> & a, bool invert) {
+    int n = a.size();
+    if (n == 1) return;
+
+    vector<cd> a0(n / 2), a1(n / 2);
+    for (int i = 0; 2 * i < n; i++) {
+        a0[i] = a[2 * i];
+        a1[i] = a[2 * i + 1];
+    }
+
+    fft(a0, invert);
+    fft(a1, invert);
+
+    double ang = 2 * PI / n * (invert ? -1 : 1);
+    cd w(1), wn(cos(ang), sin(ang));
+
+    for (int i = 0; 2 * i < n; i++) {
+        a[i] = a0[i] + w * a1[i];
+        a[i + n / 2] = a0[i] - w * a1[i];
+        if (invert) {
+            a[i] /= 2;
+            a[i + n / 2] /= 2;
+        }
+        w *= wn;
+    }
+}
+```
+
+### 3.4. Iterative Implementation (Optimized)
+Recursion can be slow. The iterative approach uses "Bit-reversal permutation" – the indices are rearranged according to the mirror representation of their bits.
+
+```cpp
+void fft_iterative(vector<cd> & a, bool invert) {
     int n = a.size();
 
     // Bit-reversal permutation
@@ -143,34 +191,36 @@ void fft(vector<cd> & a, bool invert) {
 }
 ```
 
-### 3.4. Polynomial Multiplication
-1.  Resize vectors to the nearest power of 2 (at least $\deg(A) + \deg(B) + 1$).
-2.  Apply FFT.
-3.  Point-wise multiply.
-4.  Apply Inverse FFT.
-5.  Round real parts.
+### 3.5. Polynomial Multiplication
+To multiply two polynomials $A$ and $B$:
+1.  Extend the vectors with zeros to the nearest power of 2 that is at least $\deg(A) + \deg(B) + 1$.
+2.  Apply FFT to $A$ and $B$.
+3.  Multiply element-wise $A[i] = A[i] \cdot B[i]$.
+4.  Apply Inverse FFT to the result.
+5.  (Optional) Round the real parts to the nearest integer.
 
 ```cpp
 vector<int> multiply(vector<int> const& a, vector<int> const& b) {
     vector<cd> fa(a.begin(), a.end()), fb(b.begin(), b.end());
     int n = 1;
-    while (n < a.size() + b.size()) 
+    while (n < (int)(a.size() + b.size())) 
         n <<= 1;
     fa.resize(n);
     fb.resize(n);
 
-    fft(fa, false);
-    fft(fb, false);
+    fft_iterative(fa, false);
+    fft_iterative(fb, false);
 
     for (int i = 0; i < n; i++)
         fa[i] *= fb[i];
 
-    fft(fa, true);
+    fft_iterative(fa, true);
 
     vector<int> result(n);
     for (int i = 0; i < n; i++)
         result[i] = round(fa[i].real());
     
+    // Remove leading zeros if needed
     return result;
 }
 ```
@@ -179,25 +229,46 @@ vector<int> multiply(vector<int> const& a, vector<int> const& b) {
 
 ## 4. Number Theoretic Transform (NTT)
 
-FFT uses `double`, leading to precision errors. For modular arithmetic problems, we use **NTT**.
-*   Instead of complex roots, we use **primitive roots** modulo $P$.
-*   Requires $P = c \cdot 2^k + 1$ (e.g., 998244353).
-*   Guarantees exact integer results.
+FFT uses complex numbers (`double`), which leads to rounding errors. In tasks requiring a result modulo some number, we use **NTT**.
+This is the equivalent of FFT in finite fields (Modular Arithmetic).
+*   Instead of complex roots of unity, we use **primitive roots** modulo $P$.
+*   Requires $P$ to be of a special form: $P = c \cdot 2^k + 1$.
+*   Example: $998244353 = 119 \cdot 2^{23} + 1$. Primitive root $g=3$.
+
+**Advantage**: Works with integers (`long long`), no loss of precision.
+
+### Application of NTT
+Everything is the same as FFT, but:
+1.  All operations are modulo $P$.
+2.  $\\omega_n$ is replaced by $g^{(P-1)/n} \pmod P$.
+3.  $\\omega_n^{-1}$ is replaced by the modular inverse.
+
+```cpp
+const int mod = 998244353;
+const int root = 3; // Primitive root
+// Implementation requires modular exponentiation and modular inverse
+```
 
 ---
 
 ## 5. Fast Walsh-Hadamard Transform (FWHT)
 
-Used for bitwise convolutions (XOR, AND, OR).
-$C[k] = \sum_{i \oplus j = k} A[i] B[j]$.
-Complexity: $O(N \log N)$.
+FWHT is a variant of FFT used for bitmask operations. If we want to find a polynomial $C$ such that:
+$C[k] = \sum_{i \oplus j = k} A[i] B[j]$ (XOR convolution)
+Or for AND/OR operations.
+
+For XOR FWHT, the transformation matrix is very simple:
+$\\begin{pmatrix} 1 & 1 \\ 1 & -1 \\end{pmatrix}$
+This allows multiplication in $O(N \log N)$ instead of $O(N^2)$.
 
 ---
 
-## 6. Practice Problems
-1.  **SPOJ POLARIVAL**: Polynomial evaluation.
-2.  **SPOJ MUL**: Big Integer Multiplication.
-3.  **Codeforces 993E**: Nikita and Order Statistics.
-4.  **CSES Polynomial Queries**.
+## 6. Practice Tasks
+1.  **SPOJ POLARIVAL**: Evaluating a polynomial value.
+2.  **SPOJ MUL**: Multiplication of large numbers (consider the digits as coefficients).
+3.  **Codeforces 993E**: Nikita and Order Statistics (counting subarrays).
+4.  **CSES Problem Set**: Polynomial Queries.
+
+FFT is a powerful tool not only for polynomials but for any tasks involving combinatorics and sums with a fixed index (convolutions).
 
 ```
