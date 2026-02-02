@@ -1,108 +1,345 @@
-# 🧮 Common Fractions: Precision and Implementation
+# 🧮 Common Fractions
 
-In competitive programming, many problems (especially in geometry, probability, or games) require exact numeric results. Using floating-point types like `double` or `long double` can lead to precision errors (e.g., $0.1 + 0.2 \neq 0.3$) that accumulate over many operations. **Common Fractions** (representing numbers as $\frac{P}{Q}$) provide a way to maintain absolute precision using integer arithmetic.
+In many tasks (especially geometric or probabilistic ones), absolute precision is required. Floating-point numbers (`double`, `float`) have limited precision and accumulate errors.
+The solution is to use **Common Fractions** (numerator and denominator).
 
----
+## 1. `Fraction` Structure
 
-## 1. The `Fraction` Structure
-
-A fraction consists of two parts: a **numerator** (upper part) and a **denominator** (lower part).
-
-### 1.1. Core Implementation
-To keep the representation unique and prevent overflow, we must:
-1.  Keep the fraction in **reduced form** (divide both by GCD).
-2.  Ensure the **denominator is always positive** (move sign to numerator).
+A fraction is represented as a pair of integers $\frac{a}{b}$.
+Mandatory condition: $b 
+eq 0$.
+It is a good habit to always maintain the fraction in **irreducible form** and to keep the denominator positive.
 
 ```cpp
 #include <iostream>
-#include <numeric> // for std::gcd since C++17
+#include <numeric> // for std::gcd (C++17) or write your own
 
 using namespace std;
 
+// Helper function for GCD
+long long gcd(long long a, long long b) {
+    return b == 0 ? a : gcd(b, a % b);
+}
+
 struct Fraction {
-    long long n, d; // Numerator, Denominator
+    long long num, den; // Numerator, Denominator
 
-    Fraction(long long _n = 0, long long _d = 1) {
-        if (_d == 0) {
-            // Handle division by zero based on problem requirements
-            _d = 1; 
+    Fraction(long long n = 0, long long d = 1) {
+        if (d == 0) {
+            cerr << "Error: Division by zero!" << endl;
+            d = 1; 
         }
-        if (_d < 0) { _n = -_n; _d = -_d; }
-        long long common = std::gcd(abs(_n), abs(_d));
-        n = _n / common;
-        d = _d / common;
+        long long common = gcd(abs(n), abs(d));
+        num = n / common;
+        den = d / common;
+        if (den < 0) { // The sign is always in the numerator
+            num = -num;
+            den = -den;
+        }
     }
 
-    // Arithmetic Operators
-    Fraction operator+(const Fraction& o) const {
-        // a/b + c/d = (ad + bc) / bd
-        // Optimization: use LCM to keep intermediate numbers smaller
-        long long common_den = (d / std::gcd(d, o.d)) * o.d;
-        return Fraction(n * (common_den / d) + o.n * (common_den / o.d), common_den);
+    // Addition: a/b + c/d = (ad + bc) / bd
+    Fraction operator+(const Fraction& other) const {
+        return Fraction(num * other.den + other.num * den, den * other.den);
     }
 
-    Fraction operator-(const Fraction& o) const {
-        long long common_den = (d / std::gcd(d, o.d)) * o.d;
-        return Fraction(n * (common_den / d) - o.n * (common_den / o.d), common_den);
+    // Subtraction
+    Fraction operator-(const Fraction& other) const {
+        return Fraction(num * other.den - other.num * den, den * other.den);
     }
 
-    Fraction operator*(const Fraction& o) const {
-        return Fraction(n * o.n, d * o.d);
+    // Multiplication
+    Fraction operator*(const Fraction& other) const {
+        return Fraction(num * other.num, den * other.den);
     }
 
-    Fraction operator/(const Fraction& o) const {
-        return Fraction(n * o.d, d * o.n);
+    // Division
+    Fraction operator/(const Fraction& other) const {
+        return Fraction(num * other.den, den * other.num);
     }
 
-    // Comparison Operators (Avoid division!)
-    bool operator<(const Fraction& o) const {
-        // a/b < c/d <=> a*d < c*b
-        return (__int128)n * o.d < (__int128)o.n * d; 
+    // Comparison (Cross-multiplication to avoid division)
+    bool operator<(const Fraction& other) const {
+        return num * other.den < other.num * den;
     }
-
-    bool operator==(const Fraction& o) const {
-        return n == o.n && d == o.d; // Works because they are always reduced
+    bool operator==(const Fraction& other) const {
+        return num == other.num && den == other.den; // Because they are irreducible
     }
-
-    double to_double() const { return (double)n / d; }
+    bool operator<=(const Fraction& other) const {
+        return *this < other || *this == other;
+    }
+    bool operator>(const Fraction& other) const {
+        return !(*this <= other);
+    }
+    bool operator>=(const Fraction& other) const {
+        return !(*this < other);
+    }
+    bool operator!=(const Fraction& other) const {
+        return !(*this == other);
+    }
 };
-```
-*Note: Using `__int128` for comparisons prevents overflow if $n, d$ are near $10^{18}$.*
 
----
+// Output
+ostream& operator<<(ostream& os, const Fraction& f) {
+    if (f.den == 1) os << f.num;
+    else os << f.num << "/" << f.den;
+    return os;
+}
 
-## 2. Advanced Usage and Tips
-
-### 2.1. Handling Mixed Numbers
-To convert $\frac{7}{3}$ to $2 \frac{1}{3}$:
-```cpp
-void printMixed(Fraction f) {
-    long long whole = f.n / f.d;
-    long long rem = abs(f.n % f.d);
-    if (whole != 0) cout << whole << " ";
-    if (rem != 0) cout << rem << "/" << f.d;
-    if (whole == 0 && rem == 0) cout << 0;
+// Input
+istream& operator>>(istream& is, Fraction& f) {
+    long long n, d = 1;
+    char slash;
+    is >> n;
+    if (is.peek() == '/') {
+        is >> slash >> d;
+    }
+    f = Fraction(n, d);
+    return is;
 }
 ```
 
-### 2.2. Precision Comparison with Epsilon
-If you eventually MUST convert to `double`, always use an epsilon (`EPS`) for equality checks:
+## 2. Optimizations
+
+The above implementation uses `num * other.den`, which can overflow `long long` if the numbers are large ($> 10^9$). 
+*   Instead of `Fraction(num * other.den + ...)`, it is better to use the LCM of the denominators:
+    $	ext{LCM} = (den 
+cdot other.den) / 
+cdot gcd(den, other.den)$.
+    This keeps the numbers smaller before reduction.
+
+### Improved version with overflow protection:
+
 ```cpp
-const double EPS = 1e-9;
-if (abs(f1.to_double() - f2.to_double()) < EPS) { ... }
+// LCM function
+long long lcm(long long a, long long b) {
+    return a / gcd(a, b) * b;
+}
+
+// Improved addition
+Fraction addSafe(const Fraction& a, const Fraction& b) {
+    long long l = lcm(a.den, b.den);
+    long long num1 = a.num * (l / a.den);
+    long long num2 = b.num * (l / b.den);
+    return Fraction(num1 + num2, l);
+}
 ```
 
-### 2.3. Fractions in Geometry
-When finding the intersection of two lines $A_1x + B_1y + C_1 = 0$ and $A_2x + B_2y + C_2 = 0$:
-$$x = \frac{B_1C_2 - B_2C_1}{A_1B_2 - A_2B_1}, \quad y = \frac{C_1A_2 - C_2A_1}{A_1B_2 - A_2B_1}$$ 
-These coordinates are naturally fractions. Using the `Fraction` struct here prevents errors when lines are nearly parallel.
+### Working with very large numbers:
 
----
+If the numbers are truly huge, you can use `__int128` or implement a big integer class:
 
-## 3. Practice Problems
-1.  **UVa 10806**: Dijkstra with fractions (if weights are fractions).
-2.  **Codeforces 702A**: Maximum Increase (can be used for slope comparisons).
-3.  **SPOJ MPROPROB**: Probability tasks requiring exact "P/Q" output.
+```cpp
+typedef __int128 lll;
 
-## 4. Conclusion
-The `Fraction` struct is a "black box" utility. Implement it once, test it thoroughly, and keep it in your template library. It is often the difference between a `Wrong Answer` and `Accepted` in geometry problems.
+gcd128(lll a, lll b) {
+    return b == 0 ? a : gcd128(b, a % b);
+}
+
+struct BigFraction {
+    lll num, den;
+    
+    BigFraction(lll n = 0, lll d = 1) {
+        if (d == 0) d = 1;
+        lll g = gcd128(abs(n), abs(d));
+        num = n / g;
+        den = d / g;
+        if (den < 0) {
+            num = -num;
+            den = -den;
+        }
+    }
+    
+    BigFraction operator+(const BigFraction& other) const {
+        return BigFraction(num * other.den + other.num * den, den * other.den);
+    }
+    
+    // Printing for __int128
+    void print() {
+        if (num < 0) {
+            cout << "-";
+            print128(-num);
+        } else {
+            print128(num);
+        }
+        if (den != 1) {
+            cout << "/";
+            print128(den);
+        }
+    }
+    
+private:
+    void print128(lll x) {
+        if (x > 9) print128(x / 10);
+        cout << (char)('0' + x % 10);
+    }
+};
+```
+
+## 3. Mixed Numbers
+
+If you need to output the result as a mixed number (e.g., $7/3 = 2 \frac{1}{3}$):
+```cpp
+void printMixed(Fraction f) {
+    long long whole = f.num / f.den;
+    long long rem = abs(f.num % f.den); // The remainder is always positive for the fractional part
+    if (rem == 0) {
+        cout << whole << endl;
+    } else {
+        if (whole != 0) cout << whole << " ";
+        else if (f.num < 0) cout << "-"; // Only a minus sign if there is no whole part
+        cout << rem << "/" << f.den << endl;
+    }
+}
+```
+
+## 4. Extended Euclidean Algorithm
+
+GCD is the foundation of fractions, but the Extended Euclidean Algorithm offers more:
+
+### 4.1. Basic Algorithm
+
+```cpp
+// Finds GCD and coefficients x, y such that ax + by = gcd(a, b)
+long long extgcd(long long a, long long b, long long& x, long long& y) {
+    if (b == 0) {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    long long x1, y1;
+    long long d = extgcd(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - (a / b) * y1;
+    return d;
+}
+```
+
+### 4.2. Modular Inverse
+
+Finding $a^{-1} 
+cdot 
+mod m$ (necessary for some operations with fractions in modular arithmetic):
+
+```cpp
+long long modinv(long long a, long long m) {
+    long long x, y;
+    long long g = extgcd(a, m, x, y);
+    if (g != 1) return -1; // Inverse does not exist
+    return (x % m + m) % m;
+}
+```
+
+### 4.3. Solving a Linear Diophantine Equation
+
+An equation of the form $ax + by = c$:
+
+```cpp
+bool solveDiophantine(long long a, long long b, long long c,
+                      long long& x, long long& y) {
+    long long g = extgcd(a, b, x, y);
+    if (c % g != 0) return false; // No solution
+    
+    x *= c / g;
+    y *= c / g;
+    return true;
+}
+```
+
+### 4.4. Chinese Remainder Theorem (CRT)
+
+Solving a system of congruences:
+```
+x 
+cdot 
+a1 (mod m1)
+x 
+cdot 
+a2 (mod m2)
+```
+
+```cpp
+pair<long long, long long> crt(long long a1, long long m1,
+                               long long a2, long long m2) {
+    long long x, y;
+    long long g = extgcd(m1, m2, x, y);
+    
+    if ((a2 - a1) % g != 0) return {-1, -1}; // No solution
+    
+    long long lcm_val = m1 / g * m2;
+    long long solution = (a1 + x * m1 * ((a2 - a1) / g)) % lcm_val;
+    if (solution < 0) solution += lcm_val;
+    
+    return {solution, lcm_val};
+}
+```
+
+## 5. Mediant of Fractions
+
+The mediant of $\frac{a}{b}$ and $\frac{c}{d}$ is $\frac{a+c}{b+d}$. It is used in the Stern-Brocot algorithm for finding fractions with a small denominator:
+
+```cpp
+// Stern-Brocot tree for finding the fraction closest to target
+Fraction sternBrocot(double target, int maxDen) {
+    Fraction left(0, 1), right(1, 0); // Boundaries
+    
+    while (true) {
+        // Mediant
+        Fraction mid(left.num + right.num, left.den + right.den);
+        
+        if (mid.den > maxDen) break;
+        
+        double midVal = (double)mid.num / mid.den;
+        if (abs(midVal - target) < 1e-9) return mid;
+        
+        if (midVal < target) {
+            left = mid;
+        } else {
+            right = mid;
+        }
+    }
+    
+    // Returning the closer of left and right
+    double dLeft = abs((double)left.num / left.den - target);
+    double dRight = abs((double)right.num / right.den - target);
+    return dLeft < dRight ? left : right;
+}
+```
+
+## 6. Practical Tasks
+
+1.  **Codeforces 834D**: Egyptian Fractions - representation as a sum $1/a + 1/b + ...$
+2.  **Codeforces 702A**: Maximum increasing subsequence (sometimes fractions help in comparing slopes).
+3.  **Geometry**: Finding the intersection point of two lines ($Ax + By + C = 0$). The result is often a fraction.
+4.  **Probabilities**: Tasks requiring the answer as an irreducible fraction "P/Q".
+5.  **CSES Exponentiation II**: Modular exponentiation with Extended Euclidean.
+6.  **Project Euler 71**: Ordered Fractions - Farey sequences.
+
+## 7. Farey Sequences
+
+The Farey sequence $F_n$ contains all irreducible fractions between 0 and 1 with denominator $\leq n$, arranged in ascending order.
+
+Property: If $\frac{a}{b}$ and $\frac{c}{d}$ are adjacent fractions in $F_n$, then $bc - ad = 1$.
+
+```cpp
+void generateFarey(int n) {
+    Fraction a(0, 1), b(1, n);
+    cout << a << " ";
+    
+    while (b.den != 1 || b.num != 1) {
+        cout << b << " ";
+        
+        int k = (n + a.den) / b.den;
+        Fraction next(k * b.num - a.num, k * b.den - a.den);
+        a = b;
+        b = next;
+    }
+    cout << b << endl;
+}
+```
+
+## 🏁 Conclusion
+
+The `Fraction` class is part of the "battle arsenal" of every competitor. Write it once, test it, and save it in your code library (Template). The Extended Euclidean Algorithm reveals numerous applications - from modular inverse to solving Diophantine equations and the Chinese Remainder Theorem.
+
+```
