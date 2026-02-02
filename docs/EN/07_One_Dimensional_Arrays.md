@@ -1,274 +1,249 @@
-# 🧮 One-dimensional Arrays and Basic Tasks
+# 🔢 One-Dimensional Arrays: Foundations and Tasks
 
-One-dimensional arrays are one of the most important data structures used for storing and processing multiple values of the same type. In this topic, we will examine in detail what they represent, how they are used, and how to solve basic tasks with them.
+An array is the simplest data structure that stores a sequence of elements of the same type at contiguous memory addresses.
 
-## 📚 One-dimensional Arrays
+## 1. Declaration and Access
 
-### What is a One-dimensional Array?
-
-A one-dimensional array is a continuous sequence of elements that can be accessed via an index. Indices start from 0 and increment by 1 up to the array size minus one.
-
-### Declaration and Initialization of Arrays
-
-**Declaration:**
+### 1.1. Static Arrays
+The size must be known at compile-time (except for VLA in C99, but it is not recommended in C++).
 ```cpp
-type array_name[size];
+int arr[100]; // Array of 100 integers
+arr[0] = 5;   // Indexing starts from 0!
 ```
 
-Examples:
+### 1.2. Global vs. Local Arrays
+*   **Local (within a function)**: Allocated on the **Stack**. Memory is limited (usually a few MB). If you define `int a[1000000]` inside `main`, you will get a "Stack Overflow".
+*   **Global (outside functions)**: Allocated in the **Static/Data segment**. They can be very large (up to hundreds of MB). Furthermore, they are automatically initialized with zeros.
+
 ```cpp
-int numbers[5]; // Array of 5 integers
-float values[10]; // Array of 10 floating point numbers
-```
-
-Initialization:
-```cpp
-int numbers[5] = {1, 2, 3, 4, 5};
-float values[] = {3.14, 2.71, 1.41};
-```
-
-## 🔄 Basic Tasks with One-dimensional Arrays
-
-1. Summing Elements
-    ```cpp
-    #include <iostream>
-    using namespace std;
-    
-    int main() {
-        int numbers[5] = {1, 2, 3, 4, 5};
-        int sum = 0;
-    
-        for (int i = 0; i < 5; i++) {
-            sum += numbers[i];
-        }
-    
-        cout << "Sum: " << sum << endl;
-        return 0;
-    }
-    ```
-
-2. Finding Maximum and Minimum Element
-    ```cpp
-    #include <iostream>
-    using namespace std;
-    
-    int main() {
-        int numbers[5] = {3, 7, 1, 9, 4};
-        int max = numbers[0];
-        int min = numbers[0];
-    
-        for (int i = 1; i < 5; i++) {
-            if (numbers[i] > max) max = numbers[i];
-            if (numbers[i] < min) min = numbers[i];
-        }
-    
-        cout << "Maximum: " << max << ", Minimum: " << min << endl;
-        return 0;
-    }
-    ```
-
-3. Sorting an Array
-
-Sorting is the process of arranging array elements in ascending or descending order.
-
-## 🔍 Introduction to Sorting Algorithms
-
-Sorting algorithms play a key role in data processing. The most commonly used methods are:
-
-1. Bubble Sort
-    ```cpp
-    #include <iostream>
-    using namespace std;
-    
-    int main() {
-        int numbers[5] = {5, 3, 8, 6, 2};
-    
-        for (int i = 0; i < 5 - 1; i++) {
-            for (int j = 0; j < 5 - i - 1; j++) {
-                if (numbers[j] > numbers[j + 1]) {
-                    swap(numbers[j], numbers[j + 1]);
-                }
-            }
-        }
-    
-        for (int i = 0; i < 5; i++) {
-            cout << numbers[i] << " ";
-        }
-        return 0;
-    }
-    ```
-
-2. Selection Sort
-    ```cpp
-    #include <iostream>
-    using namespace std;
-    
-    int main() {
-        int numbers[5] = {5, 3, 8, 6, 2};
-    
-        for (int i = 0; i < 5 - 1; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < 5; j++) {
-                if (numbers[j] < numbers[minIndex]) {
-                    minIndex = j;
-                }
-            }
-            swap(numbers[i], numbers[minIndex]);
-        }
-    
-        for (int i = 0; i < 5; i++) {
-            cout << numbers[i] << " ";
-        }
-        return 0;
-    }
-    ```
-
-## 📝 String Manipulation Tools and Searching within Strings
-
-What is a string?
-A string is a sequence of characters processed as a single text value. In C++, strings can be processed via character arrays or via the `string` class.
-
-### Basic String Operations
-
-Example of basic operations:
-```cpp
-#include <iostream>
-#include <string>
-using namespace std;
+int bigArr[1000005]; // OK, global
 
 int main() {
-    string text = "Hello, world!";
-    cout << "String length: " << text.length() << endl;
-    cout << "First character: " << text[0] << endl;
-    cout << "Last character: " << text[text.length() - 1] << endl;
-    return 0;
+    // int huge[1000005]; // ERROR! Stack overflow.
 }
 ```
 
-### Searching in Strings
+## 2. Common Errors
 
-Searching for a substring:
+### 2.1. Out of Bounds
+C++ does not perform a check on whether the index is valid.
 ```cpp
-#include <iostream>
-#include <string>
-using namespace std;
+int a[5];
+a[5] = 10; // ERROR! Valid indices are 0, 1, 2, 3, 4.
+```
+This can lead to changing other variables, infinite loops, or a "Segmentation Fault".
 
-int main() {
-    string text = "Hello, world!";
-    string search = "world";
+### 2.2. Off-by-one errors
+Confusion about whether the loop should be `< N` or `<= N`. For 0-indexed arrays, it is always `< N`.
 
-    size_t found = text.find(search);
-    if (found != string::npos) {
-        cout << "Found at position: " << found << endl;
-    } else {
-        cout << "Substring not found." << endl;
+## 3. Basic Algorithms
+
+### 3.1. Finding Minimum and Maximum
+```cpp
+int minVal = arr[0];
+int maxVal = arr[0];
+for (int i = 1; i < n; i++) {
+    if (arr[i] < minVal) minVal = arr[i];
+    if (arr[i] > maxVal) maxVal = arr[i];
+}
+// Or std::min_element / std::max_element
+```
+
+### 3.2. Sum and Average
+```cpp
+long long sum = 0; // Use long long to avoid overflow
+for (int i = 0; i < n; i++) sum += arr[i];
+double avg = (double)sum / n;
+```
+
+### 3.3. Reverse
+We swap the first with the last, the second with the second-to-last, and so on.
+```cpp
+for (int i = 0; i < n / 2; i++) {
+    swap(arr[i], arr[n - 1 - i]);
+}
+```
+
+### 3.4. Sortedness Check
+```cpp
+bool isSorted = true;
+for (int i = 0; i < n - 1; i++) {
+    if (arr[i] > arr[i+1]) {
+        isSorted = false;
+        break;
     }
-
-    return 0;
 }
 ```
 
-### String Comparison
+## 4. `std::vector` - The Modern Array
+In C++, it is almost always better to use `std::vector`.
+*   Dynamic size.
+*   Keeps its size (`v.size()`).
+*   Stored in the **Heap**, so it can be large even if it is local.
+
 ```cpp
-#include <iostream>
-#include <string>
-using namespace std;
+vector<int> v(n); // Vector with n elements (zeros)
+v.push_back(5);   // Adding to the end
+```
 
-int main() {
-    string str1 = "apple";
-    string str2 = "banana";
+## 5. Two Pointers Technique
+A common technique for solving array tasks in linear time.
 
-    if (str1 < str2) {
-        cout << str1 << " is before " << str2 << " in lexicographical order." << endl;
-    } else {
-        cout << str2 << " is before " << str1 << " in lexicographical order." << endl;
+### 5.1. Removing Duplicates from a Sorted Array
+```cpp
+int removeDuplicates(vector<int>& arr) {
+    if (arr.empty()) return 0;
+    int writePos = 1;
+    for (int i = 1; i < arr.size(); i++) {
+        if (arr[i] != arr[i-1]) {
+            arr[writePos++] = arr[i];
+        }
     }
-
-    return 0;
+    return writePos;
 }
 ```
 
-## 🎯 Conclusion
-
-One-dimensional arrays, sorting algorithms, and string operations are foundational concepts in programming. They provide powerful tools for working with data, searching, and sorting, which are at the core of many algorithms and applications.
-# 🔢 One-Dimensional Arrays: Foundations and Techniques
-
-The one-dimensional array is the most basic yet versatile data structure in computer science. It stores elements of the same type in contiguous memory locations, allowing for $O(1)$ random access.
-
----
-
-## 1. Memory and Performance
-
-### 1.1. Contiguity
-Because elements are side-by-side, arrays have excellent **CPU cache locality**. Iterating through an array is one of the fastest operations a processor can perform.
-
-### 1.2. Static vs. Dynamic Allocation
-*   **Static (`int a[100]`)**: Size is fixed at compile-time. Usually stored on the **Stack**.
-*   **Dynamic (`vector<int> a(n)`)**: Size determined at runtime. Stored on the **Heap**.
-
-**Important**: Local static arrays in C++ are limited by the stack size (typically 1MB - 8MB). For arrays larger than $10^5$ elements, always declare them **globally** or use `std::vector`.
-
----
-
-## 2. Essential Techniques
-
-### 2.1. Prefix Sums
-To answer "sum of range $[L, R]$" queries in $O(1)$.
-1.  Compute $P[i] = A[0] + \dots + A[i]$.
-2.  $	ext{Sum}(L, R) = P[R] - P[L-1]$.
-
+### 5.2. Finding a Pair with a Given Sum (in a sorted array)
+Complexity: $O(N)$ instead of $O(N^2)$.
 ```cpp
-vector<long long> pref(n + 1, 0);
-for (int i = 0; i < n; i++) pref[i+1] = pref[i] + A[i];
-```
-
-### 2.2. Difference Arrays
-To perform "add $X$ to range $[L, R]$" updates in $O(1)$.
-1.  Let $D[i] = A[i] - A[i-1]$.
-2.  Range update $[L, R] + X \implies D[L] += X, D[R+1] -= X$.
-3.  Reconstruct $A$ using prefix sums of $D$.
-
-### 2.3. Sliding Window
-Used to find optimal subarrays (e.g., "max sum subarray of fixed length $K$").
-Instead of recomputing the sum, subtract the element leaving the window and add the one entering.
-
----
-
-## 3. Common Array Tasks
-
-### 3.1. Frequency Array
-If values are small integers, use their values as indices to count occurrences.
-```cpp
-int freq[1001] = {0};
-for (int x : A) freq[x]++;
-```
-
-### 3.2. Two Pointers
-Used on **sorted** arrays to find pairs satisfying a condition ($O(N)$ instead of $O(N^2)$).
-```cpp
-int i = 0, j = n - 1;
-while (i < j) {
-    if (A[i] + A[j] == target) return true;
-    if (A[i] + A[j] < target) i++;
-    else j--;
+bool findPairWithSum(vector<int>& arr, int target) {
+    int left = 0, right = arr.size() - 1;
+    while (left < right) {
+        int sum = arr[left] + arr[right];
+        if (sum == target) return true;
+        else if (sum < target) left++;
+        else right--;
+    }
+    return false;
 }
 ```
 
----
+## 6. Prefix Sums
+Allow for fast calculation of the sum of elements in an interval $[L, R]$.
 
-## 4. Safety and Best Practices
+### 6.1. Basic Idea
+We create an array `prefix`, where `prefix[i]` contains the sum of elements from 0 to i-1.
+```cpp
+vector<long long> buildPrefix(const vector<int>& arr) {
+    int n = arr.size();
+    vector<long long> prefix(n + 1, 0);
+    for (int i = 0; i < n; i++) {
+        prefix[i + 1] = prefix[i] + arr[i];
+    }
+    return prefix;
+}
+```
 
-1.  **Bounds Checking**: Accessing `A[n]` is **Undefined Behavior**. It might crash (Segfault) or silently corrupt other data.
-2.  **Initialization**: Global arrays are initialized to 0. Local static arrays contain "garbage" (random values). Always initialize: `int a[100] = {0};`.
-3.  **Use `long long`**: When summing large array elements, `int` will overflow ($2^{31}-1 \approx 2 \cdot 10^9$).
+### 6.2. Interval Sum Queries
+After we have constructed the prefix array, each query is answered in $O(1)$.
+```cpp
+// Sum of elements from index L to R (inclusive)
+long long rangeSum(const vector<long long>& prefix, int L, int R) {
+    return prefix[R + 1] - prefix[L];
+}
+```
 
----
+### 6.3. Application: At most K zeros in a subarray
+Task: Find the longest subarray of 0s and 1s that contains at most K zeros.
+```cpp
+int longestSubarrayWithKZeros(vector<int>& arr, int K) {
+    int left = 0, zeros = 0, maxLen = 0;
+    for (int right = 0; right < arr.size(); right++) {
+        if (arr[right] == 0) zeros++;
+        while (zeros > K) {
+            if (arr[left] == 0) zeros--;
+            left++;
+        }
+        maxLen = max(maxLen, right - left + 1);
+    }
+    return maxLen;
+}
+```
 
-## 5. Practice Problems
-1.  **CSES Static Range Sum Queries**: Prefix Sums.
-2.  **CSES Maximum Subarray Sum**: Kadane's Algorithm.
-3.  **Codeforces 279B**: Books (Sliding Window).
-4.  **UVa 10038**: Jolly Jumpers.
+## 7. Difference Array
+Allows for fast interval updates.
 
-## 6. Conclusion
-The array is the starting point for almost all competitive programming algorithms. Mastering prefix sums, two pointers, and sliding windows will solve a surprisingly large percentage of introductory problems.
+### 7.1. Idea
+If we want to add `x` to all elements in the interval `[L, R]`, we use a difference array.
+```cpp
+vector<int> diff(n + 1, 0);
+// Adding x to the interval [L, R]
+diff[L] += x;
+diff[R + 1] -= x;
+// Recovering the original array
+for (int i = 1; i < n; i++) {
+    diff[i] += diff[i - 1];
+}
+```
+This allows for $O(1)$ interval updates and $O(N)$ recovery.
+
+## 8. Cyclic Rotation of an Array
+Shifting elements left or right by K positions.
+
+### 8.1. Rotating Right
+```cpp
+void rotateRight(vector<int>& arr, int K) {
+    int n = arr.size();
+    K %= n; // In case K > n
+    reverse(arr.begin(), arr.end());
+    reverse(arr.begin(), arr.begin() + K);
+    reverse(arr.begin() + K, arr.end());
+}
+```
+
+### 8.2. Rotating Left
+```cpp
+void rotateLeft(vector<int>& arr, int K) {
+    rotateRight(arr, arr.size() - K);
+}
+```
+
+## 9. Kadane's Algorithm - Maximum Subarray Sum
+Classical task: Find the subarray with the maximum sum.
+```cpp
+long long maxSubarraySum(const vector<int>& arr) {
+    long long maxSum = arr[0], currentSum = arr[0];
+    for (int i = 1; i < arr.size(); i++) {
+        currentSum = max((long long)arr[i], currentSum + arr[i]);
+        maxSum = max(maxSum, currentSum);
+    }
+    return maxSum;
+}
+```
+
+## 10. Frequency Arrays
+Used for fast counting of element occurrences.
+
+### 10.1. Example
+```cpp
+const int MAXVAL = 1000005;
+int freq[MAXVAL];
+memset(freq, 0, sizeof(freq));
+
+// Counting
+for (int i = 0; i < n; i++) {
+    freq[arr[i]]++;
+}
+
+// Finding the most frequent element
+int maxFreq = 0, mostFrequent = arr[0];
+for (int i = 0; i < MAXVAL; i++) {
+    if (freq[i] > maxFreq) {
+        maxFreq = freq[i];
+        mostFrequent = i;
+    }
+}
+```
+
+## 11. Practice Tasks
+1.  **Reverse an Array**: Read an array and output it in reverse order.
+2.  **Second Largest**: Find the second largest element in $O(N)$.
+3.  **Removing Duplicates**: From a sorted array using the two pointers technique.
+4.  **Cyclic Rotation**: Shifting an array left/right by K positions.
+5.  **Prefix Sums**: Task with many interval sum queries.
+6.  **Pair with the Closest Sum**: In a sorted array, find a pair of numbers with a sum closest to a given number.
+7.  **Kadane**: Find the maximum sum of a subarray.
+8.  **Longest Subarray**: With at most K different numbers.
+
+## 🏁 Conclusion
+Arrays are the foundation of programming and algorithms. Ensure you fully understand indexing (starts at 0!), array boundaries, and basic techniques like prefix sums, two pointers, and Kadane's algorithm. Off-by-one errors are the most common cause of incorrect solutions in competitions. Practice with numerous tasks to develop intuition and speed when working with arrays.
