@@ -8,12 +8,12 @@ In competitive programming, it is not enough to just write working code. It must
 
 Knowing the constraints on input data ($N$) often hints at the required complexity of the solution:
 
-| Constraint on $N$ | Allowable Complexity | Typical Algorithms |
+| Constraint for $N$ | Permissible Complexity | Typical Algorithms |
 | :--- | :--- | :--- |
-| $N \le 10$ | $O(N!)$ | Exhaustive Search (Backtracking), Permutations |
-| $N \le 20$ | $O(2^N)$ | DP with Bitmasks, Recursion |
+| $N \le 10$ | $O(N!)$ | Exhaustive search (Backtracking), Permutations |
+| $N \le 20$ | $O(2^N)$ | DP with bitmasks, Recursion |
 | $N \le 500$ | $O(N^3)$ | Floyd-Warshall, Matrix Multiplication, DP |
-| $N \le 2000$ | $O(N^2)$ | Bubble/Insertion Sort, DP, BFS/DFS from each node |
+| $N \le 2000$ | $O(N^2)$ | Bubble/Insertion Sort, DP, BFS/DFS from every vertex |
 | $N \le 100,000$ | $O(N \log N)$ | Sorting, Heap, Segment Tree, Binary Search |
 | $N \le 1,000,000$ | $O(N)$ or $O(N \log N)$ | KMP, Hash, Two Pointers, Union-Find |
 | $N \ge 10^{18}$ | $O(\log N)$ or $O(1)$ | Matrix Exponentiation, Mathematical Formulas |
@@ -28,13 +28,13 @@ For a recurrence relation of the form $T(n) = a T(n/b) + f(n)$:
 
 ## 🔍 Quick Search (Binary Search) - Advanced
 
-Binary search is not just for finding a number in an array. It is a powerful method for finding the answer to a problem if the answer is monotonic.
+Binary search is not just for finding a number in an array. It is a powerful method for finding the answer to a task if the answer is monotonic.
 
 ### 1. Standard Binary Search (`std::lower_bound`)
-Finds the first element that is $\ge$ to the target.
+Finds the first element that is $\ge$ to the searched one.
 ```cpp
 int lowerBound(const std::vector<int>& arr, int target) {
-    int left = 0, right = arr.size(); // Watch out for bounds [0, N)
+    int left = 0, right = arr.size(); // Be careful with the boundaries [0, N)
     while (left < right) {
         int mid = left + (right - left) / 2;
         if (arr[mid] >= target) {
@@ -43,15 +43,15 @@ int lowerBound(const std::vector<int>& arr, int target) {
             left = mid + 1;
         }
     }
-    return left; // Returns index or N if none found
+    return left; // Returns index or N if none exists
 }
 ```
 
 ### 2. Binary Search on Answer
-Used when we are looking for a minimal value $X$ for which condition $P(X)$ is met (and for every $Y > X$, $P(Y)$ is also met).
+Used when searching for the minimum value $X$ for which condition $P(X)$ is satisfied (and for every $Y > X$, $P(Y)$ is also satisfied).
 
-**Example**: "What is the minimum time for $K$ machines to produce $M$ products?"
-- The function `check(time)` verifies if $\ge M$ products can be produced in `time` seconds. It is monotonic (more time -> more products).
+**Example**: "What is the minimum time in which $K$ machines can produce $M$ products?"
+- The `check(time)` function checks whether in `time` seconds $\ge M$ products can be produced. It is monotonic (more time -> more products).
 
 ```cpp
 bool check(long long time, int m, const std::vector<int>& machines) {
@@ -64,7 +64,7 @@ bool check(long long time, int m, const std::vector<int>& machines) {
 }
 
 long long solve(int m, std::vector<int>& machines) {
-    long long left = 0, right = 1e18; // Sufficiently large upper bound
+    long long left = 0, right = 1e18; // Large enough upper bound
     long long ans = right;
 
     while (left <= right) {
@@ -73,7 +73,7 @@ long long solve(int m, std::vector<int>& machines) {
             ans = mid;
             right = mid - 1; // Try less time
         } else {
-            left = mid + 1; // Need more time
+            left = mid + 1; // We need more time
         }
     }
     return ans;
@@ -85,10 +85,10 @@ long long solve(int m, std::vector<int>& machines) {
 ## ⚡ Sorting Algorithms in Detail
 
 ### 1. Quick Sort - Optimizations
-Classical Quick Sort can degenerate to $O(N^2)$ on a sorted array if we always pick the first/last element as Pivot.
+Classical Quick Sort can degenerate to $O(N^2)$ on a sorted array if we always choose the first/last element as the Pivot.
 
 **Optimization - Random Pivot**:
-Picking a random index for Pivot makes the probability of a worst-case scenario astronomically low.
+Choosing a random index for the Pivot makes the probability of a bad case astronomically small.
 
 ```cpp
 #include <cstdlib> // for rand()
@@ -96,10 +96,10 @@ Picking a random index for Pivot makes the probability of a worst-case scenario 
 void quickSort(std::vector<int>& arr, int low, int high) {
     if (low >= high) return;
 
-    // Pick a random pivot
+    // Choice of a random pivot
     int pivotIndex = low + rand() % (high - low + 1);
     int pivot = arr[pivotIndex];
-    std::swap(arr[pivotIndex], arr[high]); // Move pivot to end
+    std::swap(arr[pivotIndex], arr[high]); // Move pivot to the very end
 
     int i = low - 1;
     for (int j = low; j < high; j++) {
@@ -145,13 +145,13 @@ void mergeSort(std::vector<int>& arr, int left, int right) {
 ### 3. C++ `std::sort`
 The built-in `std::sort` function (in `<algorithm>`) uses a hybrid algorithm (**Introsort**):
 1. Starts with Quick Sort.
-2. If recursion depth gets too large, switches to Heap Sort (to guarantee $O(N \log N)$).
-3. For small subarrays, uses Insertion Sort (because it is faster for small $N$).
+2. If the recursion depth becomes too large, it switches to Heap Sort (to guarantee $O(N \log N)$).
+3. For small subarrays, it uses Insertion Sort (because it is faster for small $N$).
 
 ---
 
 ## 🏁 Conclusion and Tips
 
-1. Always use `std::sort` unless you have a specific reason not to (e.g., counting inversions with Merge Sort).
-2. For problems involving searching for "the minimum X for which condition is met...", always think of **Binary Search on Answer**.
-3. Watch out for data types (`long long`) in binary search to avoid overflow at `left + right`.
+1. Always use `std::sort` unless you have a specific reason (e.g., counting inversions with Merge Sort).
+2. For tasks searching for "the minimum X for which ... is satisfied", always think of **Binary Search on Answer**.
+3. Be careful with data types (`long long`) in binary search to avoid overflow at `left + right`.
