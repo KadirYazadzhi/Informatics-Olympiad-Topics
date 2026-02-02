@@ -1,94 +1,198 @@
-# 🔍 Sorting and String Manipulation: Advanced Techniques
+# 🔍 Sorting Algorithms: A Complete Guide
 
-In many problems, sorting and string processing go hand-in-hand. This topic covers the synergy between these two fundamental areas, focusing on lexicographical ordering, custom comparators, and efficient string sorting.
+Sorting is a fundamental operation in computer science that arranges elements of a list in a specific order (most commonly ascending or descending). Choosing the right algorithm depends on the data size ($N$), memory constraints, and the specific characteristics of the elements.
 
----
+## 1. Simple Algorithms: $O(N^2)$
+These algorithms are easy to implement but inefficient for large arrays ($N > 2000$).
 
-## 1. Lexicographical Sorting
-
-Lexicographical order is the standard "dictionary" order. For strings $A$ and $B$:
-1.  Compare $A[0]$ and $B[0]$. If $A[0] < B[0]$, then $A < B$.
-2.  If equal, compare $A[1]$ and $B[1]$, and so on.
-3.  If one string is a prefix of another, the shorter one is smaller.
-
-In C++, `std::sort` on a `vector<string>` uses this order by default.
-
+### 1.1. Bubble Sort
+Repeatedly traverses the array, swapping adjacent elements if they are in the wrong order. The heaviest element "floats" like a bubble to the end.
 ```cpp
-vector<string> words = {"banana", "apple", "app"};
-sort(words.begin(), words.end());
-// Result: "app", "apple", "banana"
+void bubbleSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; i++) {
+        bool swapped = false;
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+                swapped = true;
+            }
+        }
+        if (!swapped) break; // Optimization
+    }
+}
 ```
 
----
-
-## 2. Custom Sorting for Strings
-
-Sometimes we need a different order.
-
-### 2.1. Sorting by Length
-```cpp
-sort(words.begin(), words.end(), [](const string& a, const string& b) {
-    if (a.size() != b.size()) return a.size() < b.size();
-    return a < b; // Lexicographical if lengths are equal
-});
-```
-
-### 2.2. The "Smallest Concatenation" Problem
-Given a list of strings, arrange them to form the smallest possible concatenated string.
-*   **Wrong**: Sort lexicographically. (e.g., "b", "ba" -> "bba", but "bab" is smaller).
-*   **Correct**: Compare $A+B$ with $B+A$.
-
-```cpp
-sort(words.begin(), words.end(), [](const string& a, const string& b) {
-    return a + b < b + a;
-});
-```
+### 1.2. Insertion Sort
+Builds the sorted array one element at a time. It takes the next element and "inserts" it in the correct place among those already sorted.
+*   **Advantage**: Extremely fast ($O(N)$) for **nearly sorted** data.
+*   **Usage**: Often used as a base case in more complex algorithms (e.g., Timsort, which is the basis for sorting in Python and Java, uses Insertion Sort for small chunks).
 
 ---
 
-## 3. Counting Sort for Strings
+## 2. Efficient Algorithms: $O(N \log N)$
+Mandatory for competitions where $N$ reaches $10^5$ or $10^6$.
 
-If we only have many strings of length 1 (characters), we use a frequency array ($O(N)$).
-If we have strings of fixed length $L$, we can use **Radix Sort** to sort them in $O(N \cdot L)$.
+### 2.1. Merge Sort
+A classical example of the **"Divide and Conquer"** strategy.
+1.  **Divide**: The array is divided into two halves.
+2.  **Conquer**: Each half is sorted recursively.
+3.  **Merge**: The two sorted halves are united (merged) into a single sorted array.
 
----
-
-## 4. Anagrams and Sorting
-
-Two strings are anagrams if sorting their characters results in the same string.
-**Task**: Group anagrams together.
-1.  For each string, create a pair `{sorted_string, original_index}`.
-2.  Sort the pairs.
+*   **Stability**: Yes (preserves the order of equal elements).
+*   **Memory**: Requires $O(N)$ additional memory.
 
 ```cpp
-string s = "silent";
-sort(s.begin(), s.end()); // "eilnst"
+void merge(vector<int>& arr, int l, int m, int r) {
+    vector<int> temp;
+    int i = l, j = m + 1;
+    while (i <= m && j <= r) {
+        if (arr[i] <= arr[j]) temp.push_back(arr[i++]);
+        else temp.push_back(arr[j++]);
+    }
+    while (i <= m) temp.push_back(arr[i++]);
+    while (j <= r) temp.push_back(arr[j++]);
+    for (int k = 0; k < temp.size(); k++) arr[l + k] = temp[k];
+}
+
+void mergeSort(vector<int>& arr, int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
+    }
+}
 ```
 
----
-
-## 5. String-Specific Sorting Structures
-
-### 5.1. Suffix Array
-Sorting all suffixes of a string. This is a complex $O(N \log N)$ or $O(N \log^2 N)$ algorithm.
-(See Topic 42 for detailed implementation).
-
-### 5.2. Trie (Prefix Tree)
-A Trie can be used to sort strings. An **In-order traversal** of a Trie visits strings in lexicographical order.
+### 2.2. Quick Sort
+Also uses "Divide and Conquer", but the division occurs via a **Pivot** (reference element). All elements smaller than the pivot go to the left, and those larger go to the right.
+*   **Speed**: In practice, it is faster than Merge Sort because it works "in-place" (without additional memory) and has good cache locality.
+*   **Worst case**: $O(N^2)$ if the pivot is poorly chosen (e.g., a sorted array).
+*   `std::sort` in C++ uses a hybrid variant (Introsort: QuickSort + HeapSort) to guarantee $O(N \log N)$.
 
 ---
 
-## 6. Stability in Sorting
+## 3. Linear Sorts: $O(N)$
+Possible only if we know something more about the data (e.g., that they are integers in a small range).
 
-Stability is important when sorting strings by multiple criteria (e.g., first by length, then alphabetically). Use `std::stable_sort`.
+### 3.1. Counting Sort
+If the numbers are in the interval $[0, K]$:
+1.  Create an array `cnt[K+1]` with zeros.
+2.  For each number `x` from the input, increment `cnt[x]`.
+3.  Output index `i` exactly `cnt[i]` times.
+Complexity: $O(N + K)$.
+
+### 3.2. Radix Sort
+Sorts numbers digit by digit (usually from the last to the first), using a stable Counting Sort for each position.
+Complexity: $O(D \cdot (N+K))$, where $D$ is the number of digits.
 
 ---
 
-## 7. Practice Problems
-1.  **Codeforces 637B**: Chat Order (Using map/set with custom logic).
-2.  **UVa 10282**: Babelfish (Hashing vs Sorting).
-3.  **CSES Grouping Anagrams**.
-4.  **SPOJ smallest concatenation**.
+## 4. Using `std::sort` in C++
 
-## 8. Conclusion
-Combining sorting with string logic is a common pattern. Whether it's finding the smallest rotation, grouping anagrams, or custom dictionary orders, the key is defining the correct comparator.
+In 99% of cases in competitions, you should use the built-in `sort`.
+
+```cpp
+#include <algorithm>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+struct Student {
+    string name;
+    int score;
+};
+
+// Comparator function
+bool compareStudents(const Student& a, const Student& b) {
+    if (a.score != b.score)
+        return a.score > b.score; // Descending by points
+    return a.name < b.name;       // Ascending by name for equal points
+}
+
+int main() {
+    vector<int> v = {5, 1, 4, 2, 8};
+    
+    // Standard sorting (ascending)
+    sort(v.begin(), v.end()); 
+    
+    // Descending with a lambda function
+    sort(v.begin(), v.end(), [](int a, int b) {
+        return a > b; 
+    });
+
+    vector<Student> students = {{"Ivan", 90}, {"Ani", 95}, {"Bobi", 90}};
+    sort(students.begin(), students.end(), compareStudents);
+    
+    return 0;
+}
+```
+
+### `std::stable_sort`
+If you want to preserve the order of elements that are equal according to the comparison criterion, use `stable_sort`. It is usually based on Merge Sort and is slightly slower, but sometimes it is necessary.
+
+---
+
+## 5. Practical Tips and Common Errors
+
+### 5.1. Problems with the Comparator Function
+One of the most frequent errors when using `sort` is writing an invalid comparison function. It must:
+*   Be **transitive**: If $A < B$ and $B < C$, then $A < C$.
+*   Be **antisymmetric**: If $A < B$, then NOT $B < A$.
+*   If $A$ is NOT less than $B$ and $B$ is NOT less than $A$, then they are equal.
+
+A faulty function can lead to a `Segmentation Fault` or unpredictable results.
+
+### 5.2. Sorting Structures with `operator<`
+Instead of passing a function, you can define `operator<` for your structure:
+```cpp
+struct Point {
+    int x, y;
+    bool operator<(const Point& other) const {
+        if (x != other.x) return x < other.x;
+        return y < other.y;
+    }
+};
+
+vector<Point> points = {{3,5}, {1,2}, {3,1}};
+sort(points.begin(), points.end()); // Already works directly
+```
+
+### 5.3. Sorting Part of an Array
+You can sort only a specific section:
+```cpp
+vector<int> arr = {5, 2, 9, 1, 5, 6};
+sort(arr.begin() + 1, arr.begin() + 4); // Sorts indices [1, 4)
+// Result: {5, 1, 2, 9, 5, 6}
+```
+
+### 5.4. Partial Sorting (`partial_sort`)
+If you need only the first $K$ smallest elements, `partial_sort` is faster than full sorting:
+```cpp
+vector<int> v = {5, 1, 9, 3, 7, 2};
+partial_sort(v.begin(), v.begin() + 3, v.end());
+// The first 3 are sorted: {1, 2, 3, ...}
+```
+Complexity: $O(N \log K)$ instead of $O(N \log N)$.
+
+---
+
+## 6. Practice Tasks
+
+1. **CSES Distinct Numbers**: Use sorting to find unique elements.
+2. **Codeforces 339D**: Requires sorting with a custom function.
+3. **AtCoder ABC128C**: Combination of sorting and structures.
+
+---
+
+## 🏁 Conclusion
+
+Choosing the right algorithm depends on the context:
+*   **$N \le 2000$**: Bubble Sort or Insertion Sort are sufficient (if time permits).
+*   **$N \le 10^6$**: Use `std::sort` (Introsort).
+*   **Stability is critical**: `std::stable_sort`.
+*   **Specific constraints**: Counting Sort or Radix Sort.
+
+Remember: in 99% of cases in competitions, just write `sort(arr.begin(), arr.end())` – do not reinvent the wheel!
