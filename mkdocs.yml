@@ -43,19 +43,28 @@ nav:
       - '06. 1D Arrays': EN/06_One_Dimensional_Array.md
       - '07. Array Tasks': EN/07_Arrays_Basic_Tasks.md
       - '07a. Sorting & Strings': EN/07a_Sorting_and_Strings.md
+      - '07b. Strings & Searching': EN/07b_Strings_and_Searching.md
       - '08. Euclidean Algo': EN/08_Number_Divisibility_Euclidean_Algorithm.md
+      - '08a. Common Fractions': EN/08a_Common_Fractions.md
+      - '08b. Primes & Sieve': EN/08b_Prime_Numbers_and_Sieve.md
       - '09. Numeral Systems': EN/09_Numeral_Systems.md
-      - '09a. BigInt & Random': EN/09a_BigInt_and_Random.md
+      - '09a. BigInt Realization': EN/09a_BigInt_Realization.md
+      - '09b. Random Numbers': EN/09b_Random_Numbers.md
       - '10. 2D Arrays': EN/10_Two_Dimensional_Arrays.md
     - Algorithms:
       - '11. Computational Geometry': EN/11_Basic_Computational_Geometry.md
+      - '11a. Rectangles': EN/11a_Rectangles.md
+      - '11b. Grids & Mazes': EN/11b_Grids_and_Mazes.md
       - '12. Intro to STL': EN/12_Intro_to_STL.md
       - '13. Stack & Queue': EN/13_Data_Structures_Stack_Queue.md
       - '14. Recursion': EN/14_Recursion.md
+      - '14a. Backtracking': EN/14a_Backtracking.md
+      - '14b. Binary Search': EN/14b_Binary_Search.md
       - '15. Combinatorics': EN/15_Intro_to_Combinatorics.md
     - Advanced Basics:
       - '16. Graphs': EN/16_Graph_Concept.md
       - '17. STL Containers': EN/17_STL_Containers_Iterators_Algorithms.md
+      - '17a. STL Algorithms': EN/17a_STL_Algorithms.md
       - '18. Analysis & Sort': EN/18_Algorithm_Analysis_Quick_Search_Sort.md
       - '19. Modular Arithmetic': EN/19_Modular_Arithmetic.md
       - '20. Polynomials': EN/20_Polynomials_BigInt.md
@@ -91,52 +100,61 @@ nav:
 
   - Теми (Български):
     - 'Начало (BG)': index.bg.md
-    - '01. Среда и Вход/Изход': BG/01.md
-    - '02. Операции и Условия': BG/02.md
-    - '03. Цикли и Функции': BG/03.md
-    - '04. Делимост': BG/04.md
-    - '05. Дата и Време': BG/05.md
-    - '06. Едномерен Масив': BG/06.md
-    - '07. Масиви Задачи': BG/07.md
-    - '07a. Сортиране и Низове': BG/07a.md
-    - '08. Евклид и Дроби': BG/08.md
-    - '09. Бройни Системи': BG/09.md
-    - '09a. BigInt и Random': BG/09a.md
-    - '10. Двумерни Масиви': BG/10.md
-    - '11. Компютърна Геометрия': BG/11.md
-    - '12. Увод в STL': BG/12.md
-    - '13. Стек и Опашка': BG/13.md
-    - '14. Рекурсия': BG/14.md
-    - '15. Комбинаторика': BG/15.md
-    - '16. Графи': BG/16.md
-    - '17. STL Контейнери': BG/17.md
-    - '18. Анализ на Алгоритми': BG/18.md
-    - '19. Модулна Аритметика': BG/19.md
-    - '20. Полиноми': BG/20.md
-    - '21. Теория на Игрите': BG/21.md
-    - '22. Побитови Операции': BG/22.md
-    - '23. Динамично Прогр.': BG/23.md
-    - '24. Графови Алгоритми': BG/24.md
-    - '25. Union-Find': BG/25.md
-    - '26. Дървета': BG/26.md
-    - '27. Алг. Геометрия': BG/27.md
-    - '28. Разш. Комбинаторика': BG/28.md
-    - '29. Аритметични Изрази': BG/29.md
-    - '30. Хеширане': BG/30.md
-    - '31. Числови Редици': BG/31.md
-    - '32. Геометрия II': BG/32.md
-    - '33. Напреднали Графи': BG/33.md
-    - '34. Структ. Данни II': BG/34.md
-    - '35. Напреднало ДП': BG/35.md
-    - '36. Низови Алгоритми': BG/36.md
-    - '37. Експертни Игри': BG/37.md
-    - '38. Матрици': BG/38.md
-    - '39. Вороной': BG/39.md
-    - '40. Потоци': BG/40.md
-    - '41. Пирамиди': BG/41.md
-    - '42. Суфиксни Стр.': BG/42.md
-    - '43. Линейни Системи': BG/43.md
-    - '44. FFT': BG/44.md
+    - '01. Среда и Вход/Изход': BG/01_Cpp_Environment_Data_Types_IO.md
+    - '02. Операции и Условия': BG/02_Operations_Conditionals.md
+    - '03. Цикли и Функции': BG/03_Loops_Functions_Strings.md
+    - '04. Делимост': BG/04_Basic_Divisibility_Tasks.md
+    - '05. Дата и Време': BG/05_Date_and_Time_Tasks.md
+    - '06. Едномерен Масив': BG/06_One_Dimensional_Array.md
+    - '07. Масиви Задачи': BG/07_Arrays_Basic_Tasks.md
+    - '07a. Сортиране и Низове': BG/07a_Sorting_and_Strings.md
+    - '07b. Низове и Търсене': BG/07b_Strings_and_Searching.md
+    - '08. Евклид и Делимост': BG/08_Number_Divisibility_Euclidean_Algorithm.md
+    - '08a. Обикновени Дроби': BG/08a_Common_Fractions.md
+    - '08b. Прости Числа и Сито': BG/08b_Prime_Numbers_and_Sieve.md
+    - '09. Бройни Системи': BG/09_Numeral_Systems.md
+    - '09a. BigInt Реализация': BG/09a_BigInt_Realization.md
+    - '09b. Случайни Числа': BG/09b_Random_Numbers.md
+    - '10. Двумерни Масиви': BG/10_Two_Dimensional_Arrays.md
+    - '11. Геометрия Основи': BG/11_Basic_Computational_Geometry.md
+    - '11a. Правоъгълници': BG/11a_Rectangles.md
+    - '11b. Мрежи и Лабиринти': BG/11b_Grids_and_Mazes.md
+    - '12. Увод в STL': BG/12_Intro_to_STL.md
+    - '13. Стек и Опашка': BG/13_Data_Structures_Stack_Queue.md
+    - '14. Рекурсия Основи': BG/14_Recursion.md
+    - '14a. Backtracking': BG/14a_Backtracking.md
+    - '14b. Двоично Търсене': BG/14b_Binary_Search.md
+    - '15. Комбинаторика': BG/15_Intro_to_Combinatorics.md
+    - '16. Графи Понятия': BG/16_Graph_Concept.md
+    - '17. STL Контейнери': BG/17_STL_Containers_Iterators_Algorithms.md
+    - '17a. STL Алгоритми': BG/17a_STL_Algorithms.md
+    - '18. Анализ на Алгоритми': BG/18_Algorithm_Analysis_Quick_Search_Sort.md
+    - '19. Модулна Аритметика': BG/19_Modular_Arithmetic.md
+    - '20. Полиноми': BG/20_Polynomials_BigInt.md
+    - '21. Теория на Игрите': BG/21_Game_Theory.md
+    - '22. Побитови Операции': BG/22_Bitwise_Operations.md
+    - '23. Динамично Прогр.': BG/23_Dynamic_Programming.md
+    - '24. Графови Алгоритми': BG/24_Graph_Algorithms.md
+    - '25. Union-Find': BG/25_Union_Find.md
+    - '26. Дървета': BG/26_Tree_Structures.md
+    - '27. Алг. Геометрия': BG/27_Advanced_Geometry_SweepLine.md
+    - '28. Разш. Комбинаторика': BG/28_Advanced_Combinatorics.md
+    - '29. Аритметични Изрази': BG/29_Arithmetic_Expressions.md
+    - '30. Хеширане': BG/30_Hashing.md
+    - '31. Числови Редици': BG/31_Special_Number_Sequences.md
+    - '32. Геометрия II': BG/32_Geometry_Polygons.md
+    - '33. Напреднали Графи': BG/33_Advanced_Graph_Algorithms.md
+    - '34. Структ. Данни II': BG/34_Advanced_Data_Structures.md
+    - '35. Напреднало ДП': BG/35_Advanced_DP.md
+    - '36. Низови Алгоритми': BG/36_String_Algorithms.md
+    - '37. Експертни Игри': BG/37_Advanced_Game_Theory.md
+    - '38. Матрици': BG/38_Matrices.md
+    - '39. Вороной': BG/39_Voronoi_Diagrams.md
+    - '40. Потоци': BG/40_Flows_Cuts.md
+    - '41. Пирамиди': BG/41_Advanced_Heaps.md
+    - '42. Суфиксни Стр.': BG/42_Suffix_Structures.md
+    - '43. Линейни Системи': BG/43_Linear_Systems.md
+    - '44. FFT': BG/44_Complex_Numbers_FFT.md
 
 markdown_extensions:
   - pymdownx.highlight:
