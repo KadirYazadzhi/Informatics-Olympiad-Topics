@@ -1,16 +1,16 @@
 # 📊 Matrices: Advanced Theorems and Applications
 
-Matrices are fundamental structures in competitive programming, appearing in various contexts from dynamic programming optimization to graph theory and number theory. Beyond basic operations, several powerful theorems and techniques leverage matrix properties to solve complex problems efficiently.
+Matrices are fundamental structures in competitive programming, appearing in various contexts - from dynamic programming optimization to graph theory and number theory. Beyond basic operations, several powerful theorems and techniques leverage matrix properties to efficiently solve complex problems.
 
 This comprehensive guide covers:
-- **Matrix Tree Theorem** (Kirchhoff's Theorem) for counting spanning trees
-- **Cayley-Hamilton Theorem** for matrix polynomial optimization
-- **Gaussian Elimination** over different fields (real, modular, binary)
-- **Matrix exponentiation** for recurrence relations
-- **Special matrix types** and their properties
-- Practical implementations and optimizations
+- **Kirchhoff's Theorem** (Matrix Tree Theorem) for counting spanning trees.
+- **Cayley-Hamilton Theorem** for matrix polynomial optimization.
+- **Gaussian Elimination** over different fields (real, modular, binary).
+- **Matrix Exponentiation** for recurrence relations.
+- **Special Matrix Types** and their properties.
+- Practical implementations and optimizations.
 
-## 🧮 Matrix Fundamentals
+## 🧮 Matrix Basics
 
 ### Basic Matrix Operations
 
@@ -61,7 +61,7 @@ struct Matrix {
         return result;
     }
     
-    // Scalar multiplication
+    // Multiplication by scalar
     Matrix operator*(long long scalar) const {
         Matrix result(n, m);
         for (int i = 0; i < n; i++) {
@@ -72,7 +72,7 @@ struct Matrix {
         return result;
     }
     
-    // Transpose
+    // Transposition
     Matrix transpose() const {
         Matrix result(m, n);
         for (int i = 0; i < n; i++) {
@@ -133,7 +133,7 @@ struct MatrixMod {
     }
 };
 
-// Example: Fibonacci using matrix exponentiation
+// Example: Fibonacci via matrix exponentiation
 // F(n) = F(n-1) + F(n-2)
 // [F(n+1)]   [1 1]^n   [F(1)]   [1 1]^n   [1]
 // [F(n)  ] = [1 0]   * [F(0)] = [1 0]   * [0]
@@ -152,44 +152,45 @@ long long fibonacci(long long n) {
 
 int main() {
     cout << "F(10) = " << fibonacci(10) << "\n";      // 55
-    cout << "F(100) = " << fibonacci(100) << "\n";    // Very large number
+    cout << "F(100) = " << fibonacci(100) << "\n";    // A very large number
     return 0;
 }
 ```
 
-**Time Complexity:** $O(n^3 \log p)$ where $n$ is matrix size and $p$ is the exponent.
+**Time complexity:** $O(n^3 \log p)$ where $n$ is the matrix size and $p$ is the power.
 
 **Applications:**
 - Linear recurrences: Fibonacci, tribonacci, etc.
-- Graph path counting: Number of paths of length $k$
-- Dynamic programming optimization
-- Linear transformations
+- Counting paths in a graph: Number of paths of length $k$.
+- Dynamic programming optimization.
+- Linear transformations.
 
-## 🌳 Matrix Tree Theorem (Kirchhoff's Theorem)
+## 🌳 Kirchhoff's Theorem (Matrix Tree Theorem)
 
-The **Matrix Tree Theorem** is one of the most elegant results in graph theory, providing a direct algebraic method to count the number of spanning trees in a graph.
+**Kirchhoff's Theorem** is one of the most elegant results in graph theory, providing a direct algebraic method for counting the spanning trees in a graph.
 
-### Theorem Statement
+### Formulation of the Theorem
 
-The number of spanning trees in a connected graph $G = (V, E)$ equals **any cofactor** of its Laplacian matrix $L$.
+The number of spanning trees in a connected graph $G = (V, E)$ is equal to **any cofactor** of its Laplacian matrix $L$.
 
 ### Laplacian Matrix
 
 For a graph with $n$ vertices:
 
-**Degree Matrix $D$**: Diagonal matrix where $D_{i,i} = \deg(v_i)$
+**Degree matrix $D$**: A diagonal matrix where $D_{i,i} = \deg(v_i)$.
 
-**Adjacency Matrix $A$**: $A_{i,j} = $ number of edges between $v_i$ and $v_j$
+**Adjacency matrix $A$**: $A_{i,j} = $ number of edges between $v_i$ and $v_j$.
 
-**Laplacian Matrix**: $L = D - A$
+**Laplacian matrix**: $L = D - A$.
 
 Explicitly:
 $$L_{i,j} = \begin{cases}
 \deg(v_i) & \text{if } i = j \\
 -(\text{number of edges between } i \text{ and } j) & \text{if } i \neq j
-\end{cases}$$
+\end{cases}
+$$
 
-### Computing Spanning Tree Count
+### Calculating the Number of Spanning Trees
 
 ```cpp
 #include <bits/stdc++.h>
@@ -197,7 +198,7 @@ using namespace std;
 
 const double EPS = 1e-9;
 
-// Compute determinant via Gaussian elimination
+// Calculate determinant via Gaussian elimination
 double determinant(vector<vector<double>> A) {
     int n = A.size();
     double det = 1.0;
@@ -217,12 +218,12 @@ double determinant(vector<vector<double>> A) {
         
         if (pivot != i) {
             swap(A[i], A[pivot]);
-            det *= -1;  // Sign change for row swap
+            det *= -1;  // Sign change on row swap
         }
         
         det *= A[i][i];
         
-        // Eliminate column
+        // Eliminate the column
         for (int j = i + 1; j < n; j++) {
             double factor = A[j][i] / A[i][i];
             for (int k = i; k < n; k++) {
@@ -234,7 +235,7 @@ double determinant(vector<vector<double>> A) {
     return det;
 }
 
-// Count spanning trees using Matrix Tree Theorem
+// Number of spanning trees using Kirchhoff's theorem
 long long countSpanningTrees(int n, vector<pair<int, int>>& edges) {
     // Build Laplacian matrix
     vector<vector<double>> L(n, vector<double>(n, 0));
@@ -246,7 +247,7 @@ long long countSpanningTrees(int n, vector<pair<int, int>>& edges) {
         L[v][u]--;
     }
     
-    // Remove first row and column (compute cofactor)
+    // Remove the first row and column (calculate cofactor)
     vector<vector<double>> cofactor(n - 1, vector<double>(n - 1));
     for (int i = 1; i < n; i++) {
         for (int j = 1; j < n; j++) {
@@ -254,13 +255,13 @@ long long countSpanningTrees(int n, vector<pair<int, int>>& edges) {
         }
     }
     
-    // Determinant gives spanning tree count
+    // The determinant gives the number of spanning trees
     double result = determinant(cofactor);
-    return (long long)(result + 0.5);  // Round to nearest integer
+    return (long long)(result + 0.5);  // Round to the nearest integer
 }
 
 int main() {
-    // Example: K4 (complete graph on 4 vertices)
+    // Example: K4 (complete graph with 4 vertices)
     // Known answer: 16 spanning trees
     int n = 4;
     vector<pair<int, int>> edges = {
@@ -275,11 +276,11 @@ int main() {
 }
 ```
 
-**Time Complexity:** $O(n^3)$ for Gaussian elimination
+**Time complexity:** $O(n^3)$ for Gaussian elimination.
 
 ### Modular Version
 
-For large graphs, compute determinant modulo a prime:
+For large graphs, calculate the determinant modulo a prime number:
 
 ```cpp
 const long long MOD = 1e9 + 7;
@@ -295,7 +296,7 @@ long long modPow(long long base, long long exp, long long mod) {
 }
 
 long long modInv(long long a, long long mod) {
-    return modPow(a, mod - 2, mod);  // Fermat's little theorem
+    return modPow(a, mod - 2, mod);  // Fermat's Little Theorem
 }
 
 long long determinantMod(vector<vector<long long>> A, long long mod) {
@@ -355,10 +356,10 @@ long long countSpanningTreesMod(int n, vector<pair<int, int>>& edges) {
 
 ### Applications
 
-1. **Counting labeled trees**: $n^{n-2}$ (Cayley's formula, provable via Matrix Tree Theorem)
-2. **Network reliability**: Number of ways to maintain connectivity
-3. **Electrical networks**: Related to effective resistance
-4. **Random spanning trees**: Uniform sampling algorithms
+1. **Counting labeled trees**: $n^{n-2}$ (Cayley's formula, provable via Kirchhoff's theorem).
+2. **Network reliability**: Number of ways to maintain connectivity.
+3. **Electric networks**: Related to effective resistance.
+4. **Random spanning trees**: Algorithms for uniform sampling.
 
 ## 🏁 Gaussian Elimination Modulo 2 (XOR Systems)
 
@@ -371,8 +372,8 @@ When working over $GF(2)$ (the binary field), addition becomes XOR and we can us
 using namespace std;
 
 const int MAXN = 2000;
-bitset<MAXN> matrix[MAXN];  // Each row is a bitset
-bitset<MAXN> rhs;           // Right-hand side (for Ax = b)
+bitset<MAXN> bit_matrix[MAXN];  // Each row is a bitset
+bitset<MAXN> rhs_bit;           // Right-hand side (for Ax = b)
 
 int gaussianEliminationBinary(int n, int m) {
     // n = rows, m = columns
@@ -382,22 +383,22 @@ int gaussianEliminationBinary(int n, int m) {
         // Find pivot
         int pivot = -1;
         for (int row = rank; row < n; row++) {
-            if (matrix[row][col]) {
+            if (bit_matrix[row][col]) {
                 pivot = row;
                 break;
             }
         }
         
-        if (pivot == -1) continue;  // Column is all zeros
+        if (pivot == -1) continue;  // The column is all zeros
         
         // Swap rows
-        swap(matrix[rank], matrix[pivot]);
+        swap(bit_matrix[rank], bit_matrix[pivot]);
         
-        // Eliminate all other 1's in this column
+        // Eliminate all other 1s in this column
         for (int row = 0; row < n; row++) {
-            if (row != rank && matrix[row][col]) {
-                matrix[row] ^= matrix[rank];  // XOR entire rows!
-                rhs[row] = rhs[row] ^ rhs[rank];
+            if (row != rank && bit_matrix[row][col]) {
+                bit_matrix[row] ^= bit_matrix[rank];  // XOR entire rows!
+                rhs_bit[row] = rhs_bit[row] ^ rhs_bit[rank];
             }
         }
         
@@ -407,38 +408,38 @@ int gaussianEliminationBinary(int n, int m) {
     return rank;
 }
 
-// Example: Lights Out puzzle
-// n x n grid, clicking a light toggles it and its neighbors
-// Find if configuration is solvable
+// Example: Lights Out Puzzle
+// n x n grid, clicking a light toggles it along with its neighbors
+// Determine whether the configuration is solvable
 
 bool lightsOut(int n, vector<vector<int>>& target) {
-    int N = n * n;
+    int N_total = n * n;
     
     // Build system of equations
-    // Variable x[i][j] = 1 if we click position (i,j)
+    // Variable x[i][j] = 1 if we click at position (i,j)
     // Each equation: sum of clicks affecting position = target state
     
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             int eq = i * n + j;  // Equation number
-            rhs[eq] = target[i][j];
+            rhs_bit[eq] = target[i][j];
             
             // Clicking (i,j) affects itself
-            matrix[eq][i * n + j] = 1;
+            bit_matrix[eq][i * n + j] = 1;
             
             // And neighbors
-            if (i > 0) matrix[eq][(i-1) * n + j] = 1;      // up
-            if (i < n-1) matrix[eq][(i+1) * n + j] = 1;    // down
-            if (j > 0) matrix[eq][i * n + (j-1)] = 1;      // left
-            if (j < n-1) matrix[eq][i * n + (j+1)] = 1;    // right
+            if (i > 0) bit_matrix[eq][(i-1) * n + j] = 1;      // up
+            if (i < n-1) bit_matrix[eq][(i+1) * n + j] = 1;    // down
+            if (j > 0) bit_matrix[eq][i * n + (j-1)] = 1;      // left
+            if (j < n-1) bit_matrix[eq][i * n + (j+1)] = 1;    // right
         }
     }
     
-    int rank = gaussianEliminationBinary(N, N);
+    int rank = gaussianEliminationBinary(N_total, N_total);
     
-    // Check consistency: if any equation became 0 = 1, no solution
-    for (int i = rank; i < N; i++) {
-        if (rhs[i]) return false;
+    // Check consistency: if any equation became 0 = 1, no solution exists
+    for (int i = rank; i < N_total; i++) {
+        if (rhs_bit[i]) return false;
     }
     
     return true;
@@ -463,48 +464,48 @@ int main() {
 ```
 
 **Speedup**: Operations are $64 \times$ faster due to bitset optimizations!
-- Time complexity: $O(n^3 / 64)$ instead of $O(n^3)$
+- Time complexity: $O(n^3 / 64)$ instead of $O(n^3)$.
 
 ### Applications of Binary Gaussian Elimination
 
-1. **Lights Out puzzle**: Classic application
-2. **XOR subset problems**: Find subset with specific XOR
-3. **Linear codes**: Error correction codes
-4. **Cryptanalysis**: Breaking linear ciphers
-5. **Game theory**: Analyzing XOR games (Nim variants)
+1. **Lights Out Puzzle**: Classical application.
+2. **XOR Subsets**: Find a subset with a specific XOR.
+3. **Linear Codes**: Error-correcting codes.
+4. **Cryptanalysis**: Breaking linear ciphers.
+5. **Game Theory**: Analysis of XOR games (Nim variants).
 
-### Finding XOR Subset
+### Finding an XOR Subset
 
 ```cpp
-// Given array, find if subset exists with XOR equal to target
+// Given an array, find whether a subset with XOR equal to target exists
 bool findXORSubset(vector<int>& arr, int target) {
-    const int BITS = 30;  // Assuming 30-bit integers
+    const int BITS = 30;  // Assume 30-bit integers
     int n = arr.size();
     
-    // Each number is a row in binary matrix
+    // Each number is a row in a binary matrix
     for (int i = 0; i < n; i++) {
         for (int bit = 0; bit < BITS; bit++) {
-            matrix[i][bit] = (arr[i] >> bit) & 1;
+            bit_matrix[i][bit] = (arr[i] >> bit) & 1;
         }
     }
     
-    // Target as RHS
+    // Target as right-hand side
     for (int bit = 0; bit < BITS; bit++) {
-        rhs[bit] = (target >> bit) & 1;
+        rhs_bit[bit] = (target >> bit) & 1;
     }
     
     int rank = gaussianEliminationBinary(n, BITS);
     
-    // Check if system is consistent
+    // Check whether the system is consistent
     for (int i = rank; i < n; i++) {
         bool all_zero = true;
         for (int j = 0; j < BITS; j++) {
-            if (matrix[i][j]) {
+            if (bit_matrix[i][j]) {
                 all_zero = false;
                 break;
             }
         }
-        if (all_zero && rhs[i]) return false;
+        if (all_zero && rhs_bit[i]) return false;
     }
     
     return true;
@@ -515,67 +516,67 @@ bool findXORSubset(vector<int>& arr, int target) {
 
 The **Cayley-Hamilton Theorem** states that every square matrix satisfies its own characteristic equation.
 
-### Theorem Statement
+### Formulation of the Theorem
 
 If $p(\lambda) = \det(A - \lambda I)$ is the characteristic polynomial of matrix $A$, then:
 $$p(A) = 0$$
 
 ### Application: Fast Matrix Exponentiation
 
-For a $k \times k$ matrix, instead of computing $A^n$ directly, we can:
-1. Find the characteristic polynomial $p(\lambda)$
-2. Reduce high powers using $p(A) = 0$
-3. Express $A^n$ as a polynomial of degree $< k$
+For a $k \times k$ matrix, instead of calculating $A^n$ directly, we can:
+1. Find the characteristic polynomial $p(\lambda)$.
+2. Reduce high powers using $p(A) = 0$.
+3. Express $A^n$ as a polynomial of degree $< k$.
 
 ```cpp
-// For 2x2 matrix, characteristic polynomial is:
+// For a 2x2 matrix the characteristic polynomial is:
 // p(λ) = λ² - tr(A)λ + det(A)
-// So A² = tr(A)·A - det(A)·I
+// Thus A² = tr(A)·A - det(A)·I
 
 MatrixMod fastPower2x2(MatrixMod A, long long n) {
-    // For n > 2, use: A^n = c₁A + c₀I
-    // Compute c₁, c₀ using recurrence relation
+    // For n > 2 use: A^n = c₁A + c₀I
+    // Calculate c₁, c₀ using recurrence relation
     
     long long trace = (A.a[0][0] + A.a[1][1]) % MOD;
     long long det = (A.a[0][0] * A.a[1][1] - A.a[0][1] * A.a[1][0]) % MOD;
     det = (det % MOD + MOD) % MOD;
     
-    // Use matrix exponentiation on coefficient recurrence
-    // This is complex but saves a factor in practice
+    // Use matrix exponentiation on the recurrence of coefficients
+    // This is complex, but saves a factor in practice
     return A.power(n);  // Fallback to standard method
 }
 ```
 
-**Note**: In practice, direct matrix exponentiation is often simpler unless the matrix is very large.
+**Note**: In practice, direct matrix exponentiation is often simpler, unless the matrix is very large.
 
 ## 💡 Special Matrix Types
 
 ### Symmetric Matrices
 
-$A = A^T$ (transpose equals self)
+$A = A^T$ (the transpose is equal to itself).
 
 **Properties:**
-- Always diagonalizable
-- Eigenvalues are real
-- Eigenvectors are orthogonal
+- Always diagonalizable.
+- Eigenvalues are real.
+- Eigenvectors are orthogonal.
 
 ### Orthogonal Matrices
 
-$A^T A = I$ (transpose is inverse)
+$A^T A = I$ (the transpose is inverse).
 
 **Properties:**
-- Preserves distances and angles
-- Determinant is $\pm 1$
-- Rotations and reflections
+- Preserve distances and angles.
+- Determinant is $\pm 1$.
+- Rotations and reflections.
 
 ### Permutation Matrices
 
-Exactly one 1 in each row and column, rest 0s.
+Exactly one 1 in each row and column, others 0.
 
 **Properties:**
-- Represent permutations
-- $P^T = P^{-1}$
-- Determinant is $\pm 1$
+- Represent permutations.
+- $P^T = P^{-1}$.
+- Determinant is $\pm 1$.
 
 ## 🚀 Advanced Techniques
 
@@ -584,7 +585,7 @@ Exactly one 1 in each row and column, rest 0s.
 For very large matrices, divide into blocks:
 
 ```cpp
-// Strassen's algorithm: O(n^2.807) instead of O(n^3)
+// Strassen algorithm: O(n^2.807) instead of O(n^3)
 // Practical for n > 64, but complex to implement
 ```
 
@@ -614,11 +615,11 @@ struct SparseMatrix {
 
 ### Matrix Chain Multiplication
 
-Find optimal order to multiply matrices to minimize operations:
+Find the optimal order for matrix multiplication to minimize operations:
 
 ```cpp
-// Classic DP problem
-// dp[i][j] = minimum cost to multiply matrices i to j
+// Classical DP task
+// dp[i][j] = minimum cost for multiplying matrices from i to j
 int matrixChainOrder(vector<int>& dims) {
     int n = dims.size() - 1;
     vector<vector<int>> dp(n, vector<int>(n, 0));
@@ -640,10 +641,10 @@ int matrixChainOrder(vector<int>& dims) {
 }
 ```
 
-## 📝 Practice Problems
+## 📝 Practice Tasks
 
-### Problem 1: Fibonacci Variant
-Compute $F(n) = 2F(n-1) + 3F(n-2)$ with $F(0) = 1, F(1) = 1$.
+### Task 1: Fibonacci Variant
+Calculate $F(n) = 2F(n-1) + 3F(n-2)$ with $F(0) = 1, F(1) = 1$.
 
 ```cpp
 long long fibVariant(long long n) {
@@ -659,8 +660,8 @@ long long fibVariant(long long n) {
 }
 ```
 
-### Problem 2: Path Counting
-Count paths of length exactly $k$ in a graph.
+### Task 2: Path Counting
+Count paths of exact length $k$ in a graph.
 
 ```cpp
 long long countPaths(vector<vector<int>>& adj, int k, int start, int end) {
@@ -678,12 +679,12 @@ long long countPaths(vector<vector<int>>& adj, int k, int start, int end) {
 }
 ```
 
-### Problem 3: Spanning Trees in Grid
-Count spanning trees in $n \times m$ grid graph.
+### Task 3: Spanning Trees in a Grid
+Count spanning trees in an $n \times m$ grid graph.
 
 ```cpp
-// Use Matrix Tree Theorem on grid graph Laplacian
-// Answer has closed form for small grids
+// Use Kirchhoff's theorem on the Laplacian matrix of the grid graph
+// The answer has a closed form for small grids
 ```
 
 ---
@@ -694,38 +695,38 @@ Matrix theory provides powerful tools for competitive programming:
 
 ### Key Techniques:
 
-1. **Matrix Exponentiation**: $O(\log n)$ solution for linear recurrences
-   - Fibonacci, DP optimization, path counting
-   - Time: $O(k^3 \log n)$ for $k \times k$ matrix
+1. **Matrix Exponentiation**: $O(\log n)$ solution for linear recurrences.
+   - Fibonacci, DP optimization, path counting.
+   - Time: $O(k^3 \log n)$ for a $k \times k$ matrix.
 
-2. **Matrix Tree Theorem**: Count spanning trees in $O(n^3)$
-   - Convert combinatorics to linear algebra
-   - Exact counts modulo prime
+2. **Kirchhoff's Theorem**: Counting spanning trees in $O(n^3)$.
+   - Turning combinatorics into linear algebra.
+   - Precise counts modulo a prime number.
 
-3. **Binary Gaussian Elimination**: XOR systems in $O(n^3/64)$
-   - Lights Out, XOR subset, game theory
-   - Bitset for 64× speedup
+3. **Binary Gaussian Elimination**: XOR systems in $O(n^3/64)$.
+   - Lights Out, XOR subset, game theory.
+   - Bitset for 64× speedup.
 
-4. **Cayley-Hamilton**: Polynomial representation of matrix powers
-   - Reduces computation for special matrices
-   - Theoretical tool more than practical
+4. **Cayley-Hamilton**: Polynomial representation of matrix powers.
+   - Reduces calculations for special matrices.
+   - More of a theoretical tool than a practical one.
 
 ### Complexity Summary:
 
-| Operation | Time Complexity | Space |
-|-----------|----------------|-------|
+| Operation | Time Complexity | Memory |
+|-----------|-----------------|--------|
 | Matrix multiplication | $O(n^3)$ | $O(n^2)$ |
 | Matrix exponentiation | $O(n^3 \log k)$ | $O(n^2)$ |
 | Determinant | $O(n^3)$ | $O(n^2)$ |
 | Gaussian elimination | $O(n^3)$ or $O(n^3/64)$ | $O(n^2)$ |
-| Spanning tree count | $O(n^3)$ | $O(n^2)$ |
+| Number of spanning trees | $O(n^3)$ | $O(n^2)$ |
 
 ### When to Use Matrices:
 
-- **Linear recurrences** with large $n$: Use matrix exponentiation
-- **Path counting** in graphs: Powers of adjacency matrix
-- **Spanning tree counting**: Matrix Tree Theorem
-- **XOR problems**: Binary Gaussian elimination
-- **DP optimization**: Matrix representation of transitions
+- **Linear recurrences** with large $n$: Use matrix exponentiation.
+- **Path counting** in graphs: Powers of the adjacency matrix.
+- **Counting spanning trees**: Kirchhoff's theorem.
+- **XOR tasks**: Binary Gaussian elimination.
+- **DP optimization**: Matrix representation of transitions.
 
-Matrix techniques transform seemingly complex problems into standard linear algebra operations, providing elegant and efficient solutions. Master these tools and you'll have a significant advantage in advanced competitive programming!
+Matrix techniques transform seemingly complex tasks into standard linear algebra operations, providing elegant and efficient solutions. Master these tools and you will have a significant advantage in advanced competitive programming!
