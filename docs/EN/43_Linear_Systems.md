@@ -1,15 +1,15 @@
 # 🧮 Linear Algebra: Bases, Rank, and Linear Systems
 
-Linear algebra is a fundamental mathematical tool in competitive programming, particularly when dealing with systems of equations, matrix operations, and optimization problems. While the full depth of linear algebra is rarely needed in contests, understanding key concepts like matrix rank, linear independence, Gaussian elimination, and XOR basis is crucial for solving advanced problems.
+Linear algebra is a fundamental mathematical tool in competitive programming, especially when working with systems of equations, matrix operations, and optimization tasks. While the full depth of linear algebra is rarely necessary in competitions, understanding key concepts such as matrix rank, linear independence, Gaussian elimination, and XOR basis is crucial for solving advanced problems.
 
-This topic covers the essential linear algebra concepts that appear in competitive programming:
-- **Matrix rank** and linear independence
-- **Gaussian elimination** for solving linear systems
-- **XOR basis** as a special case of Gaussian elimination
-- **Determinants** and their applications
-- Practical implementations and optimizations
+This topic covers the essential concepts from linear algebra that appear in competitive programming:
+- **Matrix Rank** and linear independence.
+- **Gaussian Elimination** for solving linear systems.
+- **XOR Basis** as a special case of Gaussian elimination.
+- **Determinants** and their applications.
+- Practical implementations and optimizations.
 
-## 📚 Fundamental Concepts
+## 📚 Basic Concepts
 
 ### Linear Independence and Dependence
 
@@ -17,28 +17,28 @@ A set of vectors (or rows/columns in a matrix) is **linearly independent** if no
 
 **Example:**
 ```cpp
-// Vectors v1 = [1, 2], v2 = [2, 4] are linearly dependent
+// The vectors v1 = [1, 2], v2 = [2, 4] are linearly dependent
 // because v2 = 2 * v1
 
-// Vectors v1 = [1, 2], v2 = [3, 5] are linearly independent
-// because neither can be expressed as a scalar multiple of the other
+// The vectors v1 = [1, 2], v2 = [3, 5] are linearly independent
+// because neither can be expressed as a scalar multiplication of the other
 ```
 
 **Key properties:**
-- If vectors are linearly dependent, one can be removed without losing information
-- Maximum number of linearly independent vectors in $\mathbb{R}^n$ is $n$
-- Linear independence is crucial for determining matrix rank
+- If the vectors are linearly dependent, one can be removed without loss of information.
+- The maximum number of linearly independent vectors in $\mathbb{R}^n$ is $n$.
+- Linear independence is key to determining the rank of a matrix.
 
 ### Vector Spaces and Span
 
 The **span** of a set of vectors is all possible linear combinations of those vectors.
 
 ```cpp
-// Example: Span of {[1,0], [0,1]} is all of 2D space R^2
-// Span of {[1,2], [2,4]} is only a line (because they're dependent)
+// Example: The span of {[1,0], [0,1]} is the entire 2D space R^2
+// The span of {[1,2], [2,4]} is only a line (because they are dependent)
 ```
 
-A **basis** is a minimal set of linearly independent vectors that span a space.
+A **basis** is a minimum set of linearly independent vectors that span a space.
 
 ## 🎹 Matrix Rank
 
@@ -46,22 +46,22 @@ The **rank** of a matrix is one of its most important properties, representing t
 
 ### Definition and Properties
 
-**Rank** can be defined in several equivalent ways:
-1. Number of linearly independent rows
-2. Number of linearly independent columns  
-3. Dimension of the column space (or row space)
-4. Size of the largest non-zero minor (submatrix determinant)
-5. Number of non-zero rows after Gaussian elimination
+The **rank** can be defined in several equivalent ways:
+1. Number of linearly independent rows.
+2. Number of linearly independent columns.
+3. Dimension of the column space (or row space).
+4. Size of the largest non-zero minor (determinant of a submatrix).
+5. Number of non-zero rows after Gaussian elimination.
 
 **Key properties:**
-- $\text{rank}(A) \leq \min(\text{rows}, \text{columns})$
-- $\text{rank}(A) = \text{rank}(A^T)$ (transpose has same rank)
-- $\text{rank}(AB) \leq \min(\text{rank}(A), \text{rank}(B))$
-- Full rank: rank equals smaller dimension (invertible if square)
+- $\text{rank}(A) \leq \min(\text{rows}, \text{columns})$.
+- $\text{rank}(A) = \text{rank}(A^T)$ (the transpose has the same rank).
+- $\text{rank}(AB) \leq \min(\text{rank}(A), \text{rank}(B))$.
+- Full rank: the rank is equal to the smaller dimension (invertible if square).
 
-### Computing Rank via Gaussian Elimination
+### Calculating Rank via Gaussian Elimination
 
-The standard method to compute rank is Gaussian elimination:
+The standard method for calculating rank is Gaussian elimination:
 
 ```cpp
 #include <bits/stdc++.h>
@@ -83,7 +83,7 @@ int computeRank(vector<vector<double>>& matrix) {
             }
         }
         
-        // If column is all zeros, skip it
+        // If the column is all zeros, skip it
         if (abs(matrix[pivot_row][col]) < EPS) {
             continue;
         }
@@ -91,7 +91,7 @@ int computeRank(vector<vector<double>>& matrix) {
         // Swap current row with pivot row
         swap(matrix[rank], matrix[pivot_row]);
         
-        // Eliminate column below pivot
+        // Eliminate the column under the pivot
         for (int i = rank + 1; i < n; i++) {
             double factor = matrix[i][col] / matrix[rank][col];
             for (int j = col; j < m; j++) {
@@ -119,16 +119,16 @@ int main() {
 }
 ```
 
-**Time Complexity:** $O(\min(n,m) \cdot n \cdot m) = O(n^2 m)$ for $n \times m$ matrix
+**Time complexity:** $O(\min(n,m) \cdot n \cdot m) = O(n^2 m)$ for an $n \times m$ matrix.
 
 ### Applications of Matrix Rank
 
-#### 1. Determining Solution Existence
+#### 1. Determining the Existence of a Solution
 
 For a system $Ax = b$:
-- **Unique solution**: $\text{rank}(A) = \text{rank}([A|b]) = n$ (number of unknowns)
-- **Infinite solutions**: $\text{rank}(A) = \text{rank}([A|b]) < n$
-- **No solution**: $\text{rank}(A) \neq \text{rank}([A|b])$
+- **Unique solution**: $\text{rank}(A) = \text{rank}([A|b]) = n$ (number of unknowns).
+- **Infinite solutions**: $\text{rank}(A) = \text{rank}([A|b]) < n$.
+- **No solution**: $\text{rank}(A) \neq \text{rank}([A|b])$.
 
 ```cpp
 bool hasUniqueSolution(vector<vector<double>>& A, vector<double>& b) {
@@ -150,14 +150,14 @@ bool hasUniqueSolution(vector<vector<double>>& A, vector<double>& b) {
     if (rank_A != rank_Aug) {
         return false;  // No solution
     }
-    return rank_A == m;  // Unique if rank equals number of variables
+    return rank_A == m;  // Unique if rank is equal to number of variables
 }
 ```
 
-#### 2. Finding Independent Subset
+#### 2. Finding an Independent Subset
 
 ```cpp
-// Find maximum linearly independent subset of rows
+// Find the maximal linearly independent subset of rows
 vector<int> findIndependentRows(vector<vector<double>>& matrix) {
     int n = matrix.size();
     int m = matrix[0].size();
@@ -168,7 +168,7 @@ vector<int> findIndependentRows(vector<vector<double>>& matrix) {
         selected.push_back(matrix[i]);
         int new_rank = computeRank(selected);
         
-        if (new_rank > independent_rows.size()) {
+        if (new_rank > (int)independent_rows.size()) {
             independent_rows.push_back(i);
         } else {
             selected.pop_back();  // This row is dependent
@@ -199,9 +199,9 @@ vector<double> gaussianElimination(vector<vector<double>> A, vector<double> b) {
             }
         }
         
-        // Check if matrix is singular
+        // Check whether matrix is singular
         if (abs(A[pivot_row][col]) < EPS) {
-            cout << "No unique solution exists\n";
+            cout << "A unique solution does not exist\n";
             return {};
         }
         
@@ -219,7 +219,7 @@ vector<double> gaussianElimination(vector<vector<double>> A, vector<double> b) {
         }
     }
     
-    // Back substitution
+    // Backward substitution
     vector<double> x(n);
     for (int i = n - 1; i >= 0; i--) {
         x[i] = b[i];
@@ -258,11 +258,11 @@ int main() {
 }
 ```
 
-**Time Complexity:** $O(n^3)$ for $n \times n$ system
+**Time complexity:** $O(n^3)$ for an $n \times n$ system.
 
 ### Gauss-Jordan Elimination (Reduced Row Echelon Form)
 
-Gauss-Jordan goes further to produce reduced row echelon form (RREF):
+Gauss-Jordan goes further to produce the reduced row echelon form (RREF):
 
 ```cpp
 void gaussJordan(vector<vector<double>>& A, vector<double>& b) {
@@ -301,21 +301,21 @@ void gaussJordan(vector<vector<double>>& A, vector<double>& b) {
         }
     }
     
-    // Solution is now directly in b vector
+    // The solution is now directly in vector b
 }
 ```
 
-**Advantage:** Solution is directly available without back-substitution
+**Advantage:** The solution is directly available without backward substitution.
 
 ### Integer Gaussian Elimination
 
-For problems with integer coefficients, we can use modular arithmetic:
+For tasks with integer coefficients, we can use modular arithmetic:
 
 ```cpp
-const long long MOD = 1e9 + 7;
+const long long MOD_VAL = 1e9 + 7;
 
-long long modInv(long long a, long long mod) {
-    // Extended Euclidean algorithm
+long long modInverse(long long a, long long mod) {
+    // Extended Euclidean Algorithm
     long long m0 = mod, x0 = 0, x1 = 1;
     while (a > 1) {
         long long q = a / mod;
@@ -337,7 +337,7 @@ vector<long long> gaussianEliminationMod(vector<vector<long long>> A,
         // Find non-zero pivot
         int pivot = -1;
         for (int i = col; i < n; i++) {
-            if (A[i][col] % MOD != 0) {
+            if (A[i][col] % MOD_VAL != 0) {
                 pivot = i;
                 break;
             }
@@ -348,26 +348,26 @@ vector<long long> gaussianEliminationMod(vector<vector<long long>> A,
         swap(A[col], A[pivot]);
         swap(b[col], b[pivot]);
         
-        long long inv = modInv(A[col][col], MOD);
+        long long inv = modInverse(A[col][col], MOD_VAL);
         
         // Eliminate
         for (int i = col + 1; i < n; i++) {
-            long long factor = (A[i][col] * inv) % MOD;
-            b[i] = ((b[i] - factor * b[col]) % MOD + MOD) % MOD;
+            long long factor = (A[i][col] * inv) % MOD_VAL;
+            b[i] = ((b[i] - factor * b[col]) % MOD_VAL + MOD_VAL) % MOD_VAL;
             for (int j = col; j < n; j++) {
-                A[i][j] = ((A[i][j] - factor * A[col][j]) % MOD + MOD) % MOD;
+                A[i][j] = ((A[i][j] - factor * A[col][j]) % MOD_VAL + MOD_VAL) % MOD_VAL;
             }
         }
     }
     
-    // Back substitution (similar but with modular arithmetic)
+    // Backward substitution (similar, but with modular arithmetic)
     vector<long long> x(n);
     for (int i = n - 1; i >= 0; i--) {
         x[i] = b[i];
         for (int j = i + 1; j < n; j++) {
-            x[i] = ((x[i] - A[i][j] * x[j]) % MOD + MOD) % MOD;
+            x[i] = ((x[i] - A[i][j] * x[j]) % MOD_VAL + MOD_VAL) % MOD_VAL;
         }
-        x[i] = (x[i] * modInv(A[i][i], MOD)) % MOD;
+        x[i] = (x[i] * modInverse(A[i][i], MOD_VAL)) % MOD_VAL;
     }
     
     return x;
@@ -376,15 +376,15 @@ vector<long long> gaussianEliminationMod(vector<vector<long long>> A,
 
 ## ⊕ XOR Basis as Gaussian Elimination
 
-XOR Basis (from Topic 22 - Bitwise Operations) is actually a special case of Gaussian elimination over $GF(2)$ (the field with two elements: 0 and 1).
+XOR basis (from Topic 22 - Bitwise Operations) is actually a special case of Gaussian elimination over $GF(2)$ (the field with two elements: 0 and 1).
 
 ### Understanding XOR as Linear Algebra
 
 In $GF(2)$:
-- Addition is XOR: $1 + 1 = 0$, $1 + 0 = 1$
-- Multiplication is AND: $1 \cdot 1 = 1$, $1 \cdot 0 = 0$
+- Addition is XOR: $1 + 1 = 0$, $1 + 0 = 1$.
+- Multiplication is AND: $1 \cdot 1 = 1$, $1 \cdot 0 = 0$.
 
-Each number can be seen as a vector of bits:
+Each number can be viewed as a vector of bits:
 ```
 13 = 1101₂ → [1, 1, 0, 1]
 7  = 0111₂ → [0, 1, 1, 1]
@@ -395,7 +395,7 @@ XOR is vector addition in $GF(2)$:
 13 XOR 7 = 1010₂ → [1, 0, 1, 0]
 ```
 
-### XOR Basis Construction
+### Constructing an XOR Basis
 
 ```cpp
 struct XORBasis {
@@ -424,7 +424,7 @@ struct XORBasis {
         return false;  // x is linearly dependent
     }
     
-    // Check if value can be represented
+    // Check whether value can be represented
     bool canRepresent(long long x) {
         for (int i = MAXLOG - 1; i >= 0; i--) {
             if ((x & (1LL << i)) == 0) continue;
@@ -453,7 +453,7 @@ struct XORBasis {
         return 0;
     }
     
-    // Count distinct XOR values possible
+    // Number of distinct XOR values possible
     long long countDistinct() {
         return (1LL << size);
     }
@@ -477,14 +477,14 @@ int main() {
 }
 ```
 
-### Why It's Gaussian Elimination
+### Why it is Gaussian Elimination
 
-The XOR basis construction is **exactly** Gaussian elimination:
+Constructing an XOR basis is **exactly** Gaussian elimination:
 
-1. **Pivot selection**: Choose the highest bit position
-2. **Row echelon form**: Each basis element has a unique highest bit
-3. **Linear dependence**: If we can reduce a number to 0, it's dependent
-4. **Basis**: The non-zero rows form a basis for the vector space
+1. **Pivot selection**: Choose the highest bit position.
+2. **Row echelon form**: Each basis element has a unique highest bit.
+3. **Linear dependence**: If we can reduce a number to 0, it is dependent.
+4. **Basis**: Non-zero rows form a basis for the vector space.
 
 **Matrix view:**
 ```
@@ -524,7 +524,7 @@ long long maxXORSubarray(vector<long long>& arr) {
 
 #### 2. Number of Distinct XOR Values
 ```cpp
-// Count distinct XOR values from subset of array
+// Number of distinct XOR values from a subset of an array
 long long countDistinctXOR(vector<long long>& arr) {
     XORBasis basis;
     for (long long x : arr) {
@@ -534,9 +534,9 @@ long long countDistinctXOR(vector<long long>& arr) {
 }
 ```
 
-#### 3. Check XOR Reachability
+#### 3. Checking for XOR Reachability
 ```cpp
-// Can we get target XOR from some subset?
+// Can we obtain a target XOR value from some subset?
 bool canGetXOR(vector<long long>& arr, long long target) {
     XORBasis basis;
     for (long long x : arr) {
@@ -552,13 +552,13 @@ The **determinant** is a scalar value that encodes important properties of a squ
 
 ### Properties and Meaning
 
-- $\det(I) = 1$ (identity matrix)
-- $\det(AB) = \det(A) \cdot \det(B)$
-- $\det(A^T) = \det(A)$
-- $\det(A) \neq 0 \iff$ matrix is invertible
-- $|\det(A)|$ is the volume scaling factor of the linear transformation
+- $\det(I) = 1$ (identity matrix).
+- $\det(AB) = \det(A) \cdot \det(B)$.
+- $\det(A^T) = \det(A)$.
+- $\det(A) \neq 0 \iff$ matrix is invertible.
+- $|\det(A)|$ is the scaling factor of the volume of the linear transformation.
 
-### Computing Determinant via Gaussian Elimination
+### Calculating Determinant via Gaussian Elimination
 
 ```cpp
 double determinant(vector<vector<double>> A) {
@@ -580,7 +580,7 @@ double determinant(vector<vector<double>> A) {
         
         if (pivot != i) {
             swap(A[i], A[pivot]);
-            det *= -1;  // Swapping rows changes sign
+            det *= -1;  // Row swap changes the sign
         }
         
         det *= A[i][i];
@@ -598,9 +598,9 @@ double determinant(vector<vector<double>> A) {
 }
 ```
 
-**Time Complexity:** $O(n^3)$
+**Time complexity:** $O(n^3)$.
 
-### Determinant Modulo Prime
+### Determinant Modulo a Prime Number
 
 ```cpp
 long long determinantMod(vector<vector<long long>> A, long long mod) {
@@ -624,7 +624,7 @@ long long determinantMod(vector<vector<long long>> A, long long mod) {
         }
         
         det = (det * A[i][i]) % mod;
-        long long inv = modInv(A[i][i], mod);
+        long long inv = modInverse(A[i][i], mod);
         
         for (int j = i + 1; j < n; j++) {
             long long factor = (A[j][i] * inv) % mod;
@@ -648,7 +648,7 @@ int findPivot(vector<vector<double>>& A, int col, int start) {
     int pivot = start;
     double max_val = abs(A[start][col]);
     
-    for (int i = start + 1; i < A.size(); i++) {
+    for (int i = start + 1; i < (int)A.size(); i++) {
         if (abs(A[i][col]) > max_val) {
             max_val = abs(A[i][col]);
             pivot = i;
@@ -662,7 +662,7 @@ int findPivot(vector<vector<double>>& A, int col, int start) {
 ### Memory Optimization
 
 ```cpp
-// For very large systems, use sparse matrix representation
+// For very large systems use sparse matrix representation
 struct SparseMatrix {
     map<pair<int,int>, double> entries;
     int rows, cols;
@@ -685,9 +685,9 @@ struct SparseMatrix {
 ### Bitset Optimization for GF(2)
 
 ```cpp
-// For binary matrices, use bitset for 64x speedup
-const int MAXN = 2000;
-bitset<MAXN> matrix[MAXN];
+// For binary matrices use bitset for 64x speedup
+const int MAXN_BIT = 2000;
+bitset<MAXN_BIT> bit_matrix[MAXN_BIT];
 
 int gaussianEliminationBinary(int n, int m) {
     int rank = 0;
@@ -695,7 +695,7 @@ int gaussianEliminationBinary(int n, int m) {
     for (int col = 0; col < m && rank < n; col++) {
         int pivot = -1;
         for (int i = rank; i < n; i++) {
-            if (matrix[i][col]) {
+            if (bit_matrix[i][col]) {
                 pivot = i;
                 break;
             }
@@ -703,11 +703,11 @@ int gaussianEliminationBinary(int n, int m) {
         
         if (pivot == -1) continue;
         
-        swap(matrix[rank], matrix[pivot]);
+        swap(bit_matrix[rank], bit_matrix[pivot]);
         
         for (int i = 0; i < n; i++) {
-            if (i != rank && matrix[i][col]) {
-                matrix[i] ^= matrix[rank];  // XOR entire rows at once!
+            if (i != rank && bit_matrix[i][col]) {
+                bit_matrix[i] ^= bit_matrix[rank];  // XOR entire rows at once!
             }
         }
         
@@ -718,26 +718,26 @@ int gaussianEliminationBinary(int n, int m) {
 }
 ```
 
-## 🎯 Common Problems and Solutions
+## 🎯 Common Tasks and Solutions
 
-### Problem 1: Checking Linear Independence
+### Task 1: Linear Independence Check
 ```cpp
 bool areIndependent(vector<vector<double>>& vectors) {
-    // If rank equals number of vectors, they're independent
-    return computeRank(vectors) == vectors.size();
+    // If rank is equal to number of vectors, they are independent
+    return computeRank(vectors) == (int)vectors.size();
 }
 ```
 
-### Problem 2: Finding All Solutions
+### Task 2: Finding All Solutions
 ```cpp
 // Return parametric form of all solutions to Ax = b
 struct Solution {
-    vector<double> particular;  // One specific solution
-    vector<vector<double>> null_space;  // Basis for null space
+    vector<double> particular;  // One concrete solution
+    vector<vector<double>> null_space;  // Basis for the null space
 };
 ```
 
-### Problem 3: Matrix Inversion
+### Task 3: Matrix Inversion
 ```cpp
 vector<vector<double>> invert(vector<vector<double>> A) {
     int n = A.size();
@@ -749,7 +749,7 @@ vector<vector<double>> invert(vector<vector<double>> A) {
     }
     
     // Apply Gauss-Jordan to both sides
-    // ... (similar to gaussJordan but work on both A and inv)
+    // ... (similar to gaussJordan but works on A and inv)
     
     return inv;
 }
@@ -763,43 +763,43 @@ Linear algebra in competitive programming focuses on practical algorithmic techn
 
 ### Key Takeaways:
 
-1. **Matrix Rank**: Fundamental measure of linear independence
-   - Computed via Gaussian elimination in $O(n^3)$
-   - Determines solution existence and uniqueness
+1. **Matrix Rank**: Fundamental measure of linear independence.
+   - Calculated via Gaussian elimination in $O(n^3)$.
+   - Determines existence and uniqueness of solutions.
 
-2. **Gaussian Elimination**: Core algorithm for linear systems
-   - Forward elimination + back substitution
-   - Works with floating point, integers mod p, or binary
+2. **Gaussian Elimination**: Core algorithm for linear systems.
+   - Forward elimination + backward substitution.
+   - Works with floating point, integers modulo p, or binary.
 
-3. **XOR Basis**: Special case over $GF(2)$
-   - Gaussian elimination on bit vectors
-   - Applications: max XOR, distinct XOR values, reachability
+3. **XOR Basis**: Special case over $GF(2)$.
+   - Gaussian elimination on bit vectors.
+   - Applications: max XOR, distinct XOR values, reachability.
 
-4. **Determinants**: Encode invertibility and volume
-   - Computed during Gaussian elimination
-   - Useful for matrix inversion and area calculations
+4. **Determinants**: Encode invertibility and volume.
+   - Calculated during Gaussian elimination.
+   - Useful for matrix inversion and area calculation.
 
 ### Complexity Summary:
 
-| Operation | Time Complexity | Space |
-|-----------|----------------|-------|
-| Gaussian Elimination | $O(n^3)$ | $O(n^2)$ |
-| Matrix Rank | $O(n^2 m)$ | $O(nm)$ |
+| Operation | Time Complexity | Memory |
+|-----------|-----------------|--------|
+| Gaussian elimination | $O(n^3)$ | $O(n^2)$ |
+| Matrix rank | $O(n^2 m)$ | $O(nm)$ |
 | Determinant | $O(n^3)$ | $O(n^2)$ |
-| XOR Basis Insert | $O(\log \max(x))$ | $O(\log \max(x))$ |
-| XOR Basis Query | $O(\log \max(x))$ | $O(\log \max(x))$ |
+| XOR basis insertion | $O(\log \max(x))$ | $O(\log \max(x))$ |
+| XOR basis query | $O(\log \max(x))$ | $O(\log \max(x))$ |
 
-### Common Competition Patterns:
+### Common Competitive Patterns:
 
-- **DP with matrix exponentiation** (covered in other topics)
-- **XOR basis** for subset XOR problems
-- **Gaussian elimination mod p** for linear recurrences
-- **Determinant** for counting spanning trees (Matrix-Tree theorem)
+- **DP with matrix exponentiation** (covered in other topics).
+- **XOR basis** for tasks with XOR subsets.
+- **Gaussian elimination modulo p** for linear recurrences.
+- **Determinant** for counting spanning trees (Matrix-Tree theorem).
 
 In competitions, "Linear Algebra" **rarely** means eigenvalues, eigenvectors, or SVD. It almost always means:
-- Matrix multiplication for DP
-- Gaussian elimination for linear systems
-- XOR basis for bitwise problems
-- Simple determinant calculations
+- Matrix multiplication for DP.
+- Gaussian elimination for linear systems.
+- XOR basis for bitwise tasks.
+- Simple determinant calculations.
 
-Master these core techniques and you'll be well-equipped to handle linear algebra problems in competitive programming!
+Master these basic techniques and you will be well-prepared to tackle linear algebra tasks in competitive programming!
