@@ -27,9 +27,6 @@ theme:
         icon: material/weather-sunny
         name: Switch to light mode
 
-# Use the root directory as the source docs directory is REMOVED to use default 'docs'
-
-# Navigation structure mapping to your existing folders
 nav:
   - Home: index.md
   - Topics (English):
@@ -41,7 +38,7 @@ nav:
       - '05. Date & Time': EN/05_Date_and_Time_Tasks.md
     - Arrays & Math:
       - '06. 1D Arrays': EN/06_One_Dimensional_Array.md
-      - '07. Array Tasks': EN/07_Arrays_Basic_Tasks.md
+      - '07. One-Dimensional Arrays': EN/07_One_Dimensional_Arrays.md
       - '07a. Sorting & Strings': EN/07a_Sorting_and_Strings.md
       - '07b. Strings & Searching': EN/07b_Strings_and_Searching.md
       - '08. Euclidean Algo': EN/08_Number_Divisibility_Euclidean_Algorithm.md
@@ -63,7 +60,7 @@ nav:
       - '15. Combinatorics': EN/15_Intro_to_Combinatorics.md
     - Advanced Basics:
       - '16. Graphs': EN/16_Graph_Concept.md
-      - '17. STL Containers': EN/17_STL_Containers_Iterators_Algorithms.md
+      - '17. STL Containers': EN/17_STL_Containers.md
       - '17a. STL Algorithms': EN/17a_STL_Algorithms.md
       - '18. Analysis & Sort': EN/18_Algorithm_Analysis_Quick_Search_Sort.md
       - '19. Modular Arithmetic': EN/19_Modular_Arithmetic.md
@@ -106,7 +103,7 @@ nav:
     - '04. Делимост': BG/04_Basic_Divisibility_Tasks.md
     - '05. Дата и Време': BG/05_Date_and_Time_Tasks.md
     - '06. Едномерен Масив': BG/06_One_Dimensional_Array.md
-    - '07. Масиви Задачи': BG/07_Arrays_Basic_Tasks.md
+    - '07. Едномерни Масиви': BG/07_One_Dimensional_Arrays.md
     - '07a. Сортиране и Низове': BG/07a_Sorting_and_Strings.md
     - '07b. Низове и Търсене': BG/07b_Strings_and_Searching.md
     - '08. Евклид и Делимост': BG/08_Number_Divisibility_Euclidean_Algorithm.md
@@ -126,7 +123,7 @@ nav:
     - '14b. Двоично Търсене': BG/14b_Binary_Search.md
     - '15. Комбинаторика': BG/15_Intro_to_Combinatorics.md
     - '16. Графи Понятия': BG/16_Graph_Concept.md
-    - '17. STL Контейнери': BG/17_STL_Containers_Iterators_Algorithms.md
+    - '17. STL Контейнери': BG/17_STL_Containers.md
     - '17a. STL Алгоритми': BG/17a_STL_Algorithms.md
     - '18. Анализ на Алгоритми': BG/18_Algorithm_Analysis_Quick_Search_Sort.md
     - '19. Модулна Аритметика': BG/19_Modular_Arithmetic.md
